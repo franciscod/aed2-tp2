@@ -1,0 +1,69 @@
+\documentclass[10pt, a4paper, spanish]{article}
+\usepackage[paper=a4paper, left=1.5cm, right=1.5cm, bottom=1.5cm, top=3.5cm]{geometry}
+\usepackage[spanish]{babel}
+\selectlanguage{spanish}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{latexsym}
+\usepackage{lastpage}
+\usepackage{aed2-symb,aed2-itef,aed2-tad,caratula}
+\usepackage[colorlinks=true, linkcolor=blue]{hyperref}
+\usepackage{calc}
+
+\newcommand{\f}[1]{\text{#1}}
+\renewcommand{\paratodo}[2]{$\forall~#2$: #1}
+
+\sloppy
+
+\hypersetup{%
+ % Para que el PDF se abra a página completa.
+ pdfstartview= {FitH \hypercalcbp{\paperheight-\topmargin-1in-\headheight}},
+ pdfauthor={Grupo 12 - 1c2015 - Algoritmos y Estructuras de Datos II - DC - UBA},
+ pdfsubject={TP2}
+}
+
+\parskip=5pt % 5pt es el tamaño de fuente
+
+% Pongo en 0 la distancia extra entre ítemes.
+\let\olditemize\itemize
+\def\itemize{\olditemize\itemsep=0pt}
+
+% Acomodo fancyhdr.
+\pagestyle{fancy}
+\thispagestyle{fancy}
+\addtolength{\headheight}{1pt}
+\lhead{Algoritmos y Estructuras de Datos II}
+\rhead{$1^{\mathrm{er}}$ cuatrimestre de 2015}
+\cfoot{\thepage /\pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Encabezado
+\lhead{Algoritmos y Estructuras de Datos II}
+\rhead{Grupo 12}
+% Pie de pagina
+\renewcommand{\footrulewidth}{0.4pt}
+\lfoot{Facultad de Ciencias Exactas y Naturales}
+\rfoot{Universidad de Buenos Aires}
+
+\begin{document}
+
+% Datos de caratula
+\materia{Algoritmos y Estructuras de Datos II}
+\titulo{Trabajo Práctico II}
+%\subtitulo{}
+\grupo{Grupo: 12}
+
+\integrante{Pondal, Iván}{078/14}{ivan.pondal@gmail.com}
+\integrante{Paz, Maximiliano León}{251/14}{m4xileon@gmail.com}
+\integrante{Mena, Manuel}{313/14}{manuelmena1993@gmail.com}
+\integrante{Demartino, Francisco}{348/14}{demartino.francisco@gmail.com}
+
+\maketitle
+\newpage
+
+% Para crear un indice
+%\tableofcontents
+
+\end{document}
