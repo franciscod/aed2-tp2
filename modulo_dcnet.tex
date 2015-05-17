@@ -8,11 +8,42 @@
 
 \subsubsection{Operaciones básicas de mapa}
 
-  \InterfazFuncion{Crear}{}{dcnet}
-  [true]
-  {$res$ $\igobs$ vacio()}
-  [$O(1)$]
-  [crea un mapa nuevo]
-  []
-  
-  
+\InterfazFuncion{Crear}{}{dcnet}
+[true]
+{$res$ $\igobs$ vacio()}
+[$O(1)$]
+[crea un mapa nuevo]
+[]
+
+\subsection{Representación}
+
+\subsubsection{Representación de dcnet}
+
+\begin{Estructura}{dcnet}[estr]
+	\begin{Tupla}[estr]
+		\tupItem{topología}{red}%
+		\tupItem{\\ compusDCNet}{vector(compuDCNet)}%
+		\tupItem{\\ enEspera}{dicc$_{Trie}$(puntero(compuDCNet))}%
+		\tupItem{\\ laQueMásEnvió}{puntero(compuDCNet)}%
+	\end{Tupla}
+
+	~
+
+	\begin{Tupla}[compuDCNet]
+		\tupItem{c}{compu}%
+		\tupItem{\\ buffer}{conj(paquete)}%
+		\tupItem{\\ encolados}{colaPrioridad(nat, paqueteDCNet)}%
+		\tupItem{\\ paqueteAEnviar}{puntero(paqueteDCNet)}%
+		\tupItem{\\ enviados}{nat}%
+	\end{Tupla}
+
+	~
+
+	\begin{Tupla}[paqueteDCNet]
+		\tupItem{p}{paquete}%
+		\tupItem{it}{itConj(paquete)}%
+		\tupItem{recorrido}{lista(compu)}%
+	\end{Tupla}
+\end{Estructura}
+
+
