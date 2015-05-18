@@ -1,0 +1,29 @@
+\section{Módulo Red}
+
+\subsection{Interfaz}
+
+\textbf{se explica con}: \tadNombre{red}.
+
+\textbf{géneros}: \TipoVariable{red}.
+
+  \InterfazFuncion{iniciarRed}{}{red}
+  [true]
+  {$res$ $\igobs$ iniciaRed()}
+  [$O(1)$]
+  [crea una red nueva]
+  []
+
+  \InterfazFuncion{agregarComputadora}{\Inout{r}{red} , \In{c}{compu} }{}
+  [(\paratodo {($c'$:compu)} ($c'$ $\in$  computadoras($r$)) $\Rightarrow$  ip($c$) $\neq$  ip($c'$)) $\land$ ($r$ = $r_0$)  ]
+  {$r$ $\igobs$ agregarComputadora($r_0$,$c$)) }
+  [$O(L + n)$]
+  [Agrega un computadora a la red]
+  []
+
+  \InterfazFuncion{conectar}{\Inout{r}{red} , \In{c}{compu} , \In{c'}{compu} , \In{i}{compu}, \In{i'}{compu}}{}
+  [(($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r)) ) $\land$ (ip($c$) $\neq$ ip($c'$)) $\newline$
+   $\land$ ($\neg$ conectadas?($r$,$c$,$c'$)) $\land$ ( $\neg$(usaInterfaz?($r$,$c$,$i$)) $\land$ $\neg$(usaInterfaz?($r$,$c'$,$i'$)))]
+  {$r$ $\igobs$ conectar($r_0$,$c$,$i$,$c'$,$i'$)) }
+  [$O(L + n)$]
+  [Conecata dos computadoras]
+  []
