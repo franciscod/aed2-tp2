@@ -27,7 +27,7 @@
   [$O(L + n)$]
   [Conecata dos computadoras]
   []
-
+  
   \InterfazFuncion{Comptutadoras}{\In{r}{red}}{conj(compu)}
   [true]
   {$res$ = Computadoras($r$)}
@@ -69,4 +69,44 @@
   [$O(L)$]
 
 
+\subsection{Representación}
 
+  \subsubsection{Estructura}
+
+    \begin{Estructura}{red}[estr]
+
+      \begin{Tupla}[estr]
+        \tupItem{compus}{lista(nodoRed)}
+        \tupItem{dns}{dicc$_{Trie}$(string, puntero(nodoRed))}
+      \end{Tupla}
+
+      \begin{Tupla}[nodoRed]
+        \tupItem{c}{compu}
+        \tupItem{vecinos}{dicc$_{Lineal}$(nat, puntero(nodoRed))}
+      \end{Tupla}
+
+    \end{Estructura}
+
+\subsubsection{Invariante de Representación}
+
+
+  % \begin{enumerate}
+  % \item bla
+  % \end{enumerate}
+
+  % \Rep[estr][e]{
+  %   ($\forall a$: string)($a \in e$.estaciones $<=>$ def?($a$, $e$.restricciones) ) $\land$ \\
+  %   ($\forall c$, $s$: string)(def?($c$, $e$.restricciones) $\impluego$ \\
+  %   ($\neg$def?($c$, obtener($c$, $e$.restricciones)) $\land$ \\
+  %   (def?($s$, obtener($c$, $e$.restricciones)) $\impluego$ (def?($s$, $e$) $\land$ $s < c$)))) $\land$ \\
+  %   ($\forall c$, $s$: string)(def?($c$, $e$.restricciones) $\impluego$ \\
+  %   (def?($s$, obtener($c$, $e$.restricciones)) <=> <$c$, $s$> $\in$ $e$.sendas))}\mbox{}
+
+  \subsubsection{Función de Abstracción}
+
+  % \Abs[estr]{mapa}[e]{m}{
+    % m.estaciones $\igobs$ e.estaciones $\land$ \\
+    % ($\forall c$, $s$: string)(($c$ $\in$ estaciones($e$) $\land$ $s$ $\in$ estaciones($e$) $\land$ $c < s$) $\Rightarrow$ \\
+                              % ((def?($s$, obtener($c$, $e$)) $\igobs$ conectadas?($c$, $s$, $m$)) $\yluego$ \\
+                              % (def?($s$, obtener($c$, $e$)) $\impluego$ (obtener($s$, obtener($c$, $e$)) $\igobs$ restriccion($c$, $s$, $m$)))))
+  % }
