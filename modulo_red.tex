@@ -1,0 +1,125 @@
+\section{Módulo Red}
+
+\subsection{Interfaz}
+
+\textbf{se explica con}: \tadNombre{red}.
+
+\textbf{géneros}: \TipoVariable{red}.
+
+  \InterfazFuncion{IniciarRed}{}{red}
+  [true]
+  {$res$ $\igobs$ iniciarRed}
+  [$O(1)$]
+  [Crea una red nueva]
+  []
+
+  ~
+
+  \InterfazFuncion{AgregarComputadora}{\Inout{r}{red}, \In{c}{compu} }{}
+  [($r$ = $r_0$) $\land$ (($\forall$ $c'$: compu) ($c'$ $\in$ computadoras($r$) $\Rightarrow$  ip($c$) $\neq$  ip($c'$)))  ]
+  {$r$ $\igobs$ agregarComputadora($r_0$, $c$)) }
+  [$O(L + n)$]
+  [Agrega un computadora a la red]
+  []
+
+  ~
+
+  \InterfazFuncion{Conectar}{\Inout{r}{red}, \In{c}{compu}, \In{c'}{compu}, \In{i}{compu}, \In{i'}{compu}}{}
+  [($r$ = $r_0$) $\land$ ($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r)) $\land$ (ip($c$) $\neq$ ip($c'$)) \\
+   $\land$ ($\neg$conectadas?($r$, $c$, $c'$)) $\land$ ($\neg$usaInterfaz?($r$, $c$, $i$) $\land$ $\neg$usaInterfaz?($r$, $c'$, $i'$))]
+  {$r$ $\igobs$ conectar($r_0$, $c$, $i$, $c'$, $i'$))}
+  [$O(L) ?$]
+  [Conecta dos computadoras]
+  []
+
+  ~
+
+  \InterfazFuncion{Computadoras}{\In{r}{red}}{conj(compu)}
+  [true]
+  {$res$ = computadoras($r$)}
+  [$O(1)$]
+
+  ~
+
+  \InterfazFuncion{Conectadas?}{\In{r}{red}, \In{c}{compu}, \In{c'}{compu}}{bool}
+  [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras($r$))]
+  {$res$ = conectadas?($r$, $c$, $c'$)}
+  [$O(1)$]
+
+  ~
+
+  \InterfazFuncion{InterfazUsada}{\In{r}{red}, \In{c}{compu},  \In{c'}{compu}}{interfaz}
+  [conectadas?($r$, $c$, $c'$)]
+  {$res$ = interfazUsada($r$, $c$, $c'$)}
+  [$O(?)$]
+
+  ~
+
+  \InterfazFuncion{Vecinos}{\In{r}{red}, \In{c}{compu}}{conj(compu)}
+  [$c$ $\in$ computadoras($r$)]
+  {$res$ = vecinos($r$, $c$)}
+  [$O(n)$]
+
+  ~
+
+  \InterfazFuncion{usaInterfaz?}{\In{r}{red}, \In{c}{compu}, \In{i}{interfaz}}{bool}
+  [$c$ $\in$ computadoras($r$)]
+  {$res$ = usaInterfaz?($r$, $c$, $i$)}
+  [$O(?)$]
+
+  ~
+
+  \InterfazFuncion{CaminosMinimos}{\In{r}{red}, \In{c}{compu}, \In{c'}{compu}}{conj(secu(compu))}
+  [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
+  {$res$ = caminosMinimos($r$, $c$, $i$)}
+  [$O(L)$]
+
+  ~
+
+  \InterfazFuncion{HayCamino?}{\In{r}{red}, \In{c}{compu}, \In{c'}{compu}}{bool}
+  [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
+  {$res$ = hayCamino?($r$, $c$, $i$)}
+  [$O(L)$]
+
+
+\subsection{Representación}
+
+  \subsubsection{Estructura (?????????? esto no esta listo todavia)}
+
+    \begin{Estructura}{red}[estr]
+
+      \begin{Tupla}[estr]
+        \tupItem{compus}{lista(nodoRed)}
+        \tupItem{dns}{dicc$_{Trie}$(string, puntero(nodoRed))}
+      \end{Tupla}
+
+      \begin{Tupla}[nodoRed]
+        \tupItem{c}{compu}
+        \tupItem{vecinos}{dicc$_{Lineal}$(nat, puntero(nodoRed))}
+      \end{Tupla}
+
+    \end{Estructura}
+
+\subsubsection{Invariante de Representación}
+
+
+  % \begin{enumerate}
+  % \item bla
+  % \end{enumerate}
+
+  % \Rep[estr][e]{
+  %   ($\forall a$: string)($a \in e$.estaciones $<=>$ def?($a$, $e$.restricciones) ) $\land$ \\
+  %   ($\forall c$, $s$: string)(def?($c$, $e$.restricciones) $\impluego$ \\
+  %   ($\neg$def?($c$, obtener($c$, $e$.restricciones)) $\land$ \\
+  %   (def?($s$, obtener($c$, $e$.restricciones)) $\impluego$ (def?($s$, $e$) $\land$ $s < c$)))) $\land$ \\
+  %   ($\forall c$, $s$: string)(def?($c$, $e$.restricciones) $\impluego$ \\
+  %   (def?($s$, obtener($c$, $e$.restricciones)) <=> <$c$, $s$> $\in$ $e$.sendas))}\mbox{}
+
+  \subsubsection{Función de Abstracción}
+
+  % \Abs[estr]{mapa}[e]{m}{
+    % m.estaciones $\igobs$ e.estaciones $\land$ \\
+    % ($\forall c$, $s$: string)(($c$ $\in$ estaciones($e$) $\land$ $s$ $\in$ estaciones($e$) $\land$ $c < s$) $\Rightarrow$ \\
+                              % ((def?($s$, obtener($c$, $e$)) $\igobs$ conectadas?($c$, $s$, $m$)) $\yluego$ \\
+                              % (def?($s$, obtener($c$, $e$)) $\impluego$ (obtener($s$, obtener($c$, $e$)) $\igobs$ restriccion($c$, $s$, $m$)))))
+  % }
