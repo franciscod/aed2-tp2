@@ -14,6 +14,7 @@
 [$O(1)$]
 [crea una DCNet nueva]
 []
+~
 
 \InterfazFuncion{crearPaquete}{\Inout{dcn}{dcnet}, \In{p}{paquete}}{}
 [$dcn$ $\igobs$ $dcn_0$ $\land$ \\
@@ -26,6 +27,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 [$O(L + log(k))$]
 [crea un nuevo paquete]
 []
+~
 
 \InterfazFuncion{avanzarSegundo}{\Inout{dcn}{dcnet}}{}
 [$dcn$ $\igobs$ $dcn_0$]
@@ -33,6 +35,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 [$O(n * log(L + log(k)))$]
 [avanza un segundo]
 []
+~
 
 \subsection{Representación}
 
