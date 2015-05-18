@@ -16,21 +16,21 @@
 []
 
 \InterfazFuncion{crearPaquete}{\Inout{dcn}{dcnet}, \In{p}{paquete}}{}
-[$dcn$ $\igobs$ $dcn_0$ $\land$ 															\\
-$\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ 					\\
-									id($p$) = id($p'$) $\land$ 								\\
-									origen($p$) $\in$ computadoras(red($dcn$)) $\yluego$ 	\\
-									destino($p$) $\in$ computadoras(red($dcn$)) $\yluego$	\\
+[$dcn$ $\igobs$ $dcn_0$ $\land$ \\
+$\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
+									id($p$) = id($p'$) $\land$ \\
+									origen($p$) $\in$ computadoras(red($dcn$)) $\yluego$ \\
+									destino($p$) $\in$ computadoras(red($dcn$)) $\yluego$ \\
 									hayCamino?(red($dcn$), origen($p$), destino($p$))))]
 {$dcn$ $\igobs$ crearPaquete($dcn_0$)}
-[$O(1)$]
+[$O(L + log(k))$]
 [crea un nuevo paquete]
 []
 
 \InterfazFuncion{avanzarSegundo}{\Inout{dcn}{dcnet}}{}
 [$dcn$ $\igobs$ $dcn_0$]
 {$dcn$ $\igobs$ avanzarSegundo($dcn_0$)}
-[$O(1)$]
+[$O(n * log(L + log(k)))$]
 [avanza un segundo]
 []
 
