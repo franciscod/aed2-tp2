@@ -8,11 +8,22 @@
 
 \subsubsection{Operaciones básicas de mapa}
 
-\InterfazFuncion{Crear}{}{dcnet}
+\InterfazFuncion{iniciarDCNet}{\In{r}{red}}{dcnet}
 [true]
-{$res$ $\igobs$ vacio()}
+{$res$ $\igobs$ iniciarDCNet()}
 [$O(1)$]
-[crea un mapa nuevo]
+[crea una DCNet nueva]
+[]
+
+\InterfazFuncion{crearPaquete}{\Inout{dcn}{dcnet}, \In{p}{paquete}}{}
+[$\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ 
+									id($p$) = id($p'$) $\land$ 
+									origen($p$) $\in$ computadoras(red($dcn$)) $\yluego$ 
+									destino($p$) $\in$ computadoras(red($dcn$)) $\yluego$
+									hayCamino?(red($dcn$), origen($p$), destino($p$))))]
+{$res$ $\igobs$ crearPaquete($dcn$)}
+[$O(1)$]
+[crea una DCNet nueva]
 []
 
 \subsection{Representación}
