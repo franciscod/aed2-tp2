@@ -10,20 +10,28 @@
 
 \InterfazFuncion{iniciarDCNet}{\In{r}{red}}{dcnet}
 [true]
-{$res$ $\igobs$ iniciarDCNet()}
+{$res$ $\igobs$ iniciarDCNet($red$)}
 [$O(1)$]
 [crea una DCNet nueva]
 []
 
 \InterfazFuncion{crearPaquete}{\Inout{dcn}{dcnet}, \In{p}{paquete}}{}
-[$\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ 
+[$dcn$ $\igobs$ $dcn_0$ $\land$ 
+$\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ 
 									id($p$) = id($p'$) $\land$ 
 									origen($p$) $\in$ computadoras(red($dcn$)) $\yluego$ 
 									destino($p$) $\in$ computadoras(red($dcn$)) $\yluego$
 									hayCamino?(red($dcn$), origen($p$), destino($p$))))]
-{$res$ $\igobs$ crearPaquete($dcn$)}
+{$dcn$ $\igobs$ crearPaquete($dcn_0$)}
 [$O(1)$]
-[crea una DCNet nueva]
+[crea un nuevo paquete]
+[]
+
+\InterfazFuncion{avanzarSegundo}{\Inout{dcn}{dcnet}}{}
+[$dcn$ $\igobs$ $dcn_0$]
+{$dcn$ $\igobs$ avanzarSegundo($dcn_0$)}
+[$O(1)$]
+[avanza un segundo]
 []
 
 \subsection{Representación}
