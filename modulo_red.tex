@@ -21,9 +21,52 @@
   []
 
   \InterfazFuncion{conectar}{\Inout{r}{red} , \In{c}{compu} , \In{c'}{compu} , \In{i}{compu}, \In{i'}{compu}}{}
-  [(($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r)) ) $\land$ (ip($c$) $\neq$ ip($c'$)) $\newline$
+  [ ($r$ = $r_0$) $\land$ (($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r)) ) $\land$ (ip($c$) $\neq$ ip($c'$))   $\newline$
    $\land$ ($\neg$ conectadas?($r$,$c$,$c'$)) $\land$ ( $\neg$(usaInterfaz?($r$,$c$,$i$)) $\land$ $\neg$(usaInterfaz?($r$,$c'$,$i'$)))]
   {$r$ $\igobs$ conectar($r_0$,$c$,$i$,$c'$,$i'$)) }
   [$O(L + n)$]
   [Conecata dos computadoras]
   []
+
+  \InterfazFuncion{comptutadoras}{\In{r}{red}}{conj(compu)}
+  [true]
+  {$res$ = computadoras(r)}
+  [$O(1)$]
+
+  \InterfazFuncion{conectadas?}{\In{r}{red} , \In{c}{compu} , \In{c'}{compu}}{bool}
+  [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
+  {$res$ = conectadas?($r$,$c$,$c'$)}
+  [$O(1)$]
+
+  \InterfazFuncion{interfazUsada}{\In{r}{red} , \In{c}{compu} , \In{c'}{compu}}{interfaz}
+  [conectadas?($r$,$c$,$c'$)]
+  {$res$ = interfazUsada($r$,$c$,$c'$)}
+  [$O(?)$]
+
+  \InterfazFuncion{vecinos}{\In{r}{red},\In{c}{compu}}{conj(compu)}
+  [$c$ $\in$ computadoras($r$)]
+  {$res$ = vecinos($r$,$c$)}
+  [$O(n)$]
+
+  \InterfazFuncion{usaInterfaz?}{\In{r}{red},\In{c}{compu},\In{i}{interfaz}}{bool}
+  [$c$ $\in$ computadoras($r$)]
+  {$res$ = usaInterfaz($r$,$c$,$i$)}
+  [$O(?)$]
+
+    \InterfazFuncion{usaInterfaz?}{\In{r}{red},\In{c}{compu},\In{i}{interfaz}}{bool}
+  [$c$ $\in$ computadoras($r$)]
+  {$res$ = usaInterfaz($r$,$c$,$i$)}
+  [$O(n)$]
+
+  \InterfazFuncion{caminosMinimos}{\In{r}{red},\In{c}{compu},\In{c'}{compu}}{conj(secu(compu))}
+  [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
+  {$res$ = caminosMinimos($r$,$c$,$i$)}
+  [$O(L)$]
+
+  \InterfazFuncion{hayCamino?}{\In{r}{red},\In{c}{compu},\In{c'}{compu}}{bool}
+  [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
+  {$res$ = hayCamino?($r$,$c$,$i$)}
+  [$O(L)$]
+
+
+
