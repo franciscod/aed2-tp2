@@ -16,11 +16,11 @@
 []
 
 \InterfazFuncion{crearPaquete}{\Inout{dcn}{dcnet}, \In{p}{paquete}}{}
-[$dcn$ $\igobs$ $dcn_0$ $\land$ 
-$\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ 
-									id($p$) = id($p'$) $\land$ 
-									origen($p$) $\in$ computadoras(red($dcn$)) $\yluego$ 
-									destino($p$) $\in$ computadoras(red($dcn$)) $\yluego$
+[$dcn$ $\igobs$ $dcn_0$ $\land$ 															\\
+$\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ 					\\
+									id($p$) = id($p'$) $\land$ 								\\
+									origen($p$) $\in$ computadoras(red($dcn$)) $\yluego$ 	\\
+									destino($p$) $\in$ computadoras(red($dcn$)) $\yluego$	\\
 									hayCamino?(red($dcn$), origen($p$), destino($p$))))]
 {$dcn$ $\igobs$ crearPaquete($dcn_0$)}
 [$O(1)$]
