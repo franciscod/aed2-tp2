@@ -8,64 +8,77 @@
 
   \InterfazFuncion{IniciarRed}{}{red}
   [true]
-  {$res$ $\igobs$ IniciaRed()}
+  {$res$ $\igobs$ iniciarRed}
   [$O(1)$]
   [Crea una red nueva]
   []
 
+  ~
+
   \InterfazFuncion{AgregarComputadora}{\Inout{r}{red}, \In{c}{compu} }{}
-  [(\paratodo {($c'$:compu)} ($c'$ $\in$  Computadoras($r$)) $\Rightarrow$  ip($c$) $\neq$  ip($c'$)) $\land$ ($r$ = $r_0$)  ]
-  {$r$ $\igobs$ AgregarComputadora($r_0$, $c$)) }
+  [($r$ = $r_0$) $\land$ (($\forall$ $c'$: compu) ($c'$ $\in$ computadoras($r$) $\Rightarrow$  ip($c$) $\neq$  ip($c'$)))  ]
+  {$r$ $\igobs$ agregarComputadora($r_0$, $c$)) }
   [$O(L + n)$]
   [Agrega un computadora a la red]
   []
 
+  ~
+
   \InterfazFuncion{Conectar}{\Inout{r}{red}, \In{c}{compu}, \In{c'}{compu}, \In{i}{compu}, \In{i'}{compu}}{}
-  [ ($r$ = $r_0$) $\land$ (($c$ $\in$ Computadoras($r$)) $\land$ ($c'$ $\in$ Computadoras(r)) ) $\land$ (Ip($c$) $\neq$ Ip($c'$))   $\newline$
-   $\land$ ($\neg$ Conectadas?($r$, $c$, $c'$)) $\land$ ( $\neg$(UsaInterfaz?($r$,$c$,$i$)) $\land$ $\neg$(UsaInterfaz?($r$, $c'$, $i'$)))]
-  {$r$ $\igobs$ Conectar($r_0$, $c$, $i$, $c'$, $i'$)) }
-  [$O(L + n)$]
+  [($r$ = $r_0$) $\land$ ($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r)) $\land$ (ip($c$) $\neq$ ip($c'$)) \\
+   $\land$ ($\neg$conectadas?($r$, $c$, $c'$)) $\land$ ($\neg$usaInterfaz?($r$, $c$, $i$) $\land$ $\neg$usaInterfaz?($r$, $c'$, $i'$))]
+  {$r$ $\igobs$ conectar($r_0$, $c$, $i$, $c'$, $i'$))}
+  [$O(L) ?$]
   [Conecta dos computadoras]
   []
 
-  \InterfazFuncion{Comptutadoras}{\In{r}{red}}{conj(compu)}
+  ~
+
+  \InterfazFuncion{Computadoras}{\In{r}{red}}{conj(compu)}
   [true]
-  {$res$ = Computadoras($r$)}
+  {$res$ = computadoras($r$)}
   [$O(1)$]
+
+  ~
 
   \InterfazFuncion{Conectadas?}{\In{r}{red}, \In{c}{compu}, \In{c'}{compu}}{bool}
-  [($c$ $\in$ Computadoras($r$)) $\land$ ($c'$ $\in$ Computadoras($r$))]
-  {$res$ = Conectadas?($r$, $c$, $c'$)}
+  [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras($r$))]
+  {$res$ = conectadas?($r$, $c$, $c'$)}
   [$O(1)$]
 
+  ~
+
   \InterfazFuncion{InterfazUsada}{\In{r}{red}, \In{c}{compu},  \In{c'}{compu}}{interfaz}
-  [Conectadas?($r$, $c$, $c'$)]
-  {$res$ = InterfazUsada($r$, $c$, $c'$)}
+  [conectadas?($r$, $c$, $c'$)]
+  {$res$ = interfazUsada($r$, $c$, $c'$)}
   [$O(?)$]
+
+  ~
 
   \InterfazFuncion{Vecinos}{\In{r}{red}, \In{c}{compu}}{conj(compu)}
-  [$c$ $\in$ Computadoras($r$)]
-  {$res$ = Vecinos($r$,$c$)}
+  [$c$ $\in$ computadoras($r$)]
+  {$res$ = vecinos($r$, $c$)}
   [$O(n)$]
 
-  \InterfazFuncion{UsaInterfaz?}{\In{r}{red}, \In{c}{compu}, \In{i}{interfaz}}{bool}
-  [$c$ $\in$ Computadoras($r$)]
-  {$res$ = UsaInterfaz($r$, $c$, $i$)}
+  ~
+
+  \InterfazFuncion{usaInterfaz?}{\In{r}{red}, \In{c}{compu}, \In{i}{interfaz}}{bool}
+  [$c$ $\in$ computadoras($r$)]
+  {$res$ = usaInterfaz?($r$, $c$, $i$)}
   [$O(?)$]
 
-    \InterfazFuncion{UsaInterfaz?}{\In{r}{red}, \In{c}{compu}, \In{i}{interfaz}}{bool}
-  [$c$ $\in$ Computadoras($r$)]
-  {$res$ = UsaInterfaz($r$, $c$, $i$)}
-  [$O(n)$]
+  ~
 
   \InterfazFuncion{CaminosMinimos}{\In{r}{red}, \In{c}{compu}, \In{c'}{compu}}{conj(secu(compu))}
-  [($c$ $\in$ Computadoras($r$)) $\land$ ($c'$ $\in$ Computadoras(r))]
-  {$res$ = CaminosMinimos($r$, $c$, $i$)}
+  [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
+  {$res$ = caminosMinimos($r$, $c$, $i$)}
   [$O(L)$]
 
+  ~
+
   \InterfazFuncion{HayCamino?}{\In{r}{red}, \In{c}{compu}, \In{c'}{compu}}{bool}
-  [($c$ $\in$ Computadoras($r$)) $\land$ ($c'$ $\in$ Computadoras(r))]
-  {$res$ = HayCamino?($r$, $c$, $i$)}
+  [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
+  {$res$ = hayCamino?($r$, $c$, $i$)}
   [$O(L)$]
 
 
