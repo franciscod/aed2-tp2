@@ -44,6 +44,40 @@
 		\tupItem{it}{itConj(paquete)}%
 		\tupItem{recorrido}{lista(compu)}%
 	\end{Tupla}
+
+	~
+
+	\begin{Tupla}[paquete]
+		\tupItem{id}{nat}%
+		\tupItem{prioridad}{nat}%
+		\tupItem{origen}{compu}%
+		\tupItem{destino}{compu}%
+	\end{Tupla}
+
+	~
+
+	\begin{Tupla}[compu]
+		\tupItem{ip}{string}%
+		\tupItem{interfaces}{conj(nat)}%
+	\end{Tupla}
+
 \end{Estructura}
 
+\subsubsection{Invariante de Representación}
+
+\renewcommand{\labelenumi}{(\Roman{enumi})}
+
+\begin{enumerate}
+	\item El puntero de laQueMásEnvió apuntara a la compuDCNet con mayor
+		paquete salvo el caso en que no haya computadoras, donde valdrá NULL
+	\item Todas las claves de enEspera son las ip de las compus en la red
+	\item Los significados del diccionario enEspera apuntan a las
+		compuDCNet que les corresponden en el vector compusDCNet
+	\item El buffer de una compuDCNet tiene los mismo paquetes que hay en
+		encolados
+	\item Los paquetes paqueteDCNet que hay en encolados de un compuDCNet tienen
+		como recorrido un camino mínimo de su origen a la compu del compuDCNet
+	\item Los paquetes tienen id único
+	\item El paquete de un paqueteDCNet debe corresponder al apuntado por itConj
+\end{enumerate}
 
