@@ -22,25 +22,25 @@
 \begin{Estructura}{dcnet}[estr]
 	\begin{Tupla}[estr]
 		\tupItem{topología}{red}%
-		\tupItem{\\ compusDCNet}{vector(compuDCNet)}%
-		\tupItem{\\ enEspera}{dicc$_{Trie}$(puntero(compuDCNet))}%
+		\tupItem{\\ vectorCompusDCNet}{vector(compuDCNet)}%
+		\tupItem{\\ diccCompusDCNet}{dicc$_{trie}$(puntero(compuDCNet))}%
 		\tupItem{\\ laQueMásEnvió}{puntero(compuDCNet)}%
 	\end{Tupla}
 
 	~
 
 	\begin{Tupla}[compuDCNet]
-		\tupItem{c}{compu}%
-		\tupItem{\\ buffer}{conj(paquete)}%
-		\tupItem{\\ encolados}{colaPrioridad(nat, paqueteDCNet)}%
-		\tupItem{\\ paqueteAEnviar}{puntero(paqueteDCNet)}%
+		\tupItem{pc}{compu}%
+		\tupItem{\\ conjPaquetes}{conj(paquete)}%
+		\tupItem{\\ diccPaquetes}{dicc$_{avl}$(nat, paqueteDCNet)}%
+		\tupItem{\\ colaPaquetes}{colaPrioridad(nat, paqueteDCNet)}%
+		\tupItem{\\ paqueteAEnviar}{itConj(paquete)}%
 		\tupItem{\\ enviados}{nat}%
 	\end{Tupla}
 
 	~
 
 	\begin{Tupla}[paqueteDCNet]
-		\tupItem{p}{paquete}%
 		\tupItem{it}{itConj(paquete)}%
 		\tupItem{recorrido}{lista(compu)}%
 	\end{Tupla}
