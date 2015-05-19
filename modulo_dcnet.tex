@@ -8,7 +8,7 @@
 
 \subsubsection{Operaciones básicas de DCNet}
 
-\InterfazFuncion{iniciarDCNet}{\In{r}{red}}{dcnet}
+\InterfazFuncion{IniciarDCNet}{\In{r}{red}}{dcnet}
 [true]
 {$res$ $\igobs$ iniciarDCNet($red$)}
 [$O(1)$]
@@ -16,7 +16,7 @@
 []
 ~
 
-\InterfazFuncion{crearPaquete}{\Inout{dcn}{dcnet}, \In{p}{paquete}}{}
+\InterfazFuncion{CrearPaquete}{\Inout{dcn}{dcnet}, \In{p}{paquete}}{}
 [$dcn$ $\igobs$ $dcn_0$ $\land$ \\
 $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 									id($p$) = id($p'$) $\land$ \\
@@ -29,15 +29,15 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 []
 ~
 
-\InterfazFuncion{avanzarSegundo}{\Inout{dcn}{dcnet}}{}
+\InterfazFuncion{AvanzarSegundo}{\Inout{dcn}{dcnet}}{}
 [$dcn$ $\igobs$ $dcn_0$]
 {$dcn$ $\igobs$ avanzarSegundo($dcn_0$)}
-[$O(n * (L + log(n) + log(k)))$]
+[$O(n * (L + log(k)))$]
 [avanza un segundo]
 []
 ~
 
-\InterfazFuncion{red}{\In{dcn}{dcnet}}{red}
+\InterfazFuncion{Red}{\In{dcn}{dcnet}}{red}
 [true]
 {$res$ $\igobs$ red($dcn$)}
 [$O(1)$]
@@ -45,7 +45,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 []
 ~
 
-\InterfazFuncion{caminoRecorrido}{\In{dcn}{dcnet}, \In{p}{paquete}}{secu(compu)}
+\InterfazFuncion{CaminoRecorrido}{\In{dcn}{dcnet}, \In{p}{paquete}}{secu(compu)}
 [paqueteEnTransito?($dcn$, $p$)]
 {$res$ $\igobs$ caminoRecorrido($dcn$, $p$)}
 [$O(n * log(k))$]
@@ -53,15 +53,15 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 []
 ~
 
-\InterfazFuncion{cantidadEnviados}{\In{dcn}{dcnet}, \In{c}{compu}}{conj(paquete)}
+\InterfazFuncion{CantidadEnviados}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}
 [c $\in$ computadoras(red($dcn$))]
 {$res$ $\igobs$ cantidadEnviados($dcn$, $c$)}
-[$O(1)$]
+[$O(L)$]
 [devuelve la cantidad de paquetes enviados por una compu]
 []
 ~
 
-\InterfazFuncion{enEspera}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}
+\InterfazFuncion{EnEspera}{\In{dcn}{dcnet}, \In{c}{compu}}{conj(paquete)}
 [c $\in$ computadoras(red($dcn$))]
 {$res$ $\igobs$ enEspera($dcn$, $c$)}
 [$O(L)$]
@@ -69,7 +69,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 []
 ~
 
-\InterfazFuncion{paqueteEnTransito}{\In{dcn}{dcnet}, \In{p}{paquete}}{bool}
+\InterfazFuncion{PaqueteEnTransito}{\In{dcn}{dcnet}, \In{p}{paquete}}{bool}
 [true]
 {$res$ $\igobs$ paqueteEnTransito($dcn$, $p$)}
 [$O(n * log(k))$]
@@ -77,7 +77,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 []
 ~
 
-\InterfazFuncion{laQueMasEnvio}{\In{dcn}{dcnet}}{compu}
+\InterfazFuncion{LaQueMasEnvio}{\In{dcn}{dcnet}}{compu}
 [true]
 {$res$ $\igobs$ laQueMasEnvio($dcn$)}
 [$O(1)$]
