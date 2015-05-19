@@ -37,6 +37,38 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 []
 ~
 
+\InterfazFuncion{red}{\In{dcn}{dcnet}}{red}
+[true]
+{$res$ $\igobs$ red($dcn$)}
+[$O(1)$]
+[devuelve la red de una DCNet]
+[]
+~
+
+\InterfazFuncion{caminoRecorrido}{\In{dcn}{dcnet}, \In{p}{paquete}}{secu(compu)}
+[paqueteEnTransito?($dcn$, $p$)]
+{$res$ $\igobs$ caminoRecorrido($dcn$, $p$)}
+[$O(n * log(n))$]
+[devuelve el camino recorrido por un paquete]
+[]
+~
+
+\InterfazFuncion{cantidadEnviados}{\In{dcn}{dcnet}, \In{c}{compu}}{conj(paquete)}
+[c $\in$ computadoras(red($dcn$))]
+{$res$ $\igobs$ cantidadEnviados($dcn$, $c$)}
+[$O(1)$]
+[devuelve la cantidad de paquetes enviados por una compu]
+[]
+~
+
+\InterfazFuncion{enEspera}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}
+[c $\in$ computadoras(red($dcn$))]
+{$res$ $\igobs$ enEspera($dcn$, $c$)}
+[$O(L)$]
+[devuelve la cola de paquetes de una compu]
+[]
+~
+
 \subsection{Representación}
 
 \subsubsection{Representación de dcnet}
