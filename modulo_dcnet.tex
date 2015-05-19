@@ -32,7 +32,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 \InterfazFuncion{avanzarSegundo}{\Inout{dcn}{dcnet}}{}
 [$dcn$ $\igobs$ $dcn_0$]
 {$dcn$ $\igobs$ avanzarSegundo($dcn_0$)}
-[$O(n * log(L + log(k)))$]
+[$O(n * (L + log(n) + log(k)))$]
 [avanza un segundo]
 []
 ~
@@ -48,7 +48,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 \InterfazFuncion{caminoRecorrido}{\In{dcn}{dcnet}, \In{p}{paquete}}{secu(compu)}
 [paqueteEnTransito?($dcn$, $p$)]
 {$res$ $\igobs$ caminoRecorrido($dcn$, $p$)}
-[$O(n * log(n))$]
+[$O(n * log(k))$]
 [devuelve el camino recorrido por un paquete]
 []
 ~
@@ -66,6 +66,22 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 {$res$ $\igobs$ enEspera($dcn$, $c$)}
 [$O(L)$]
 [devuelve la cola de paquetes de una compu]
+[]
+~
+
+\InterfazFuncion{paqueteEnTransito}{\In{dcn}{dcnet}, \In{p}{paquete}}{bool}
+[true]
+{$res$ $\igobs$ paqueteEnTransito($dcn$, $p$)}
+[$O(n * log(k))$]
+[indica si el paquete está en transito]
+[]
+~
+
+\InterfazFuncion{laQueMasEnvio}{\In{dcn}{dcnet}}{compu}
+[true]
+{$res$ $\igobs$ laQueMasEnvio($dcn$)}
+[$O(1)$]
+[devuelve la compu que mas paquetes envió]
 []
 ~
 
