@@ -46,4 +46,24 @@
 	\end{Tupla}
 \end{Estructura}
 
+\subsection{Algoritmos}
+
+%\lstset{style=alg}
+
+% La asignacion laQueMasEnvio <- NULL no se si esta bien porque si existe al menos una compu deberia devolver una, por mas que ninguna haya enviado todavia
+\begin{lstlisting}[mathescape]
+'\alg{iIniciarDCNet}{\In{topo}{red}}{estr}'
+	
+    res.topologia $\leftarrow$ topo '\ote{1}'
+    res.vectorCompusDCNet $\leftarrow$ Vacia() '\ote{1}'
+    res.diccCompusDCNet $\leftarrow$ CrearDiccTrie() '\ote{1}'
+    res.laQueMasEnvio $\leftarrow$ NULL 'ote{1}'
+
+    it : iterconj(compuDCNet) $\leftarrow$ CrearIt(Computadoras(topo))
+    while HayMas?(it):
+    	AgregarAtras(res.vectorCompusDCNet, Actual(it))
+    	Definir(res.diccCompusDCNet, Actual(it).ip, elpuntero)
+    	Avanzar(it)
+'\ofi{O(1)}'
+\end{lstlisting}
 
