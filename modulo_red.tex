@@ -123,3 +123,38 @@
                               % ((def?($s$, obtener($c$, $e$)) $\igobs$ conectadas?($c$, $s$, $m$)) $\yluego$ \\
                               % (def?($s$, obtener($c$, $e$)) $\impluego$ (obtener($s$, obtener($c$, $e$)) $\igobs$ restriccion($c$, $s$, $m$)))))
   % }
+\subsubsection{Función de Abstracción}
+
+
+
+
+\subsection{Algoritmos}
+%\lstset{style=alg}
+% La asignacion laQueMasEnvio <- NULL no se si esta bien porque si existe al menos una compu deberia devolver una, por mas que ninguna haya enviado todavia
+\begin{lstlisting}[mathescape]
+  '\alg{iIniciarRed}{}{estr}'
+
+    res.compus $\leftarrow$ Vacío() '\ote{1}'
+    res.dns $\leftarrow$ Vacío() '\ote{1}'
+
+    
+  '\ofi{O(1)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+  '\alg{AgregarComputadora}{\In{r}{red}, \In{c}{compu}}{estr}'
+
+    AgregarRapido(r.compus, c) '\ote{1}'
+    DefinirRapido(r.dns, compu.ip, (Tupla<c,Vacío()>) '\ote{1}'
+
+    res.estr.dns $\leftarrow$ Vacío() '\ote{1}'
+
+    '\ofi{O(1)}'
+
+    '\alg{iIniciarRed}{}{estr}'
+
+    res.estr.compus $\leftarrow$ Vacío() '\ote{1}'
+    res.estr.dns $\leftarrow$ Vacío() '\ote{1}'
+
+  '\ofi{O(1)}'
+\end{lstlisting}
