@@ -22,28 +22,71 @@
 \begin{Estructura}{dcnet}[estr]
 	\begin{Tupla}[estr]
 		\tupItem{topología}{red}%
-		\tupItem{\\ compusDCNet}{vector(compuDCNet)}%
-		\tupItem{\\ enEspera}{dicc$_{Trie}$(puntero(compuDCNet))}%
+		\tupItem{\\ vectorCompusDCNet}{vector(compuDCNet)}%
+		\tupItem{\\ diccCompusDCNet}{dicc$_{trie}$(puntero(compuDCNet))}%
 		\tupItem{\\ laQueMásEnvió}{puntero(compuDCNet)}%
 	\end{Tupla}
 
 	~
 
 	\begin{Tupla}[compuDCNet]
-		\tupItem{c}{compu}%
-		\tupItem{\\ buffer}{conj(paquete)}%
-		\tupItem{\\ encolados}{colaPrioridad(nat, paqueteDCNet)}%
-		\tupItem{\\ paqueteAEnviar}{puntero(paqueteDCNet)}%
-		\tupItem{\\ enviados}{nat}%
+		\tupItem{pc}{puntero(compu)}%
+		\tupItem{\\ conjPaquetes}{conj(paquete)}%
+		\tupItem{\\ diccPaquetesDCNet}{dicc$_{avl}$(nat, paqueteDCNet)}%
+		\tupItem{\\ colaPaquetesDCNet}{colaPrioridad(nat, paqueteDCNet)}%
+		\tupItem{\\ paqueteAEnviar}{paqueteDCNet}%
+		\tupItem{enviados}{nat}%
 	\end{Tupla}
 
 	~
 
 	\begin{Tupla}[paqueteDCNet]
-		\tupItem{p}{paquete}%
 		\tupItem{it}{itConj(paquete)}%
 		\tupItem{recorrido}{lista(compu)}%
 	\end{Tupla}
+
+	~
+
+	\begin{Tupla}[paquete]
+		\tupItem{id}{nat}%
+		\tupItem{prioridad}{nat}%
+		\tupItem{origen}{compu}%
+		\tupItem{destino}{compu}%
+	\end{Tupla}
+
+	~
+
+	\begin{Tupla}[compu]
+		\tupItem{ip}{string}%
+		\tupItem{interfaces}{conj(nat)}%
+	\end{Tupla}
+
 \end{Estructura}
 
+\subsubsection{Invariante de Representación}
+
+\renewcommand{\labelenumi}{(\Roman{enumi})}
+
+\begin{enumerate}
+	\item Los elementos de vectorCompusDCNet son punteros a todas las compus de
+		la topología
+	\item Las claves de diccCompusDCNet son todos los hostnames de la topología
+	\item Los significados de diccCompusDCNet son punteros que apuntan a las
+		compuDCNet cuyo hostname equivale a su clave en vectorCompusDCNet
+	\item laQueMásEnvió es un puntero a la compuDCNet en vectorCompusDCNet que
+		más paquetes enviados tiene. Si no hay compus es NULL
+	\item Todos los paquetes en conjPaquetes de cada compuDCNet tienen id único
+	\item El paquete en conjPaquetes tiene que tener en su recorrido a la
+		compuDCNet en la que se encuentra y no puede ser igual a su destino
+	\item Las claves de diccPaquetesDCNet son los id de los paquetes en
+		conjPaquetes 
+	\item Los significados de diccPaquetesDCNet contienen un itConj que apunta al
+		paquete con el id equivalente a su clave y en recorrido, un camino
+		mínimo válido para el origen del paquete y la compu en la que se
+		encuentra
+	\item Si colaPaquetesDCNet no es vacía, su próximo es un paqueteDCNet que
+		contiene un itConj apuntando a uno de los paquetes de conjPaquetes con
+		mayor prioridad y un recorrido, que es un camino mínimo válido para el
+		origen del paquete y la compu en la que se encuentra
+\end{enumerate}
 
