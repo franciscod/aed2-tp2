@@ -142,19 +142,10 @@
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-  '\alg{AgregarComputadora}{\In{r}{red}, \In{c}{compu}}{estr}'
+  '\alg{iAgregarComputadora}{\In{r}{red}, \In{c}{compu}}{estr}'
 
     AgregarRapido(r.compus, c) '\ote{1}'
-    DefinirRapido(r.dns, compu.ip, (Tupla<c,Vacío()>) '\ote{1}'
-
-    res.estr.dns $\leftarrow$ Vacío() '\ote{1}'
-
-    '\ofi{O(1)}'
-
-    '\alg{iIniciarRed}{}{estr}'
-
-    res.estr.compus $\leftarrow$ Vacío() '\ote{1}'
-    res.estr.dns $\leftarrow$ Vacío() '\ote{1}'
+    DefinirRapido(r.dns, compu.ip, Tupla<&c,Vacío(),Vacío()>) '\ote{1}'
 
   '\ofi{O(1)}'
 \end{lstlisting}
