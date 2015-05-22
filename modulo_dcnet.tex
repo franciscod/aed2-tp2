@@ -32,8 +32,8 @@
 	\begin{Tupla}[compuDCNet]
 		\tupItem{pc}{puntero(compu)}%
 		\tupItem{\\ conjPaquetes}{conj(paquete)}%
-		\tupItem{\\ diccPaquetes}{dicc$_{avl}$(nat, paqueteDCNet)}%
-		\tupItem{\\ colaPaquetes}{colaPrioridad(nat, paqueteDCNet)}%
+		\tupItem{\\ diccPaquetesDCNet}{dicc$_{avl}$(nat, paqueteDCNet)}%
+		\tupItem{\\ colaPaquetesDCNet}{colaPrioridad(nat, paqueteDCNet)}%
 		\tupItem{\\ paqueteAEnviar}{paqueteDCNet}%
 		\tupItem{enviados}{nat}%
 	\end{Tupla}
@@ -78,13 +78,13 @@
 	\item Todos los paquetes en conjPaquetes de cada compuDCNet tienen id único
 	\item El paquete en conjPaquetes tiene que tener en su recorrido a la
 		compuDCNet en la que se encuentra y no puede ser igual a su destino
-	\item Las claves de diccPaquetes son los id de los paquetes en
+	\item Las claves de diccPaquetesDCNet son los id de los paquetes en
 		conjPaquetes 
-	\item Los significados de diccPaquetes contienen un itConj que apunta al
+	\item Los significados de diccPaquetesDCNet contienen un itConj que apunta al
 		paquete con el id equivalente a su clave y en recorrido, un camino
 		mínimo válido para el origen del paquete y la compu en la que se
 		encuentra
-	\item Si colaPaquetes no es vacía, su próximo es un paqueteDCNet que
+	\item Si colaPaquetesDCNet no es vacía, su próximo es un paqueteDCNet que
 		contiene un itConj apuntando a uno de los paquetes de conjPaquetes con
 		mayor prioridad y un recorrido, que es un camino mínimo válido para el
 		origen del paquete y la compu en la que se encuentra
