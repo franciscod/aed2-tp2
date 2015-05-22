@@ -15,12 +15,19 @@
 
 \usepackage{xspace}
 \usepackage{xargs}
-% \usepackage{algorithm}% http://ctan.org/pkg/algorithms
-% \usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+\usepackage{algorithm}% http://ctan.org/pkg/algorithms
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
 \usepackage{verbatim}
-% \usepackage{listings}
+\usepackage{listings}
 
-%Afanado
+% Estilo para Algoritmos
+\lstdefinestyle{alg}{tabsize=4, frame=single, escapeinside=\'\', framesep=10pt}
+
+\newcommand{\alg}[3]{\hangindent=\parindent#1 (#2) \ifx#3\empty\else$\rightarrow$ res: #3\fi}
+\newcommand\ote[1]{\hspace*{\fill}~\mbox{O(#1)}\penalty -9999 }
+\newcommand\ofi[1]{\ensuremath{\textbf{Complejidad}: #1}}
+
+% Afanado
 \newcommand{\moduloNombre}[1]{\textbf{#1}}
 
 \let\NombreFuncion=\textsc
@@ -186,5 +193,7 @@
 
 \pagebreak
 \input{modulo_dcnet}
+\pagebreak
+\input{modulo_red}
 
 \end{document}
