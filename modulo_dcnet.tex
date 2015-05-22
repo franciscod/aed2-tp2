@@ -30,7 +30,7 @@
 	~
 
 	\begin{Tupla}[compuDCNet]
-		\tupItem{pc}{compu}%
+		\tupItem{pc}{puntero(compu)}%
 		\tupItem{\\ conjPaquetes}{conj(paquete)}%
 		\tupItem{\\ diccPaquetes}{dicc$_{avl}$(nat, paqueteDCNet)}%
 		\tupItem{\\ colaPaquetes}{colaPrioridad(nat, paqueteDCNet)}%
@@ -68,16 +68,25 @@
 \renewcommand{\labelenumi}{(\Roman{enumi})}
 
 \begin{enumerate}
-	\item El puntero de laQueMásEnvió apuntara a la compuDCNet con mayor
-		paquete salvo el caso en que no haya computadoras, donde valdrá NULL
-	\item Todas las claves de enEspera son las ip de las compus en la red
-	\item Los significados del diccionario enEspera apuntan a las
-		compuDCNet que les corresponden en el vector compusDCNet
-	\item El buffer de una compuDCNet tiene los mismo paquetes que hay en
-		encolados
-	\item Los paquetes paqueteDCNet que hay en encolados de un compuDCNet tienen
-		como recorrido un camino mínimo de su origen a la compu del compuDCNet
-	\item Los paquetes tienen id único
-	\item El paquete de un paqueteDCNet debe corresponder al apuntado por itConj
+	\item Los elementos de vectorCompusDCNet son punteros a todas las compus de
+		la topología
+	\item Las claves de diccCompusDCNet son todos los hostnames de la topología
+	\item Los significados de diccCompusDCNet son punteros que apuntan a las
+		compuDCNet cuyo hostname equivale a su clave en vectorCompusDCNet
+	\item laQueMásEnvió es un puntero a la compuDCNet en vectorCompusDCNet que
+		más paquetes enviados tiene. Si no hay compus es NULL
+	\item Todos los paquetes en conjPaquetes de cada compuDCNet tienen id único
+	\item El paquete en conjPaquetes tiene que tener en su recorrido a la
+		compuDCNet en la que se encuentra y no puede ser igual a su destino
+	\item Las claves de diccPaquetes son los id de los paquetes en
+		conjPaquetes 
+	\item Los significados de diccPaquetes contienen un itConj que apunta al
+		paquete con el id equivalente a su clave y en recorrido, un camino
+		mínimo válido para el origen del paquete y la compu en la que se
+		encuentra
+	\item Si colaPaquetes no es vacía, su próximo es un paqueteDCNet que
+		contiene un itConj apuntando a uno de los paquetes de conjPaquetes con
+		mayor prioridad y un recorrido, que es un camino mínimo válido para el
+		origen del paquete y la compu en la que se encuentra
 \end{enumerate}
 
