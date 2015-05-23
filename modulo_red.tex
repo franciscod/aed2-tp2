@@ -100,28 +100,35 @@
       \begin{Tupla}[nodoRed]
         \tupItem{c}{puntero(compu)}
         \tupItem{\\caminos}{dicc$_{Trie}$(ip, conj(lista(puntero(compu))))}
-        \tupItem{\\conexiones}{dicc$_{Lineal}$(interfaz, puntero(nodoRed))}
+        \tupItem{\\conexiones}{dicc$_{Lineal}$(interfaz, compu)}
       \end{Tupla}
 
 
     \end{Estructura}
 
 \subsubsection{Invariante de Representación}
-
-
   \begin{enumerate}
+
   \item Todas las compus deben tener IPs distintas.
+
   \item Ninguna compu se conecta con si misma.
+
   \item Ninguna compu se conecta a otra a traves de dos interfaces distintas.
+
   \item El trie \TipoVariable{estr}.$dns$ de apunta a un \TipoVariable{nodoRed}
         por cada elemento de $compus$.
+
   \item El trie \TipoVariable{nodoRed}.$caminos$ define como significados todas
         las compus de la red (siendo \TipoVariable{NULL} en caso de que no hubiera caminos).
+
   \item En cada \TipoVariable{nodoRed}, $c$ tiene que apuntar a un elemento de \TipoVariable{estr}.$compus$.
+
   \item Para cada \TipoVariable{nodoRed}, $caminos$ tiene como claves todas las
         IPs de las compus de la red, y los significados corresponden a todos los caminos
         mínimos desde la compu $c$ hacia la compu cuya IP es clave.
-  \item \TipoVariable{nodoRed}.$conexiones$ contiene todas las \TipoVariable{interfaz} usadas de la compu $c$ (que tienen que estar en $c$.$interfaces$)
+
+  \item \TipoVariable{nodoRed}.$conexiones$ contiene como claves todas las
+        \TipoVariable{interfaz} usadas de la compu $c$ (que tienen que estar en $c$.$interfaces$)
 
   \end{enumerate}
 
