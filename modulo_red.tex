@@ -178,13 +178,14 @@
 
 \begin{lstlisting}[mathescape]
   '\alg{iInterfazUsada}{\In{r}{red}, \In{c_0}{compu},  \In{c_1}{compu}}{interfaz}'
-    pnr0:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c0.ip)                          '\ote{L}' 
-    it :itDicc(itDicc(interfaz, puntero(nodoRed)) $\leftarrow$ CrearIt(pnr0.conexiones)   '\ote{1}' 
-    while HaySiguiente?(it) do                                                            '\ote{L}'
-      if c1.ip = SiguienteSignificado(it).ip then                                         '\ote{?}'
-        res $\leftarrow$ SiguienteClave(it)                                               '\ote{1}'
+    pnr0:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c0.ip)                   '\ote{L}' 
+    it :itDicc(itDicc(interfaz, puntero(nodoRed)) 
+      $\leftarrow$ CrearIt(pnr0.conexiones)                                        '\ote{1}' 
+    while HaySiguiente?(it) do                                                     '\ote{L}'
+      if c1.ip = SiguienteSignificado(it).ip then                                  '\ote{?}'
+        res $\leftarrow$ SiguienteClave(it)                                        '\ote{1}'
       end if
-      Avanzar(it)                                                                         '\ote{1}'
+      Avanzar(it)                                                                  '\ote{1}'
     end while
   '\ofi{O(1)}'
 \end{lstlisting}
@@ -192,28 +193,28 @@
 
 \begin{lstlisting}[mathescape]
   '\alg{iVecinos}{\In{r}{red}, \In{c}{compu}}{conj(compu)}'
-    pnr:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c.ip)                            '\ote{1}'
-    res $\leftarrow$  pnr$\rightarrow$conexiones                                          '\ote{1}'
+    pnr:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c.ip)                     '\ote{1}'
+    res $\leftarrow$  pnr$\rightarrow$conexiones                                   '\ote{1}'
   '\ofi{O(1)}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
   '\alg{iUsaInterfaz?}{\In{r}{red}, \In{c}{compu}, \In{i}{interfaz}}{bool}'
-    pnr:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c.ip)                            '\ote{1}'
-    res $\leftarrow$  Definido?(pnr$\rightarrow$conexiones,i)                             '\ote{n}'
+    pnr:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c.ip)                     '\ote{1}'
+    res $\leftarrow$  Definido?(pnr$\rightarrow$conexiones,i)                      '\ote{n}'
   '\ofi{O(n)}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
   '\alg{iCaminosMinimos}{\In{r}{red}, \In{c_0}{compu}, \In{c_1}{compu}}{conj(secu(compu))}'
-    pnr:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c0.ip)                           '\ote{1}'
-    res $\leftarrow$  Significado(pnr$\rightarrow$caminosMinimos, c1.ip)                  '\ote{1}'
+    pnr:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c0.ip)                    '\ote{1}'
+    res $\leftarrow$  Significado(pnr$\rightarrow$caminosMinimos, c1.ip)           '\ote{1}'
   '\ofi{O(1)}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
   '\alg{HayCamino?}{\In{r}{red}, \In{c_0}{compu}, \In{c_1}{compu}}{bool}'
-    pnr:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c0.ip)                            '\ote{1}'
+    pnr:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c0.ip)                    '\ote{1}'
     res $\leftarrow$ EsVacio?(Significado(pnr$\rightarrow$caminos, c1.ip))                                       
   '\ofi{O(1)}'
 \end{lstlisting}
