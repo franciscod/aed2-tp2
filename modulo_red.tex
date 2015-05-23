@@ -35,7 +35,7 @@
   ~
 
   \InterfazFuncion{Computadoras}{\In{r}{red}}{conj(compu)}
-  [true]
+  [true]  
   {$res$ = computadoras($r$)}
   [$O(1)$]
 
@@ -129,23 +129,70 @@
 
 
 \subsection{Algoritmos}
-%\lstset{style=alg}
+\lstset{style=alg}
 % La asignacion laQueMasEnvio <- NULL no se si esta bien porque si existe al menos una compu deberia devolver una, por mas que ninguna haya enviado todavia
 \begin{lstlisting}[mathescape]
-  '\alg{iIniciarRed}{}{estr}'
+  '\alg{iIniciarRed}{}{red}'
+    res.compus $\leftarrow$ Vacio() '\ote{?}'
+    res.dns $\leftarrow$ Vacio() '\ote{?}'
+  '\ofi{O(?)}'
+\end{lstlisting}
 
-    res.compus $\leftarrow$ Vacío() '\ote{1}'
-    res.dns $\leftarrow$ Vacío() '\ote{1}'
+\begin{lstlisting}[mathescape]
+  '\alg{iAgregarComputadora}{\Inout{r}{red}, \In{c}{compu}}{itConj}'
+    DefinirRapido(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{?}'
+    res $\leftarrow$ AgregarRapido(r.compus, c) '\ote{?}'
+  '\ofi{O(?)}'
+\end{lstlisting}
 
-    
+\begin{lstlisting}[mathescape]
+  '\alg{iConectar}{\Inout{r}{red}, \In{c_0}{compu}, \In{c_1}{compu}, \In{i_0}{compu}, \In{i_1}{compu}}{}'
+    pnr0:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c0.ip) '\ote{?}'
+    pnr1:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c1.ip) '\ote{?}'
+    DefinirRapido(prn0$\rightarrow$conexiones, i0, pnr1) '\ote{?}'
+    DefinirRapido(pnr1$\rightarrow$conexiones, i1, pnr0) '\ote{?}'
+    // alctualizo los caminosMinimos ... Hardcore papa Hardcore !!! 
+
+  '\ofi{O(?)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+  '\alg{iComputadoras}{\In{r}{red}}{conj(compu)}'
+    res  $\leftarrow$ r.computadoras  '\ofi{O(1)}'
   '\ofi{O(1)}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-  '\alg{iAgregarComputadora}{\In{r}{red}, \In{c}{compu}}{estr}'
+  '\alg{iConectadas?}{\In{r}{red}, \In{c_0}{compu}, \In{c_1}{compu}}{bool}'
+    pnr0:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c0.ip)                      '\ote{L}' 
+    it :itDicc(interfaz, puntero(nodoRed))) $\leftarrow$ CrearIt(pnr0.conexiones)     '\ote{1}' 
+    res $\leftarrow$ false                                                            '\ote{1}'
+    while HaySiguiente?(it) do                                                        '\ote{L}'
+      if c1.ip = SiguienteSignificado(it)$\rightarrow$c$\rightarrow$ip then           '\ote{?}'
+        res $\leftarrow$ true                                                         '\ote{1}'
+      end if
+      Avanzar(it)                                                                     '\ote{1}'
+    end while
+  '\ofi{O(L * ?)}'
+\end{lstlisting}
 
-    AgregarRapido(r.compus, c) '\ote{1}'
-    DefinirRapido(r.dns, compu.ip, Tupla<&c,Vacío(),Vacío()>) '\ote{1}'
+\begin{lstlisting}[mathescape]
+  '\alg{InterfazUsada}{\In{r}{red}, \In{c_0}{compu},  \In{c_1}{compu}}{interfaz}'
+    pnr0:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c0.ip)                          '\ote{L}' 
+    it :itDicc(itDicc(interfaz, puntero(nodoRed)) $\leftarrow$ CrearIt(pnr0.conexiones)   '\ote{1}' 
+    while HaySiguiente?(it) do                                                            '\ote{L}'
+      if c1.ip = SiguienteSignificado(it)$\rightarrow$c$\rightarrow$ip then               '\ote{?}'
+        res $\leftarrow$ SiguienteClave(it)                                               '\ote{1}'
+      end if
+      Avanzar(it)                                                                         '\ote{1}'
+    end while
+  '\ofi{O(1)}'
+\end{lstlisting}
 
+
+\begin{lstlisting}[mathescape]
+  '\alg{Vecinos}{\In{r}{red}, \In{c}{compu}}{conj(compu)}'
+    pnr:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c.ip)     
+    res $\leftarrow$  pnr$\rightarrow$conexiones                 
   '\ofi{O(1)}'
 \end{lstlisting}
