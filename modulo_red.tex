@@ -6,6 +6,8 @@
 
 \textbf{géneros}: \TipoVariable{red}.
 
+  ~
+
   \InterfazFuncion{IniciarRed}{}{red}
   [true]
   {$res$ $\igobs$ iniciarRed}
@@ -84,42 +86,64 @@
 
 \subsection{Representación}
 
-  \subsubsection{Estructura (?????????? esto no esta listo todavia)}
+  \subsubsection{Estructura}
 
     \begin{Estructura}{red}[estr]
 
       \begin{Tupla}[estr]
-        \tupItem{compus}{lista(nodoRed)}
-        \tupItem{dns}{dicc$_{Trie}$(string, puntero(nodoRed))}
+        \tupItem{compus}{conj(compu)}
+        \tupItem{\\dns}{dicc$_{Trie}$(ip, nodoRed)}
       \end{Tupla}
 
+      ~
+
       \begin{Tupla}[nodoRed]
-        \tupItem{c}{compu}
-        \tupItem{vecinos}{dicc$_{Lineal}$(nat, puntero(nodoRed))}
+        \tupItem{c}{puntero(compu)}
+        \tupItem{\\caminos}{dicc$_{Trie}$(ip, conj(lista(compu)))}
+        \tupItem{\\conexiones}{dicc$_{Lineal}$(interfaz, compu)}
       \end{Tupla}
+
 
     \end{Estructura}
 
 \subsubsection{Invariante de Representación}
+  \begin{enumerate}
 
+  \item Todas las compus deben tener IPs distintas.
 
-  % \begin{enumerate}
-  % \item bla
-  % \end{enumerate}
+  \item Ninguna compu se conecta con si misma.
 
-  % \Rep[estr][e]{
+  \item Ninguna compu se conecta a otra a traves de dos interfaces distintas.
+
+  \item El trie \TipoVariable{estr}.$dns$ apunta a un \TipoVariable{nodoRed}
+        por cada elemento de $compus$.
+
+  \item En cada \TipoVariable{nodoRed}, $c$ tiene que apuntar a un elemento de \TipoVariable{estr}.$compus$.
+
+  \item Para cada \TipoVariable{nodoRed}, $caminos$ tiene como claves todas las
+        IPs de las compus de la red, y los significados corresponden a todos los caminos
+        mínimos desde la compu $c$ hacia la compu cuya IP es clave.
+
+  \item \TipoVariable{nodoRed}.$conexiones$ contiene como claves todas las
+        \TipoVariable{interfaz} usaconedas de la compu $c$ (que tienen que estar en $c$.$interfaces$)
+
+  \end{enumerate}
+
+  \Rep[estr][e]{
+
   %   ($\forall a$: string)($a \in e$.estaciones $<=>$ def?($a$, $e$.restricciones) ) $\land$ \\
   %   ($\forall c$, $s$: string)(def?($c$, $e$.restricciones) $\impluego$ \\
   %   ($\neg$def?($c$, obtener($c$, $e$.restricciones)) $\land$ \\
   %   (def?($s$, obtener($c$, $e$.restricciones)) $\impluego$ (def?($s$, $e$) $\land$ $s < c$)))) $\land$ \\
   %   ($\forall c$, $s$: string)(def?($c$, $e$.restricciones) $\impluego$ \\
   %   (def?($s$, obtener($c$, $e$.restricciones)) <=> <$c$, $s$> $\in$ $e$.sendas))}\mbox{}
+  }
 
   \subsubsection{Función de Abstracción}
 
-  % \Abs[estr]{mapa}[e]{m}{
+   \Abs[estr]{red}[e]{r}{
     % m.estaciones $\igobs$ e.estaciones $\land$ \\
     % ($\forall c$, $s$: string)(($c$ $\in$ estaciones($e$) $\land$ $s$ $\in$ estaciones($e$) $\land$ $c < s$) $\Rightarrow$ \\
                               % ((def?($s$, obtener($c$, $e$)) $\igobs$ conectadas?($c$, $s$, $m$)) $\yluego$ \\
                               % (def?($s$, obtener($c$, $e$)) $\impluego$ (obtener($s$, obtener($c$, $e$)) $\igobs$ restriccion($c$, $s$, $m$)))))
-  % }
+   }
