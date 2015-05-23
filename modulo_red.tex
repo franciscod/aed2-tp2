@@ -218,4 +218,21 @@
   '\ofi{O(1)}'
 \end{lstlisting}
 
+\begin{lstlisting}[mathescape]
+  '\alg{copiar}{\In{r}{red}}{red}'
+    auxR:red $\leftarrow$ iIniciarRed
+    auxR.dns $\leftarrow$ r.dns
+    res $\leftarrow$ auxR                                
+  '\ofi{O(1)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+  '\alg{• = •}{\In{r_0}{red}, \In{r_1}{red}}{bool}'
+    eq:bool $\leftarrow$ (r0.compus = r1.compus)
+    eq $\leftarrow$ (r0.dns = r1.dns)
+    res $\leftarrow$ eq                               
+  '\ofi{O(1)}'
+\end{lstlisting}
+
+
  
