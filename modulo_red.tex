@@ -165,10 +165,11 @@
 
 \begin{lstlisting}[mathescape]
   '\alg{iAgregarComputadora}{\Inout{r}{red}, \In{c}{compu}}{itConj}'
-    DefinirRapido(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{?}'
+    Definir(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{?}'
     res $\leftarrow$ AgregarRapido(r.compus, c) '\ote{?}'
   '\ofi{O(?)}'
 \end{lstlisting}
+
 
 \begin{lstlisting}[mathescape]
   '\alg{iConectar}{\Inout{r}{red}, \In{c_0}{compu}, \In{c_1}{compu}, \In{i_0}{compu}, \In{i_1}{compu}}{}'
@@ -176,8 +177,84 @@
     pnr1:puntero(nodoRed) $\leftarrow$ Significado(r.dns, c1.ip) '\ote{?}'
     DefinirRapido(prn0$\rightarrow$conexiones, i0, *(pnr1$\rightarrow$c))'\ote{?}'
     DefinirRapido(pnr1$\rightarrow$conexiones, i1, *(pnr0$\rightarrow$c)) '\ote{?}'
-    // alctualizo los caminosMinimos ... Hardcore papa Hardcore !!! 
+    CrearCaminosDelDNS(r)
 
+  '\ofi{O(?)}'
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[mathescape]
+  '\alg{CrearCaminosDelDNS}{\Inout{r}{red}}{}'
+    itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus)
+    while HaySiguiente?(itCompus) do                                                    
+      nr:nodoRed $\leftarrow$ Significado(d,Siguiente(itCompus).ip)
+      AsignarCaminosMinimos(nr,r)
+      Avanzar(itCompus)
+    end while
+  '\ofi{O(?)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+  '\alg{AsignarCaminosMinimos}{\Inout{nr}{nodoRed}, , \In{r}{red}}{}'
+    itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus)
+    while HaySiguiente?(itCompus) do                                                    
+      Definir(nr.caminos, Siguiente(itCompus).ip, r
+        CrearCaminosMinimos(nr, Siguiente(itCompus).ip))
+      Avanzar(itCompus)
+    end while
+  '\ofi{O(?)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+  '\alg{CrearCaminosMinimos}{\In{desde}{nodoRed}, \In{r}{red}, \In{hasta}{compu}}{conj(lista(compu))}'
+    camMins:conj(lista(compu)) $\leftarrow$ Vacio()
+    itCamMins:itConj(conj(lista(compu))) $\leftarrow$ CrearIt(camMins)
+    pendientes:conj(nodoRed) $\leftarrow$ Vecinos(r.desde.ip)
+    visitados:conj(nodoRed) $\leftarrow$ Vacio()
+    itNrs:itConj(nodoRed) $\leftarrow$ CrearIt(pendientes)
+    cam:lista(compu) $\leftarrow$ Vacia()
+    AgregarAdelante(cam, *(desde.pc))
+    while HaySiguiente?(itNrs) do 
+      AgregarRapido(visitados,Siguiente(itNrs))
+      AgregarAdelante(cam, *(Siguiente(itNrs).pc))
+      if (Siguiente(itNrs).pc$\rightarrow$ip = hasta.ip) then
+        if (Vacio?(camMins) $\lor$ (Longitud(cam) = Longitud(Siguiente(itCamMins)))) then
+          AgregarRapido(camMins,cam)
+        else
+          if (Longitud(cam) < Longitud(Siguiente(itCamMins))) then
+            camMins $\leftarrow$ Vacio()
+            AgregarRapido(camMins,cam)
+          endif
+        endif
+        Comienzo(cam)
+      else
+        if(Vacia?(NoVisitadas(pendientes, Siguiente(itNrs), visitados, r)))
+          Comienzo(cam)
+        else
+          UnirConjs(pendientes, NoVisitadas(pendientes,
+           Siguiente(itNrs), visitados, r))
+        end if
+      end if
+      Avanzar(itNrs)
+    end while 
+  '\ofi{O(?)}'
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[mathescape]
+  '\alg{NoVisitadas}{\In{pendientes}{conj(nodoRed)},\In{nr}{nodoRed}, \In{visitados}{conj(nodoRed)},
+   \In{r}{red}}{conj(nodoRed)}'
+    news:conj(nodoRed) $\leftarrow$ Vecinos(r,nr.pc$\rightarrow$ip)
+    itVecinos:itConj(nodoRed) $\leftarrow$ CrearIt(news)
+    res $\leftarrow$  Vacio()
+    while HaySiguiente?(itVecinos) do                                                    
+      if($\neg$Pertenece?(visitados,Siguiente(itVecinos))) then
+        AgregarRapido(res, Siguiente(itVecinos))
+      end if
+      Avanzar(itVecinos)
+    end while
   '\ofi{O(?)}'
 \end{lstlisting}
 
