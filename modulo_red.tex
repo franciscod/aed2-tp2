@@ -120,14 +120,14 @@
 
       \begin{Tupla}[estr]
         \tupItem{compus}{conj(compu)}
-        \tupItem{\\dns}{dicc$_{Trie}$(string, nodoRed)}
+        \tupItem{\\dns}{dicc$_{Trie}$(nodoRed)}
       \end{Tupla}
 
       ~
 
       \begin{Tupla}[nodoRed]
         \tupItem{pc}{puntero(compu)}
-        \tupItem{\\caminos}{dicc$_{Trie}$(string, conj(lista(compu)))}
+        \tupItem{\\caminos}{dicc$_{Trie}$(conj(lista(compu)))}
         \tupItem{\\conexiones}{dicc$_{Lineal}$(nat, puntero(nodoRed))}
       \end{Tupla}
 
@@ -175,15 +175,15 @@
     )) $\land$ \\
 
     (($\forall i$: string, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
-    \- \- (($\forall t$: interfaz) (def?($t$, $n$.conexiones) $\implies$ ($t$ $\in$ $n$.pc$\rightarrow$interfaces))) \\
+    \- \- (($\forall t$: nat) (def?($t$, $n$.conexiones) $\implies$ ($t$ $\in$ $n$.pc$\rightarrow$interfaces))) \\
     )) $\land$ \\
 
     (($\forall i$: string, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
-    \- \- (($\forall t$: interfaz) (def?($t$, $n$.conexiones) $\impluego$ (obtener($t$, $n$.conexiones) $\neq$ puntero($n$))) ) \\
+    \- \- (($\forall t$: nat) (def?($t$, $n$.conexiones) $\impluego$ (obtener($t$, $n$.conexiones) $\neq$ puntero($n$))) ) \\
     )) $\land$ \\
 
     (($\forall i$: string, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
-    \- \- (($\forall t1, t2$: interfaz) (($t1 \neq t2$ $\land$ def?($t1$, $n$.conexiones) $\land$ def?($t2$, $n$.conexiones)) $\implies$ \\
+    \- \- (($\forall t1, t2$: nat) (($t1 \neq t2$ $\land$ def?($t1$, $n$.conexiones) $\land$ def?($t2$, $n$.conexiones)) $\implies$ \\
     \- \- \- \- (obtener($t1$, $n$.conexiones) $\neq$ obtener($t2$, $n$.conexiones)) \\
     \- \- )) \\
     )) $\land$ \\
