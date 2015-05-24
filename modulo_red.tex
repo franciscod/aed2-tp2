@@ -13,16 +13,15 @@
   {$res$ $\igobs$ iniciarRed}
   [$O(1)$]
   [Crea una red nueva]
-  []
+  
 
   ~
 
-  \InterfazFuncion{AgregarComputadora}{\Inout{r}{red}, \In{c}{compu} }{}
+  \InterfazFuncion{AgregarComputadora}{\Inout{r}{red}, \In{c}{compu}}{}
   [($r$ \igobs $r_0$) $\land$ (($\forall$ $c'$: compu) ($c'$ $\in$ computadoras($r$) $\Rightarrow$  ip($c$) $\neq$  ip($c'$)))  ]
   {$r$ $\igobs$ agregarComputadora($r_0$, $c$)) }
   [$O(L + n)$]
   [Agrega un computadora a la red]
-  []
 
   ~
 
@@ -32,7 +31,6 @@
   {$r$ $\igobs$ conectar($r_0$, $c$, $i$, $c'$, $i'$))}
   [$O(L) ?$]
   [Conecta dos computadoras]
-  []
 
   ~
 
@@ -40,6 +38,8 @@
   [true]
   {$res$ \igobs computadoras($r$)}
   [$O(1)$]
+  [Devuelve las computadoras de la red]
+  [Devuelve una referancia no modificable]
 
   ~
 
@@ -47,6 +47,7 @@
   [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras($r$))]
   {$res$ \igobs conectadas?($r$, $c$, $c'$)}
   [$O(1)$]
+  [Indica si dos computadoras de la red estan conectadas]
 
   ~
 
@@ -54,6 +55,7 @@
   [conectadas?($r$, $c$, $c'$)]
   {$res$ \igobs interfazUsada($r$, $c$, $c'$)}
   [$O(L + n)$]
+  [Devuelve la interfaz con la cual se conecta c con c']
 
   ~
 
@@ -61,6 +63,8 @@
   [$c$ $\in$ computadoras($r$)]
   {$res$ \igobs vecinos($r$, $c$)}
   [$O(n)$]
+  [Devuelve el conjunto de computadoras conectadas con c]
+  [Devuelve una copia de las computadoras conectadas a c]
 
   ~
 
@@ -68,7 +72,7 @@
   [$c$ $\in$ computadoras($r$)]
   {$res$ \igobs usaInterfaz?($r$, $c$, $i$)}
   [$O(L + n)$]
-  
+  [Indica si la interfaz i es usada por la computadora c]
 
   ~
 
@@ -76,6 +80,9 @@
   [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
   {$res$ \igobs caminosMinimos($r$, $c$, $i$)}
   [$O(L)$]
+  [Devuelve el conjunto de caminos minimos de c a c']
+  [Devuelve una refencia no modificable]
+
 
   ~
 
@@ -83,16 +90,25 @@
   [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
   {$res$ \igobs hayCamino?($r$, $c$, $i$)}
   [$O(L)$]
+  [Indica si existe un/os camino/s c de a c']
+
+  ~
 
   \InterfazFuncion{copiar}{\In{r}{red}}{red}
   [true]
   {$res$ \igobs $r$}
-  [$O(copy(r))$]
+  [$O(?)$]
+  [Devuelve una copia la red]
+
+  ~
 
   \InterfazFuncion{• = •}{\In{r}{red}, \In{r'}{red}}{bool}
   [true]
-  {$res$ \igobs ($r$ = $r'$)}
-  [$O(equal(r,r'))$]
+  {$res$ \igobs ($r$ \igobs $r'$)}
+  [$O(?)$]
+  [Indica si son r es igual a r']
+
+  ~
 
 
 \subsection{Representación}
