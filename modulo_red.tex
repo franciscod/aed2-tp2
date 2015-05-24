@@ -170,25 +170,25 @@
     \- \- ( def?($c$.ip, $e$.dns) $\yluego$ obtener($c$.ip, $e$.dns).pc = puntero($c$) ) \\
     )) $\land$ \\
 
-    (($\forall i$: ip, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
+    (($\forall i$: string, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
     \- \- ($\exists c$: compu) ($c \in e$.compus $\land$ ($n$.pc = puntero($c$))) \\
     )) $\land$ \\
 
-    (($\forall i$: ip, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
+    (($\forall i$: string, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
     \- \- (($\forall t$: interfaz) (def?($t$, $n$.conexiones) $\implies$ ($t$ $\in$ $n$.pc$\rightarrow$interfaces))) \\
     )) $\land$ \\
 
-    (($\forall i$: ip, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
+    (($\forall i$: string, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
     \- \- (($\forall t$: interfaz) (def?($t$, $n$.conexiones) $\impluego$ (obtener($t$, $n$.conexiones) $\neq$ puntero($n$))) ) \\
     )) $\land$ \\
 
-    (($\forall i$: ip, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
+    (($\forall i$: string, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
     \- \- (($\forall t1, t2$: interfaz) (($t1 \neq t2$ $\land$ def?($t1$, $n$.conexiones) $\land$ def?($t2$, $n$.conexiones)) $\implies$ \\
     \- \- \- \- (obtener($t1$, $n$.conexiones) $\neq$ obtener($t2$, $n$.conexiones)) \\
     \- \- )) \\
     )) $\land$ \\
 
-    (($\forall i1, i2$: ip, $n1, n2$: nodoRed) (( \\
+    (($\forall i1, i2$: string, $n1, n2$: nodoRed) (( \\
     \- \- (def?($i1$, $e$.dns) $\yluego$ $n1$ = obtener($i1$, $e$.dns)) $\land$ \\
     \- \- (def?($i2$, $e$.dns) $\yluego$ $n2$ = obtener($i2$, $e$.dns)) \\
     \- ) $\implies$ obtener($i2$, $n1$.caminos) = caminosMinimos($n1$, $n2$) \\
