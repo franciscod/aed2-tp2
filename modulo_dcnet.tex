@@ -68,7 +68,7 @@
 \renewcommand{\labelenumi}{(\Roman{enumi})}
 
 \begin{enumerate}
-	\item Los elementos de vectorCompusDCNet son punteros a todas las compus de
+	\item Las compus de los elementos de vectorCompusDCNet son punteros a todas las compus de
 		la topología
 	\item Las claves de diccCompusDCNet son todos los hostnames de la topología
 	\item Los significados de diccCompusDCNet son punteros que apuntan a las
@@ -76,6 +76,7 @@
 	\item laQueMásEnvió es un puntero a la compuDCNet en vectorCompusDCNet que
 		más paquetes enviados tiene. Si no hay compus es NULL
 	\item Todos los paquetes en conjPaquetes de cada compuDCNet tienen id único
+		y tanto su origen como destino existen en la topología
 	\item El paquete en conjPaquetes tiene que tener en su recorrido a la
 		compuDCNet en la que se encuentra y esta no puede ser igual al
 		destino del recorrido
@@ -85,8 +86,8 @@
 		paquete con el id equivalente a su clave y en recorrido, un camino
 		mínimo válido para el origen del paquete y la compu en la que se
 		encuentra
-	\item Si colaPaquetesDCNet no es vacía, su próximo es un puntero a un
-		paqueteDCNet de diccPaquetesDCNet que contiene un itConj cuyo siguiente
+	\item La colaPaquetesDCNet es vacía si y sólo si conjPaquetes lo es, si no
+		lo es, su próximo es un puntero a un paqueteDCNet de diccPaquetesDCNet que contiene un itConj cuyo siguiente
 		es uno de los paquetes de conjPaquetes con mayor prioridad
 	\item La cantidad de enviados de una compuDCNet es igual o mayor a la
 		cantidad de apariciones de esa compu en los caminos recorridos de
@@ -111,10 +112,10 @@
 	*($cd$.pc) = compuQueMásEnvió($e$.vectorCompusDCNet) $\land$ $e$.laQueMásEnvió = puntero($cd$)) $\yluego$\\
 	($\forall cd_1$: compuDCNet)(está?($cd_1$, $e$.vectorCompusDCNet) $\implies$ \\
 	\- ($\forall p_1$: paquete)($p_1$ $\in$ $cd_1$.conjPaquetes $\implies$ \\
-	\- \- ($\forall cd_2$: compuDCNet)(está?($cd_2$, $e$.vectorCompusDCNet) $\implies$ \\
-	\- \- \- ($\forall p_2$: paquete)($p_2$ $\in$ $cd_2$.conjPaquetes $\implies$ \\
-	\- \- \- \- $p_1$.id $\neq$ $p_2$.id \\
-	\- \- \- ) \\
+	\- \- ($\forall cd_2$: compuDCNet)((está?($cd_2$, $e$.vectorCompusDCNet)
+		$\land$ $cd_1$ $\neq$ $cd_2$) $\implies$ \\
+	\- \- \- ($\forall p_2$: paquete)($p_2$ $\in$ $cd_2$.conjPaquetes $\implies$
+		$p_1$.id $\neq$ $p_2$.id) \\
 	\- \- ) \\
 	\- ) \\
 	) $\yluego$ \\
@@ -132,20 +133,23 @@
 	\- \- \- \- ($\exists n$: nat)
 		((def?($n$, $cd$.diccPaquetesDCNet) $\land$ $p$.id = $n$) $\yluego$ \\
 	\- \- \- \- (Siguiente(obtener($n$, $e$.diccPaquetesDCNet).it) = $p$ $\land$ \\
+	\- \- \- \- (($p$.origen = *($cd$.pc) $\land$ obtener($n$,
+		$e$.diccPaquetesDCNet).recorrido = *($cd$.pc) $\puntito$ <>) $\lor$ \\
+	\- \- \- \- ($p$.origen $\neq$ *($cd$.pc) $\land$ \\
 	\- \- \- \- obtener($n$, $e$.diccPaquetesDCNet).recorrido $\in$
-	caminosMinimos($e$.topologia, $p$.origen, *($cd$.pc)))) \\
+		caminosMinimos($e$.topologia, $p$.origen, *($cd$.pc)))) \\
 	\- \- \- ) \\
 	\- \- ) $\yluego$ \\
 	\- \- ($\emptyset$?($cd$.conjPaquetes) $\Leftrightarrow$
-		vacía?($cd$.colaPaquetesDCNet)) $\yluego$ \\
-	\- \- ($\neg$vacía?($cd$.colaPaquetesDCNet) $\implies$ \\
+		vacía?($cd$.colaPaquetesDCNet)) $\land$ \\
+	\- \- ($\neg$vacía?($cd$.colaPaquetesDCNet) $\impluego$ \\
 	\- \- \- ($\exists n$: nat)(def?($n$, $cd$.diccPaquetesDCNet) $\yluego$ \\
 	\- \- \- ( \\
 	\- \- \- \- Siguiente(obtener($n$, $cd$.diccPaquetesDCNet).it) = paqueteMásPrioridad($cd$.conjPaquetes) $\land$ \\
 	\- \- \- \- proximo($cd$.colaPaquetesDCNet) = puntero(obtener($n$,
 		$cd$.diccPaquetesDCNet)) \\
 	\- \- \- )) \\
-	\- \- ) $\yluego$ \\
+	\- \- ) $\land$ \\
 	\- \- ($cd$.enviados $\geq$ enviadosCompu(*($cd$.pc), $e$.vectorCompusDCNet)) \\
 	\- ) \\
 	)
