@@ -191,7 +191,7 @@
     (($\forall i1, i2$: string, $n1, n2$: nodoRed) (( \\
     \- \- (def?($i1$, $e$.dns) $\yluego$ $n1$ = obtener($i1$, $e$.dns)) $\land$ \\
     \- \- (def?($i2$, $e$.dns) $\yluego$ $n2$ = obtener($i2$, $e$.dns)) \\
-    \- ) $\implies$ obtener($i2$, $n1$.caminos) = caminosMinimos($n1$, $n2$) \\
+    \- ) $\implies$ obtener($i2$, $n1$.caminos) = darCaminosMinimos($n1$, $n2$) \\
     )) \\
 
 
@@ -208,7 +208,7 @@
 
 \tadOperacion{darRutas}{nodoRed/nA, nodoRed/nB, conj(pc), secu(segmento)}{conj(secu(segmento))}{}
 \tadOperacion{darRutasVecinas}{conj(pc)/vec, nodoRed/n, conj(pc), secu(segmento)}{conj(secu(segmento))}{}
-\tadOperacion{caminosMinimos}{nodoRed/n1, nodoRed/n1}{conj(secu(compu))}{}
+\tadOperacion{darCaminosMinimos}{nodoRed/n1, nodoRed/n1}{conj(secu(compu))}{}
 
 ~
 
@@ -275,7 +275,7 @@
 	FI
 }
 
-\tadAxioma{caminosMinimos($nA$, $nB$)}{
+\tadAxioma{darCaminosMinimos($nA$, $nB$)}{
 	secusDeLongK(darRutas($nA$, $nB$, $\emptyset$, <>), \\
 	longMenorSec(darRutas($nA$, $nB$, $\emptyset$, <>))
 }
