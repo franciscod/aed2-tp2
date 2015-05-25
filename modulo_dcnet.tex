@@ -145,9 +145,6 @@
 		if($\neg$EsVacia?(dcn.vectorCompusDCNet[i].colaPaquetesDCNet)) then
 			dcn.vectorCompusDCNet[i].paqueteAEnviar $\leftarrow$ 
 				DESENCOLAR(dcn.vectorCompusDCNet[i].colaPaquetesDCNet) '\ote{log(k)}'
-			BORRAR(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
-				Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it).id) '\ote{log(k)}'
-			EliminarSiguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it) '\ote{1}'
 		end if
 		i++ '\ote{1}'
 	end while '\ote{n * log(k)}'
@@ -183,6 +180,9 @@
 					siguientecompu.ip ,
 					*(dcn.vectorCompusDCNet[i].paqueteAEnviar)) '\ote{log(k)}'
 			end if
+			BORRAR(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
+				Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it).id) '\ote{log(k)}'
+			EliminarSiguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it) '\ote{1}'
 			dcn.vectorCompusDCNet[i].paqueteAEnviar $\leftarrow$ NULL '\ote{1}'
 		end if
 		i++ '\ote{1}'
