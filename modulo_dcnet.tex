@@ -109,11 +109,10 @@
     end if
 
     while HaySiguiente?(it) do '\ote{1}'
-    	ESTAVASINOESPUNTERO paqueteDCNet: paquetedcnet $\leftarrow$ <CrearIt($\emptyset$), Vacia()>	'\ote{1}'
     	compuDCNet: compudcnet $\leftarrow$ <puntero(Siguiente(it)), $\emptyset$, CREARDICCAVL(), 
     							   Vacia(), NULL, 0> '\ote{1}'
     	AgregarAtras(res.vectorCompusDCNet, compudcnet) '\ote{n}'
-    	DEFINIR(res.diccCompusDCNet, Siguiente(it).ip, puntero(compudcnet)) 
+    	definir(res.diccCompusDCNet, Siguiente(it).ip, puntero(compudcnet)) 
     		'\ote{L}'
     	Avanzar(it) '\ote{1}'
     end while '\ote{n * (n + L)}'
@@ -130,8 +129,8 @@
 		'\ote{copy(compu)}'
 	lista(compu): recorr $\leftarrow$ AgregarAtras(Vacia(), p.origen) '\ote{1}'
 	paqueteDCNet: paquetedcnet $\leftarrow$ <itpaquete, recorr> '\ote{1}'
-	DEFINIR(compudcnet$\rightarrow$diccPaquetesDCNet, paquetedcnet) '\ote{log(k)}'
-	ENCOLAR(compudcnet$\rightarrow$colaPaquetesDCNet, puntero(paquetedcnet)) '\ote{log(k)}'
+	definir(compudcnet$\rightarrow$diccPaquetesDCNet, paquetedcnet) '\ote{log(k)}'
+	encolar(compudcnet$\rightarrow$colaPaquetesDCNet, puntero(paquetedcnet)) '\ote{log(k)}'
 
 '\ofi{O(log(k) + L)}'
 \end{lstlisting}
@@ -144,7 +143,7 @@
 	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
 		if($\neg$EsVacia?(dcn.vectorCompusDCNet[i].colaPaquetesDCNet)) then
 			dcn.vectorCompusDCNet[i].paqueteAEnviar $\leftarrow$ 
-				DESENCOLAR(dcn.vectorCompusDCNet[i].colaPaquetesDCNet) '\ote{log(k)}'
+				desencolar(dcn.vectorCompusDCNet[i].colaPaquetesDCNet) '\ote{log(k)}'
 		end if
 		i++ '\ote{1}'
 	end while '\ote{n * log(k)}'
@@ -154,33 +153,34 @@
 		if(dcn.vectorCompusDCNet[i].paqueteAEnviar $\neq$ NULL) then '\ote{1}'
 			dcn.vectorCompusDCNet[i].enviados++ '\ote{1}'
 
-			paquete: paqAEnviar $\leftarrow$ 
+			paquete: pAEnviar $\leftarrow$ 
 				Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it) '\ote{copy(compu)}'
 			itConj(lista(compu)): itercaminos $\leftarrow$ 
 				CrearIt(CaminosMinimos(dcn.topologia, 
-				*(dcn.vectorCompusDCNet[i].pc), paqAEnviar.destino)) '\ote{1}'
+				*(dcn.vectorCompusDCNet[i].pc), pAEnviar.destino)) '\ote{1}'
 			compu: siguientecompu $\leftarrow$ Primero(Siguiente(itercaminos)) '\ote{1}'
 
-			if(paqAEnviar.destino $\neq$ siguientecompu) then '\ote{1}'
+			if(pAEnviar.destino $\neq$ siguientecompu) then '\ote{1}'
 
-				puntero(compuDCNet): siguientecompudcnet $\leftarrow$ 
-					OBTENER(dcn.diccCompusDCNet, siguientecompu.ip) '\ote{L}'
+				compuDCNet: siguientecompudcnet $\leftarrow$ 
+					*(obtener(dcn.diccCompusDCNet, siguientecompu.ip)) '\ote{L}'
 				
 				itConj(paquete): itpaquete $\leftarrow$ 
-					AgregarRapido(siguientecompudcnet$\rightarrow$conjPaquetes, paqAEnviar) 
+					AgregarRapido(siguientecompudcnet.conjPaquetes, pAEnviar) 
+						'\ote{copy(compu)}'
+
+				paqueteDCNet: paqAEnviar $\leftarrow$ <itpaquete, 
+					Copiar(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$recorrido)> 
 						'\ote{copy(compu)}'
 				
-				dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it $\leftarrow$ itpaquete '\ote{1}'
-				AgregarAtras(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$recorrido, 
+				AgregarAtras(paqAEnviar.recorrido, 
 					siguientecompu) '\ote{copy(compu)}'
 
-				ENCOLAR(siguientecompudcnet$\rightarrow$colaPaquetesDCNet, 
-					dcn.vectorCompusDCNet[i].paqueteAEnviar) '\ote{log(k)}'
-				DEFINIR(siguientecompudcnet$\rightarrow$diccPaquetesDCNet, 
-					dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it$\rightarrow$id ,
-					*(dcn.vectorCompusDCNet[i].paqueteAEnviar)) '\ote{log(k)}'
+				encolar(siguientecompudcnet.colaPaquetesDCNet, *paqAEnviar) '\ote{log(k)}'
+				definir(siguientecompudcnet.diccPaquetesDCNet, pAEnviar.id,
+					paqAEnviar) '\ote{log(k)}'
 			end if
-			BORRAR(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
+			borrar(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
 				Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it).id) '\ote{log(k)}'
 			EliminarSiguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it) '\ote{1}'
 			dcn.vectorCompusDCNet[i].paqueteAEnviar $\leftarrow$ NULL '\ote{1}'
@@ -204,8 +204,8 @@
 	
 	nat: i $\leftarrow$ 0 '\ote{1}'
 	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
-		if DEF?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
-			res $\leftarrow$ OBTENER(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, 
+		if def?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
+			res $\leftarrow$ obtener(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, 
 				p.id)$\rightarrow$recorrido '\ote{log(k)}'
 		end if
 		i++ '\ote{1}'
@@ -217,7 +217,7 @@
 \begin{lstlisting}[mathescape]
 '\alg{CantidadEnviados}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}'
 	
-	res $\leftarrow$ OBTENER(dcn.diccCompusDCNet, c.ip)$\rightarrow$enviados '\ote{L}'
+	res $\leftarrow$ obtener(dcn.diccCompusDCNet, c.ip)$\rightarrow$enviados '\ote{L}'
 
 '\ofi{O(L)}'
 \end{lstlisting}
@@ -225,7 +225,7 @@
 \begin{lstlisting}[mathescape]
 '\alg{EnEspera}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}'
 	
-	res $\leftarrow$ OBTENER(dcn.diccCompusDCNet, c.ip)$\rightarrow$conjPaquetes '\ote{L}'
+	res $\leftarrow$ obtener(dcn.diccCompusDCNet, c.ip)$\rightarrow$conjPaquetes '\ote{L}'
 
 '\ofi{O(L)}'
 \end{lstlisting}
@@ -236,7 +236,7 @@
 	res $\leftarrow$ false
 	nat: i $\leftarrow$ 0 '\ote{1}'
 	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
-		if DEF?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
+		if def?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
 			res $\leftarrow$ true '\ote{1}'
 		end if
 		i++ '\ote{1}'
