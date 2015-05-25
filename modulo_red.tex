@@ -21,7 +21,8 @@
   [($r$ \igobs $r_0$) $\land$ (($\forall$ $c'$: compu) ($c'$ $\in$ computadoras($r$) $\Rightarrow$  ip($c$) $\neq$  ip($c'$)))  ]
   {$r$ $\igobs$ agregarComputadora($r_0$, $c$)) }
   [$O(L + n)$]
-  [Agrega un computadora a la red]
+  [Agrega una computadora a la red]
+  [La compu se agrega por copia]
 
   ~
 
@@ -31,6 +32,7 @@
   {$r$ $\igobs$ conectar($r_0$, $c$, $i$, $c'$, $i'$))}
   [$O(L) ?$]
   [Conecta dos computadoras]
+  [c y c' se reciben por referencia no modificable]
 
   ~
 
@@ -76,7 +78,7 @@
 
   ~
 
-  \InterfazFuncion{CaminosMinimos}{\In{r}{red}, \In{c}{compu}, \In{c'}{compu}}{conj(secu(compu))}
+  \InterfazFuncion{CaminosMinimos}{\In{r}{red}, \In{c}{compu}, \In{c'}{compu}}{conj(lista(compu))}
   [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
   {$res$ \igobs caminosMinimos($r$, $c$, $i$)}
   [$O(L)$]
@@ -90,7 +92,7 @@
   [($c$ $\in$ computadoras($r$)) $\land$ ($c'$ $\in$ computadoras(r))]
   {$res$ \igobs hayCamino?($r$, $c$, $i$)}
   [$O(L)$]
-  [Indica si existe un/os camino/s c de a c']
+  [Indica si existe algún camino entre c y c']
 
   ~
 
@@ -106,7 +108,7 @@
   [true]
   {$res$ \igobs ($r$ \igobs $r'$)}
   [$O(?)$]
-  [Indica si son r es igual a r']
+  [Indica si r es igual a r']
 
   ~
 
