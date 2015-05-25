@@ -158,18 +158,41 @@
 % La asignacion laQueMasEnvio <- NULL no se si esta bien porque si existe al menos una compu deberia devolver una, por mas que ninguna haya enviado todavia
 \begin{lstlisting}[mathescape]
   '\alg{iIniciarRed}{}{red}'
-    res.compus $\leftarrow$ Vacio() '\ote{?}'
-    res.dns $\leftarrow$ Vacio() '\ote{?}'
-  '\ofi{O(?)}'
+    res.compus $\leftarrow$ Vacio() '\ote{1}'
+    res.dns $\leftarrow$ Vacio() '\ote{1}'
+  '\ofi{O(1)}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
   '\alg{iAgregarComputadora}{\Inout{r}{red}, \In{c}{compu}}{}'
-    Definir(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{?}'
+    AgregoCompuNuevaAlResto(r.dns,c)
     AgregarRapido(r.compus, c) '\ote{?}'
+    Definir(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{1}'
+    GeneroCaminosDeCompuNueva(r,c)
   '\ofi{O(?)}'
 \end{lstlisting}
 
+\begin{lstlisting}[mathescape]
+  '\alg{AgregoCompuNuevaAlResto}{\Inout{r}{red}, \In{c}{compu}}{}'
+    itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus)
+    while HaySiguiente?(itCompus) do                                                    
+      nr:nodoRed $\leftarrow$ Significado(r.dns,Siguiente(itCompus).ip)
+      DefinirRapido(nr.caminos, c.ip, Vacio())
+      Avanzar(itCompus)
+    end while  
+  '\ofi{O(?)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+  '\alg{GeneroCaminosDeCompuNueva}{\Inout{r}{red}, \In{c}{compu}}{}'
+    itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus)
+    cams:diccTrie(ip,conj(lista(compu))) $\leftarrow$ Significado(r.dns, c.ip).caminos
+    while HaySiguiente?(itCompus) do                                                    
+      DefinirRapido(cams, Siguiente(itCompus).ip, Vacio())
+      Avanzar(itCompus)
+    end while
+  '\ofi{O(?)}'
+\end{lstlisting}
 
 \begin{lstlisting}[mathescape]
   '\alg{iConectar}{\Inout{r}{red}, \In{c_0}{compu}, \In{c_1}{compu}, \In{i_0}{compu}, \In{i_1}{compu}}{}'
