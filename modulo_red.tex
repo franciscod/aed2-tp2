@@ -182,7 +182,7 @@
   '\ofi{O(?)}'
 \end{lstlisting}
 
-\newpage
+
 
 \begin{lstlisting}[mathescape]
   '\alg{CrearCaminosDelDNS}{\Inout{r}{red}}{}'
@@ -205,20 +205,20 @@
     end while
   '\ofi{O(?)}'
 \end{lstlisting}
-
+\newpage
 \begin{lstlisting}[mathescape]
   '\alg{CrearCaminosMinimos}{\In{desde}{nodoRed}, \In{hasta}{compu}}{conj(lista(compu))}'
     camMins:conj(lista(compu)) $\leftarrow$ Vacio()
     itCamMins:itConj(conj(lista(compu))) $\leftarrow$ CrearIt(camMins)
-    pendientes:conj(nodoRed) $\leftarrow$ Conexas(desde.conexiones)
+    pendientes:pila(nodoRed) $\leftarrow$ Vacia()
+    ApilarConj(pendientes, Conexas(desde.conexiones))
     visitados:conj(nodoRed) $\leftarrow$ Vacio()
-    itNrs:itConj(nodoRed) $\leftarrow$ CrearIt(pendientes)
     cam:lista(compu) $\leftarrow$ Vacia()
     AgregarAdelante(cam, *(desde.pc))
-    while HaySiguiente?(itNrs) do 
+    while $\neg$EsVacia?(pendientes) do 
       AgregarRapido(visitados,Siguiente(itNrs))
       AgregarAdelante(cam, *(Siguiente(itNrs).pc))
-      if (Siguiente(itNrs).pc$\rightarrow$ip = hasta.ip) then
+      if (Tope(pendientes).pc$\rightarrow$ip = hasta.ip) then
         if (Vacio?(camMins) $\lor$ (Longitud(cam) = Longitud(Siguiente(itCamMins)))) then
           AgregarRapido(camMins,cam)
         else
@@ -228,14 +228,13 @@
           endif
         endif
         Comienzo(cam)
-      else
-        if(Vacia?(NoVisitadas(pendientes, Siguiente(itNrs), visitados, r)))
-          Comienzo(cam)
-        else
-          UnirConjs(pendientes, NoVisitadas(Siguiente(itNrs), visitados))
-        end if
       end if
-      Avanzar(itNrs)
+      Desapilar(pendientes)
+      if(Vacia?(NoVisitadas(Tope(pendientes), visitados)))
+        Comienzo(cam)
+      else
+        ApilarConj(pendientes, NoVisitadas(Tope(pendientes), visitados))
+      end if
     end while 
   '\ofi{O(?)}'
 \end{lstlisting}
@@ -244,8 +243,8 @@
 
 \begin{lstlisting}[mathescape]
   '\alg{NoVisitadas}{\In{nr}{nodoRed}, \In{visitados}{conj(nodoRed)}}{conj(nodoRed)}'
-    itVecinos:itConj(nodoRed) $\leftarrow$ CrearIt(Conexas(nr.conexiones))
     res $\leftarrow$  Vacio()
+    itVecinos:itConj(nodoRed) $\leftarrow$ CrearIt(Conexas(nr.conexiones))
     while HaySiguiente?(itVecinos) do                                                    
       if($\neg$Pertenece?(visitados,Siguiente(itVecinos))) then
         AgregarRapido(res, Siguiente(itVecinos))
@@ -268,10 +267,10 @@
 
 
 \begin{lstlisting}[mathescape]
-  '\alg{UnirConjs}{\Inout{cnr}{conj(nodoRed)}, \In{news}{conj(nodoRed)}}{}'
+  '\alg{ApilarConj}{\Inout{pnr}{pila(nodoRed)}, \In{news}{conj(nodoRed)}}{}'
     it:itConj(nodoRed) $\leftarrow$ CrearIt(news)
     while HaySiguiente?(it) do                                                     
-      AgregarRapido(res, Siguiente(it))
+      Apilar(pnr, Siguiente(it))
       Avanzar(it)
     end while
   '\ofi{O(?)}'
