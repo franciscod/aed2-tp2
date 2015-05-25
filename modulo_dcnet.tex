@@ -237,3 +237,18 @@
 		}
 	FI
 }
+
+\subsubsection{Funci\'on de Abstracci\'on}
+  
+\Abs[estr]{dcnet}[e]{dcn}{
+red($dcn$) = $e$.topología $\land$ \\
+($\forall cdn$: compuDCNet)(está?($cdn$, $e$.vectorCompusDCNet) $\impluego$ \\
+\- enEspera($dcn$, *($cdn$.pc)) = $cdn$.conjPaquetes $\land$ \\
+\- cantidadEnviados($dcn$, *($cdn$.pc)) = $cdn$.enviados $\land$ \\
+\- ($\forall p$: paquete)($p$ $\in$ $cdn$.conjPaquetes $\impluego$ \\
+\- \- caminoRecorrido($dcn$, $p$) = obtener($p$.id, $cdn$.diccPaquetesDCNet).recorrido \\ 
+\- ) \\
+)
+}
+
+
