@@ -198,8 +198,8 @@
 
 \begin{lstlisting}[mathescape]
   '\alg{iConectar}{\Inout{r}{red}, \In{c_0}{compu}, \In{c_1}{compu}, \In{i_0}{compu}, \In{i_1}{compu}}{}'
-    nr0:nodoRed $\leftarrow$ Significado(r.dns, c0.ip) '\ote{|c0.ip|}'
-    nr1:nodoRed $\leftarrow$ Significado(r.dns, c1.ip) '\ote{|c1.ip|}'
+    nr0:nodoRed $\leftarrow$ Significado(r.dns, c0.ip) '\ote{L}'
+    nr1:nodoRed $\leftarrow$ Significado(r.dns, c1.ip) '\ote{L}'
     DefinirRapido(rn0.conexiones, i0, nr1)'\ote{1}'
     DefinirRapido(nr1.conexiones, i1, nr0) '\ote{1}'
     CrearCaminosDelDNS(r) '\ote{n!*(n$^4$)}'
