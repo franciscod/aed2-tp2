@@ -11,22 +11,21 @@
 \InterfazFuncion{IniciarDCNet}{\In{r}{red}}{dcnet}
 [true]
 {$res$ $\igobs$ iniciarDCNet($red$)}
-[$O(1)$]
-[crea una DCNet nueva]
+[$O(n * (n + L))$ donde n es es la cantidad de computadoras y L es la longitud de nombre de computadora mas larga]
+[crea una DCNet nueva tomando una red, generando tantas compuDCNet como compus en la red]
 []
+
 ~
 
 \InterfazFuncion{CrearPaquete}{\Inout{dcn}{dcnet}, \In{p}{paquete}}{}
-[$dcn$ $\igobs$ $dcn_0$ $\land$ \\
-$\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
-									id($p$) = id($p'$) $\land$ \\
-									origen($p$) $\in$ computadoras(red($dcn$)) $\yluego$ \\
-									destino($p$) $\in$ computadoras(red($dcn$)) $\yluego$ \\
-									hayCamino?(red($dcn$), origen($p$), destino($p$))))]
+[\\ \- $\qquad$ $dcn$ $\igobs$ $dcn_0$ $\land$
+\\ \- $\qquad$$\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ id($p$) = id($p'$) $\land$ origen($p$) $\in$ computadoras(red($dcn$)) $\yluego$
+\\ \- $\qquad$ \- $\qquad$ destino($p$) $\in$ computadoras(red($dcn$)) $\yluego$ hayCamino?(red($dcn$), origen($p$), destino($p$)))) \\]
 {$dcn$ $\igobs$ crearPaquete($dcn_0$)}
-[$O(L + log(k))$]
+[$O(L + log(k))$ donde L es la longitud de nombre de computadora mas larga y k es la longitud de la cola de paquetes mas larga]
 [crea un nuevo paquete]
 []
+
 ~
 
 \InterfazFuncion{AvanzarSegundo}{\Inout{dcn}{dcnet}}{}
@@ -35,6 +34,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 [$O(n * (L + log(k)))$]
 [avanza un segundo]
 []
+
 ~
 
 \InterfazFuncion{Red}{\In{dcn}{dcnet}}{red}
@@ -43,6 +43,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 [$O(1)$]
 [devuelve la red de una DCNet]
 []
+
 ~
 
 \InterfazFuncion{CaminoRecorrido}{\In{dcn}{dcnet}, \In{p}{paquete}}{secu(compu)}
@@ -51,6 +52,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 [$O(n * log(k))$]
 [devuelve el camino recorrido por un paquete]
 []
+
 ~
 
 \InterfazFuncion{CantidadEnviados}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}
@@ -59,6 +61,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 [$O(L)$]
 [devuelve la cantidad de paquetes enviados por una compu]
 []
+
 ~
 
 \InterfazFuncion{EnEspera}{\In{dcn}{dcnet}, \In{c}{compu}}{conj(paquete)}
@@ -67,6 +70,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 [$O(L)$]
 [devuelve la cola de paquetes de una compu]
 []
+
 ~
 
 \InterfazFuncion{PaqueteEnTransito}{\In{dcn}{dcnet}, \In{p}{paquete}}{bool}
@@ -75,6 +79,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 [$O(n * log(k))$]
 [indica si el paquete está en transito]
 []
+
 ~
 
 \InterfazFuncion{LaQueMasEnvio}{\In{dcn}{dcnet}}{compu}
@@ -83,6 +88,7 @@ $\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ \\
 [$O(1)$]
 [devuelve la compu que mas paquetes envió]
 []
+
 ~
 
 \subsection{Representación}
