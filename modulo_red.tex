@@ -286,11 +286,11 @@
   \tadAlinearFunciones{Abs}{Estr/e}
   \Abs[estr]{red}[e]{r}{
     $e$.compus $\igobs$ computadoras($r$) $\land$ \\
-    (($\forall$ $c1$, $c2$: compu, $i1$, $i2$: string, $n1$, $n2$: nodoRed) ( \\
+    (($\forall$ $c1$, $c2$: compu, $i1$, $i2$: string, $n1$, $n2$: nodoRed) ($c1$ $\neq$ $c2$ $\implies$ ( \\
         \- \- ($c1$ $\in$ $e$.compus $\land$ $i1$ = $c1$.ip $\land$ $n1$ = obtener($i1$, $e$.dns)) $\land$ \\
-        \- \- ($c2$ $\in$ $e$.compus $\land$ $i2$ = $c2$.ip $\land$ $n2$ = obtener($i2$, $e$.dns))
+        \- \- ($c2$ $\in$ $e$.compus $\land$ $i2$ = $c2$.ip $\land$ $n2$ = obtener($i2$, $e$.dns)))
         ) $\implies$ \\
         \- \- \- \- (conectadas?($r$, $c1$, $c2$) $\Leftrightarrow$ (def?($i2$, $n1$.conexiones) $\yluego$ obtener($i2$, $n1$.conexiones) = $n2$)) $\land$ \\
         \- \- \- \- (conectadas?($r$, $c1$, $c2$) $\impluego$ (def?(interfazUsada($r$, $c1$, $c2$), $n1$.conexiones) $\yluego$ \\
-        \- \- \- \- $n2$ = obtener(interfazUsada($r$, $c1$, $c2$), $n1$.conexiones))))
+        \- \- \- \- $\&n2$ = obtener(interfazUsada($r$, $c1$, $c2$), $n1$.conexiones))))
    }
