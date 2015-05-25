@@ -168,29 +168,29 @@
   '\alg{iAgregarComputadora}{\Inout{r}{red}, \In{c}{compu}}{}'
     AgregoCompuNuevaAlResto(r.dns,c)  '\ote{n*L}'
     AgregarRapido(r.compus, c) '\ote{1}'  
-    DefinirRapido(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{1}'
-    GeneroCaminosDeCompuNueva(r,c) '\ote{n}''
+    Definir(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{L}'
+    InicializarConjCaminos(r,c) '\ote{n}'
   '\ofi{O(n*L)}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
   '\alg{AgregoCompuNuevaAlResto}{\Inout{r}{red}, \In{c}{compu}}{}'
     itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus)   '\ote{1}'
-    while HaySiguiente?(itCompus) do                                                    
+    while HaySiguiente?(itCompus) do '\ote{1}'                                                   
       nr:nodoRed $\leftarrow$ Significado(r.dns,Siguiente(itCompus).ip) '\ote{L}'
-      DefinirRapido(nr.caminos, c.ip, Vacio()) '\ote{1}'
+      Definir(nr.caminos, c.ip, Vacio()) '\ote{L}'
       Avanzar(itCompus) '\ote{1}'
-    end while  '\ote{n}'
+    end while  '\ote{n*L}'
   '\ofi{O(n*L)}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-  '\alg{GeneroCaminosDeCompuNueva}{\Inout{r}{red}, \In{c}{compu}}{}'
+  '\alg{InicializarConjCaminos}{\Inout{r}{red}, \In{c}{compu}}{}'
     itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
     cams:diccTrie(ip,conj(lista(compu))) $\leftarrow$
      Significado(r.dns, c.ip).caminos   '\ote{1}'
-    while HaySiguiente?(itCompus) do                                                    
-      DefinirRapido(cams, Siguiente(itCompus).ip, Vacio())  '\ote{1}'
+    while HaySiguiente?(itCompus) do   '\ote{1}'                                                 
+      Definir(cams, Siguiente(itCompus).ip, Vacio())  '\ote{L}'
       Avanzar(itCompus) '\ote{1}'
     end while '\ote{n}'
   '\ofi{O(n)}'
@@ -209,22 +209,22 @@
 \begin{lstlisting}[mathescape]
   '\alg{CrearCaminosDelDNS}{\Inout{r}{red}}{}'
     itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
-    while HaySiguiente?(itCompus) do                                                    
+    while HaySiguiente?(itCompus) do  '\ote{1}'                                                  
       nr:nodoRed $\leftarrow$ Significado(d,Siguiente(itCompus).ip) '\ote{L}'
       AsignarCaminosMinimos(nr,r) '\ote{n!*(n$^3$)}'
       Avanzar(itCompus) '\ote{1}'
-    end while '\ote{n}'
+    end while '\ote{n!*(n$^4$)}'
   '\ofi{O(n!*(n^4))}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
   '\alg{AsignarCaminosMinimos}{\Inout{nr}{nodoRed}}{}'
     itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
-    while HaySiguiente?(itCompus) do                                                     
+    while HaySiguiente?(itCompus) do  '\ote{1}'                                                
       Definir(nr.caminos, Siguiente(itCompus).ip '\ote{L}'
         CrearCaminosMinimos(nr, Siguiente(itCompus).ip)) '\ote{n!*(n$^2$)}'
       Avanzar(itCompus) '\ote{1}'
-    end while '\ote{n}'
+    end while '\ote{n!*(n$^3$}'
   '\ofi{O(n!*(n^3))}'
 \end{lstlisting}
 
@@ -237,7 +237,7 @@
     visitados:conj(nodoRed) $\leftarrow$ Vacio() '\ote{1}'
     cam:lista(compu) $\leftarrow$ Vacia() '\ote{1}'
     AgregarAdelante(cam, *(desde.pc)) '\ote{1}'
-    while $\neg$EsVacia?(pendientes) do 
+    while $\neg$EsVacia?(pendientes) do  '\ote{1}'
       AgregarRapido(visitados,Siguiente(itNrs)) '\ote{1}'
       AgregarAdelante(cam, *(Siguiente(itNrs).pc)) '\ote{1}'
       if (Tope(pendientes).pc$\rightarrow$ip = hasta.ip) then '\ote{L}'
@@ -248,18 +248,18 @@
           if (Longitud(cam) < Longitud(Siguiente(itCamMins))) then '\ote{n}'
             camMins $\leftarrow$ Vacio() '\ote{1}'
             AgregarRapido(camMins,cam) '\ote{1}'
-          endif
-        endif
+          endif '\ote{n}'
+        endif '\ote{n}'
         Comienzo(cam) '\ote{1}'
-      end if
+      end if '\ote{n}'
       Desapilar(pendientes) '\ote{1}'
       nv:conj(nodoRed) $\leftarrow$ NoVisitadas(Tope(pendientes), visitados)  '\ote{n$^2$}'
       if(Vacia?(nv)) '\ote{(1}'
         Comienzo(cam)  '\ote{1}'
       else
-        ApilarConj(pendientes, nv) '\ote{(n}'
-      end if
-    end while '\ote{n!}'
+        ApilarConj(pendientes, nv) '\ote{n}'
+      end if '\ote{n}'
+    end while '\ote{n! * n$^2$}'
   '\ofi{O(n!*(n^2))}'
 \end{lstlisting}
 
@@ -268,12 +268,12 @@
   '\alg{NoVisitadas}{\In{nr}{nodoRed}, \In{visitados}{conj(nodoRed)}}{conj(nodoRed)}'
     res $\leftarrow$  Vacio() '\ote{1}'
     itVecinos:itConj(nodoRed) $\leftarrow$ CrearIt(Conexas(nr.conexiones)) '\ote{n}'
-    while HaySiguiente?(itVecinos) do                                                    
+    while HaySiguiente?(itVecinos) do  '\ote{1}'                                                   
       if($\neg$Pertenece?(visitados,Siguiente(itVecinos))) then '\ote{n}'
         AgregarRapido(res, Siguiente(itVecinos))  '\ote{1}'
-      end if
+      end if '\ote{n}'
       Avanzar(itVecinos) '\ote{1}'
-    end while '\ote{n}'
+    end while '\ote{n$^2$}'
   '\ofi{O(n^2)}'
 \end{lstlisting}
 
@@ -281,7 +281,7 @@
   '\alg{Conexas}{\In{conex}{dicc(interfaz,puntero(nodoRed))}}{conj(nodoRed)}'
     res $\leftarrow$ Vacio()  '\ote{1}'
     itVecinos :itDicc(interfaz, puntero(nodoRed))) $\leftarrow$ CrearIt(conex) '\ote{1}'
-    while HaySiguiente?(itVecinos) do                                                    
+    while HaySiguiente?(itVecinos) do '\ote{1}'                                                    
       AgregarRapido(res, *SiguienteSignificado(itVecinos)) '\ote{1}'
       Avanzar(itVecinos) '\ote{1}'
     end while '\ote{n}'
@@ -292,7 +292,7 @@
 \begin{lstlisting}[mathescape]
   '\alg{ApilarConj}{\Inout{pnr}{pila(nodoRed)}, \In{news}{conj(nodoRed)}}{}'
     it:itConj(nodoRed) $\leftarrow$ CrearIt(news) '\ote{1}'
-    while HaySiguiente?(it) do                                                     
+    while HaySiguiente?(it) do  '\ote{1}'                                                   
       Apilar(pnr, Siguiente(it)) '\ote{1}'
       Avanzar(it) '\ote{1}'
     end while '\ote{n}'
@@ -302,7 +302,7 @@
 
 \begin{lstlisting}[mathescape]
   '\alg{iComputadoras}{\In{r}{red}}{conj(compu)}'
-    res  $\leftarrow$ r.compus  '\ofi{O(1)}'
+    res  $\leftarrow$ r.compus  '\ote{1}'
   '\ofi{O(1)}'
 \end{lstlisting}
 
@@ -311,10 +311,10 @@
     nr0:nodoRed $\leftarrow$ Significado(r.dns, c0.ip) '\ote{L}' 
     it :itDicc(interfaz, puntero(nodoRed))) $\leftarrow$ CrearIt(nr0.conexiones) '\ote{1}' 
     res $\leftarrow$ false  '\ote{1}'
-    while HaySiguiente?(it) do  
+    while HaySiguiente?(it) do  '\ote{1}'
       if c1.ip = SiguienteSignificado(it)->pc->ip then  '\ote{1}'
         res $\leftarrow$ true   '\ote{1}'
-      end if
+      end if '\ote{1}'
       Avanzar(it) '\ote{1}'
     end while '\ote{n}'
   '\ofi{O(L + n)}'
@@ -325,10 +325,10 @@
     nr0:nodoRed $\leftarrow$ Significado(r.dns, c0.ip)  '\ote{L}' 
     it :itDicc(itDicc(interfaz, puntero(nodoRed)) 
       $\leftarrow$ CrearIt(nr0.conexiones)  '\ote{1}' 
-    while HaySiguiente?(it) do    
+    while HaySiguiente?(it) do  '\ote{1}'  
       if c1.ip = SiguienteSignificado(it)->pc->ip then '\ote{1}'
         res $\leftarrow$ SiguienteClave(it)   '\ote{1}'
-      end if
+      end if '\ote{1}'
       Avanzar(it)   '\ote{1}'
     end while '\ote{n}'
   '\ofi{O(L + n)}'
@@ -340,7 +340,7 @@
     res:conj(compu) $\leftarrow$ Vacio()  '\ote{1}'
     it :itDicc(itDicc(interfaz, puntero(nodoRed))  
       $\leftarrow$ CrearIt(nr.conexiones)  '\ote{1}'      
-    while HaySiguiente?(it) do  
+    while HaySiguiente?(it) do  '\ote{1}'
       AgregarRapido(res,*(SiguienteSignificado(it)->pc))  '\ote{1}'  
       Avanzar(it)  '\ote{1}'
     end while '\ote{n}'  
@@ -372,10 +372,10 @@
   '\alg{Copiar}{\In{r}{red}}{red}'
     res:red $\leftarrow$ iIniciarRed '\ote{1}' 
     itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
-     while HaySiguiente?(itCompus) do                                                  
+     while HaySiguiente?(itCompus) do '\ote{1}'                                                 
       iAgregarComputadora(res,Siguiente(itCompus))  '\ote{n*L}'
       iConectar(res,Siguiente(itCompus)) '\ote{n!*(n$^4$)}'
-    end while  '\ote{n}'                              
+    end while  '\ote{n!*(n$^5$)}'                              
   '\ofi{O(n!*(n^5))}'
 \end{lstlisting}
 
