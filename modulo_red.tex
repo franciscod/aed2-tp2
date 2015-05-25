@@ -183,7 +183,7 @@
     )) $\land$ \\
 
     (($\forall i$: string, $n$: nodoRed) ((def?($i$, $e$.dns) $\yluego$ $n$ = obtener($i$, $e$.dns)) $\implies$ \\
-    \- \- (($\forall t1, t2$: nat) (($t1 \neq t2$ $\land$ def?($t1$, $n$.conexiones) $\land$ def?($t2$, $n$.conexiones)) $\implies$ \\
+    \- \- (($\forall t1, t2$: nat) (($t1 \neq t2$ $\land$ def?($t1$, $n$.conexiones) $\land$ def?($t2$, $n$.conexiones)) $\impluego$ \\
     \- \- \- \- (obtener($t1$, $n$.conexiones) $\neq$ obtener($t2$, $n$.conexiones)) \\
     \- \- )) \\
     )) $\land$ \\
@@ -191,7 +191,7 @@
     (($\forall i1, i2$: string, $n1, n2$: nodoRed) (( \\
     \- \- (def?($i1$, $e$.dns) $\yluego$ $n1$ = obtener($i1$, $e$.dns)) $\land$ \\
     \- \- (def?($i2$, $e$.dns) $\yluego$ $n2$ = obtener($i2$, $e$.dns)) \\
-    \- ) $\implies$ obtener($i2$, $n1$.caminos) = darCaminosMinimos($n1$, $n2$) \\
+    \- ) $\implies$ (def?($i2$, $n1$.caminos) $\yluego$ obtener($i2$, $n1$.caminos) = darCaminosMinimos($n1$, $n2$)) \\
     )) \\
 
 
@@ -199,15 +199,15 @@
   }
 \mbox{}
 
-\tadAlinearFunciones{darCaminoMasCorto}{topologia, conj(pc), pc/ip, conj(pc), secu(segmento)}
+\tadAlinearFunciones{darCaminoMasCorto}{topologia, conj(pc), pc/ip, conj(pc), secu(nodoRed)}
 
 \tadOperacion{vecinas}{nodoRed}{conj(nodoRed)}{}
 \tadOperacion{auxVecinas}{nodoRed, dicc(nat, puntero(nodoRed))}{conj(nodoRed)}{}
 \tadOperacion{secusDeLongK}{conj(secu($\alpha$)), nat}{conj(secu($\alpha$))}{}
 \tadOperacion{longMenorSec}{conj(secu($\alpha$))/secus}{nat}{$\neg \emptyset?(secus)$}
 
-\tadOperacion{darRutas}{nodoRed/nA, nodoRed/nB, conj(pc), secu(segmento)}{conj(secu(segmento))}{}
-\tadOperacion{darRutasVecinas}{conj(pc)/vec, nodoRed/n, conj(pc), secu(segmento)}{conj(secu(segmento))}{}
+\tadOperacion{darRutas}{nodoRed/nA, nodoRed/nB, conj(pc), secu(nodoRed)}{conj(secu(nodoRed))}{}
+\tadOperacion{darRutasVecinas}{conj(pc)/vec, nodoRed/n, conj(pc), secu(nodoRed)}{conj(secu(nodoRed))}{}
 \tadOperacion{darCaminosMinimos}{nodoRed/n1, nodoRed/n1}{conj(secu(compu))}{}
 
 ~
