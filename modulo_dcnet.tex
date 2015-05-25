@@ -129,9 +129,9 @@
 	itConj(paquete): itpaquete $\leftarrow$ AgregarRapido(compudcnet$\rightarrow$conjPaquetes, p) 
 		'\ote{copy(compu)}'
 	lista(compu): recorr $\leftarrow$ AgregarAtras(Vacia(), p.origen) '\ote{1}'
-	puntero(paqueteDCNet): paquetedcnet $\leftarrow$ puntero(<itpaquete, recorr>) '\ote{1}'
-	DEFINIR(compudcnet$\rightarrow$diccPaquetesDCNet, *paquetedcnet) '\ote{log(k)}'
-	ENCOLAR(compudcnet$\rightarrow$colaPaquetesDCNet, paquetedcnet) '\ote{log(k)}'
+	paqueteDCNet: paquetedcnet $\leftarrow$ <itpaquete, recorr> '\ote{1}'
+	DEFINIR(compudcnet$\rightarrow$diccPaquetesDCNet, paquetedcnet) '\ote{log(k)}'
+	ENCOLAR(compudcnet$\rightarrow$colaPaquetesDCNet, puntero(paquetedcnet)) '\ote{log(k)}'
 
 '\ofi{O(log(k) + L)}'
 \end{lstlisting}
@@ -177,7 +177,7 @@
 				ENCOLAR(siguientecompudcnet$\rightarrow$colaPaquetesDCNet, 
 					dcn.vectorCompusDCNet[i].paqueteAEnviar) '\ote{log(k)}'
 				DEFINIR(siguientecompudcnet$\rightarrow$diccPaquetesDCNet, 
-					siguientecompu.ip ,
+					dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it$\rightarrow$id ,
 					*(dcn.vectorCompusDCNet[i].paqueteAEnviar)) '\ote{log(k)}'
 			end if
 			BORRAR(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
