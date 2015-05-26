@@ -1,0 +1,42 @@
+\section{Módulo Trie($\alpha$)}
+
+\subsection{Interfaz}
+
+\textbf{se explica con}: \tadNombre{Diccionario(string, $\alpha$)}.
+\textbf{géneros}: \TipoVariable{dicc$_{Trie}$$(\alpha)$}.
+
+~
+
+\InterfazFuncion{CrearDicc}{}{dicc$_{Trie}$$(\alpha)$}%
+[true]
+{$res$ $\igobs$ vacío}
+[$O(1)$]
+[Crea un diccionario vacío.]
+[]
+
+~
+
+\InterfazFuncion{Definido?}{\In{c}{string}, \In{d}{dicc$_{Trie}$$(\alpha)$})}{bool}
+[true]
+{$res$ $\igobs$ def?($c$, $d$)}
+[$O(L)$]
+[Devuelve true si la clave está definida en el diccionario y false en caso contrario.]
+[]
+
+~
+
+\InterfazFuncion{Definir}{\In{c}{string}, \In{s}{$\alpha$}, \Inout{d}{dicc$_{Trie}$$(\alpha)$}}{}
+[$ d \igobs d_0 $]
+{$ d \igobs$ definir($c$, $s$, $d_0$)}
+[$O(L)$ ]
+[Define la clave $c$ con el significado $s$]
+[Almacena una copia de $s$.]
+
+~
+
+\InterfazFuncion{Obtener}{\In{c}{string}, \In{d}{dicc$_{Trie}$($\alpha$)}}{$\alpha$}
+[def?($c$, $d$)]
+{alias($res$ $\igobs$ obtener($c$, $d$))}
+[$O(L)$]
+[Devuelve el significado correspondiente a la clave $c$.]
+[Devuelve el significado almacenado en el diccionario, por lo que $res$ es modificable si y sólo si $d$ lo es.]
