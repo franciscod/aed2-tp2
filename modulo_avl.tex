@@ -139,7 +139,7 @@
 		\tadAxioma{clavesDistintas($n$, $cs$)}{
 		($n$ $\neq$ NULL) $\impluego$ \\
 				\- $n$.clave $\notin$ $cs$ $\land$ \\
-				]clavesDistintas(prim($n$.hijos), Ag($n$.clave, $cs$)) $\land$ \\
+				clavesDistintas(prim($n$.hijos), Ag($n$.clave, $cs$)) $\land$ \\
 				clavesDistintas(ult($n$.hijos), Ag($n$.clave, $cs$))
 
 		}
@@ -151,7 +151,7 @@
 	}
 
 	~
-	
+
 	\tadAlinearFunciones{auxAbs}{puntero(nodoAvl), dicc(nat;\ $\alpha$)}
 	\tadAlinearAxiomas{auxAbs($n$, $d$)}
 
