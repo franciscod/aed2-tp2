@@ -24,6 +24,7 @@
 		\tupItem{topología}{red}%
 		\tupItem{\\ vectorCompusDCNet}{vector(compuDCNet)}%
 		\tupItem{\\ diccCompusDCNet}{dicc$_{trie}$(puntero(compuDCNet))}%
+		\tupItem{\\ conjPaquetesDCNet}{conj(paqueteDCNet)}%
 		\tupItem{\\ laQueMásEnvió}{puntero(compuDCNet)}%
 	\end{Tupla}
 
@@ -32,9 +33,9 @@
 	\begin{Tupla}[compuDCNet]
 		\tupItem{pc}{puntero(compu)}%
 		\tupItem{\\ conjPaquetes}{conj(paquete)}%
-		\tupItem{\\ diccPaquetesDCNet}{dicc$_{avl}$(nat, paqueteDCNet)}%
-		\tupItem{\\ colaPaquetesDCNet}{colaPrioridad(nat, puntero(paqueteDCNet))}%
-		\tupItem{\\ paqueteAEnviar}{paqueteDCNet}%
+		\tupItem{\\ diccPaquetesDCNet}{dicc$_{avl}$(nat, itConj(paqueteDCNet))}%
+		\tupItem{\\ colaPaquetesDCNet}{colaPrioridad(nat, itConj(paqueteDCNet))}%
+		\tupItem{\\ paqueteAEnviar}{itConj(paqueteDCNet)}%
 		\tupItem{enviados}{nat}%
 	\end{Tupla}
 
