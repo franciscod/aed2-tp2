@@ -1,4 +1,4 @@
-\section{Módulo dicc$_{avl}$($\alpha$)}
+\section{Módulo Diccionario AVL($\alpha$)}
 
 \subsection{Interfaz}
 
@@ -6,7 +6,7 @@
 
 \textbf{géneros}: \TipoVariable{dicc$_{avl}$($\alpha$)}.
 
-\subsubsection{Operaciones básicas de dicc$_{avl}$($\alpha$)}
+\subsubsection{Operaciones básicas de Diccionario AVL($\alpha$)}
 
 	\InterfazFuncion{CrearDicc}{}{dicc$_{avl}$($\alpha$)}
 	[true]
@@ -80,9 +80,9 @@
 
 		\- \- \- \- donde \TipoVariable{nodoAvl} es
 			\TipoVariable{tupla}(
-				$clave$: \TipoVariable{int},
+				$clave$: \TipoVariable{nat},
 				$data$: \TipoVariable{$\alpha$},
-				$altura$: \TipoVariable{int},
+				$balance$: \TipoVariable{int},
 				$hijos$: \TipoVariable{arreglo[2] de puntero(nodoAvl)}
 			)
 	\end{Estructura}
@@ -168,6 +168,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Algoritmos}
+
+\lstset{style=alg,columns=fixed,basewidth=.5em}
+
+\begin{lstlisting}[mathescape]
+'\alg{iInsertar}{\Inout{puntero(nodoAvl)}{tree}, \In{nat}{c}, \In{\alpha}{s}}{}'
+    if (tree->root == NULL) then
+    {
+        tree->root = make_node(data);
+
+        if (tree->root == NULL)
+        {
+            return 0;
+        }
+    }
+ 
+'\ofi{O(1)}'
+\end{lstlisting}
+
 
 \lstset{style=alg,columns=fixed,basewidth=.5em}
 
