@@ -140,6 +140,7 @@
 \begin{lstlisting}[mathescape]
 '\alg{iAvanzarSegundo}{\Inout{dcn}{dcnet}}{}'
 
+	nat: maxEnviados $\leftarrow$ 0
 	nat: i $\leftarrow$ 0 '\ote{1}'
 	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
 		if($\neg$EsVacia?(dcn.vectorCompusDCNet[i].colaPaquetesDCNet)) then
@@ -152,7 +153,11 @@
 	i $\leftarrow$ 0 '\ote{1}'
 	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
 		if(HaySiguiente?(dcn.vectorCompusDCNet[i].paqueteAEnviar)) then '\ote{1}'
+
 			dcn.vectorCompusDCNet[i].enviados++ '\ote{1}'
+			if(dcn.vectorCompusDCNet[i].enviados > maxEnviados) then '\ote{1}'
+				dcn.laQueMasEnvio $\leftarrow$ puntero(dcn.vectorCompusDCNet[i]) '\ote{1}'
+			end if
 
 			paquete: pAEnviar $\leftarrow$ 
 				Siguiente(Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar).it) '\ote{1}'
