@@ -171,7 +171,7 @@
 	\item La cantidad de enviados de una compuDCNet es igual o mayor a la
 		cantidad de apariciones de esa compu en los caminos recorridos de
 		paquetes en la red
-	\item El paquete a enviar de cada compuDCNet es un iterador a un conjunto vacio
+	\item El paquete a enviar de cada compuDCNet es un iterador que no tiene siguiente
 \end{enumerate}
 
 \pagebreak
@@ -231,10 +231,10 @@
 	\- \- \- \-	(Siguiente(proximo($cd$.colaPaquetesDCNet)) = $pdn$)) \\
 	\- \- \- ) \\
 	\- \- ) $\yluego$ \\
-	\- \- ($cd$.enviados $\geq$ enviadosCompu(*($cd$.pc), $e$.vectorCompusDCNet)) \\
+	\- \- ($cd$.enviados $\geq$ enviadosCompu(*($cd$.pc), $e$.vectorCompusDCNet)) $\land$\\
+	\- \- ($\neg$HaySiguiente?(cd.paqueteAEnviar))
 	\- ) \\
-	) $\land$ \\
-	($\forall cd$: compuDCNet)(está?($cd$, $e$.vectorCompusDCNet) $\implies$ $\neg$HaySiguiente?(cd.paqueteAEnviar))
+	)
 }\mbox{}
 
 \tadOperacion{compuQueMásEnvió}{secu(compuDCNet)/scd}{compu}{$\neg$vacía?($scd$)}
