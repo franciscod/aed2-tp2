@@ -299,7 +299,7 @@
 \subsection{Algoritmos}
 
 \lstset{style=alg}
-% La asignacion laQueMasEnvio <- NULL no se si esta bien porque si existe al menos una compu deberia devolver una, por mas que ninguna haya enviado todavia
+
 \begin{lstlisting}[mathescape]
   '\alg{iIniciarRed}{}{red}'
     res.compus $\leftarrow$ Vacio() '\ote{1}'
@@ -331,7 +331,7 @@
   '\alg{InicializarConjCaminos}{\Inout{r}{red}, \In{c}{compu}}{}'
     itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
     cams:diccTrie(ip,conj(lista(compu))) $\leftarrow$
-     Significado(r.dns, c.ip).caminos   '\ote{1}'
+     Significado(r.dns, c.ip).caminos   '\ote{L}'
     while HaySiguiente?(itCompus) do   '\ote{1}'                                                 
       Definir(cams, Siguiente(itCompus).ip, Vacio())  '\ote{L}'
       Avanzar(itCompus) '\ote{1}'
@@ -343,14 +343,14 @@
   '\alg{iConectar}{\Inout{r}{red}, \In{c_0}{compu}, \In{c_1}{compu}, \In{i_0}{compu}, \In{i_1}{compu}}{}'
     nr0:nodoRed $\leftarrow$ Significado(r.dns, c0.ip) '\ote{L}'
     nr1:nodoRed $\leftarrow$ Significado(r.dns, c1.ip) '\ote{L}'
-    DefinirRapido(rn0.conexiones, i0, nr1)'\ote{1}'
+    DefinirRapido(nr0.conexiones, i0, nr1)'\ote{1}'
     DefinirRapido(nr1.conexiones, i1, nr0) '\ote{1}'
-    CrearCaminosDelDNS(r) '\ote{n!*(n$^4$)}'
+    CrearTodosLosCaminos(r) '\ote{n!*(n$^4$)}'
   '\ofi{O(n!*(n^4))}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-  '\alg{CrearCaminosDelDNS}{\Inout{r}{red}}{}'
+  '\alg{CrearTodosLosCaminos}{\Inout{r}{red}}{}'
     itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
     while HaySiguiente?(itCompus) do  '\ote{1}'                                                  
       nr:nodoRed $\leftarrow$ Significado(d,Siguiente(itCompus).ip) '\ote{L}'
@@ -361,7 +361,7 @@
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-  '\alg{AsignarCaminosMinimos}{\Inout{nr}{nodoRed}}{}'
+  '\alg{AsignarCaminosMinimos}{\Inout{nr}{nodoRed},\In{r}{red}}{}'
     itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
     while HaySiguiente?(itCompus) do  '\ote{1}'                                                
       Definir(nr.caminos, Siguiente(itCompus).ip '\ote{L}'
@@ -381,8 +381,8 @@
     cam:lista(compu) $\leftarrow$ Vacia() '\ote{1}'
     AgregarAdelante(cam, *(desde.pc)) '\ote{1}'
     while $\neg$EsVacia?(pendientes) do  '\ote{1}'
-      AgregarRapido(visitados,Siguiente(itNrs)) '\ote{1}'
-      AgregarAdelante(cam, *(Siguiente(itNrs).pc)) '\ote{1}'
+      AgregarRapido(visitados,Tope(pendientes)) '\ote{1}'
+      AgregarAdelante(cam, *(Tope(pendientes).pc)) '\ote{1}'
       if (Tope(pendientes).pc$\rightarrow$ip = hasta.ip) then '\ote{L}'
         if (Vacio?(camMins) $\lor$ (Longitud(cam) = Longitud(Siguiente
           (itCamMins)))) then '\ote{n}'
