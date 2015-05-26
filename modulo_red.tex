@@ -382,7 +382,7 @@
     AgregarAdelante(cam, *(desde.pc)) '\ote{1}'
     while $\neg$EsVacia?(pendientes) do  '\ote{1}'
       AgregarRapido(visitados,Tope(pendientes)) '\ote{1}'
-      AgregarAdelante(cam, *(Tope(pendientes).pc)) '\ote{1}'
+      AgregarAtraz(cam, *(Tope(pendientes).pc)) '\ote{1}'
       if (Tope(pendientes).pc$\rightarrow$ip = hasta.ip) then '\ote{L}'
         if (Vacio?(camMins) $\lor$ (Longitud(cam) = Longitud(Siguiente
           (itCamMins)))) then '\ote{n}'
