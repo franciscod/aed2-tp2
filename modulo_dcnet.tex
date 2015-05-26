@@ -110,11 +110,10 @@
     end if
 
     while HaySiguiente?(it) do '\ote{1}'
-    	compuDCNet: compudcnet $\leftarrow$ <puntero(Siguiente(it)), Vacio(), CrearDicc(), 
-    							   Vacia(), NULL, 0> '\ote{1}'
+    	compuDCNet: compudcnet $\leftarrow$ 
+    		<puntero(Siguiente(it)), Vacio(), CrearDicc(), Vacia(), NULL, 0> '\ote{1}'
     	AgregarAtras(res.vectorCompusDCNet, compudcnet) '\ote{n}'
-    	Definir(res.diccCompusDCNet, Siguiente(it).ip, puntero(compudcnet)) 
-    		'\ote{L}'
+    	Definir(res.diccCompusDCNet, Siguiente(it).ip, puntero(compudcnet)) '\ote{L}'
     	Avanzar(it) '\ote{1}'
     end while '\ote{n * (n + L)}'
 
@@ -156,7 +155,7 @@
 			dcn.vectorCompusDCNet[i].enviados++ '\ote{1}'
 
 			paquete: pAEnviar $\leftarrow$ 
-				Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it) '\ote{copy(compu)}'
+				Siguiente(Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar).it) '\ote{1}'
 			itConj(lista(compu)): itercaminos $\leftarrow$ 
 				CrearIt(CaminosMinimos(dcn.topologia, 
 				*(dcn.vectorCompusDCNet[i].pc), pAEnviar.destino)) '\ote{1}'
@@ -168,24 +167,27 @@
 					*(Obtener(dcn.diccCompusDCNet, siguientecompu.ip)) '\ote{L}'
 				
 				itConj(paquete): itpaquete $\leftarrow$ 
-					AgregarRapido(siguientecompudcnet.conjPaquetes, pAEnviar) 
-						'\ote{copy(compu)}'
+					AgregarRapido(siguientecompudcnet.conjPaquetes, pAEnviar) '\ote{1}'
 
-				paqueteDCNet: paqAEnviar $\leftarrow$ <itpaquete, 
-					Copiar(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$recorrido)> 
-						'\ote{copy(compu)}'
+				itConj(paqueteDCNet): paqAEnviar $\leftarrow$ 
+					Obtener(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, 
+					pAEnviar.id) '\ote{log(k)}'
 				
-				AgregarAtras(paqAEnviar.recorrido, 
-					siguientecompu) '\ote{copy(compu)}'
+				AgregarAtras(Siguiente(paqAEnviar).recorrido, siguientecompu) '\ote{1}'
 
-				Encolar(siguientecompudcnet.colaPaquetesDCNet, *paqAEnviar) '\ote{log(k)}'
+				Encolar(siguientecompudcnet.colaPaquetesDCNet, paqAEnviar) '\ote{log(k)}'
 				Definir(siguientecompudcnet.diccPaquetesDCNet, pAEnviar.id,
 					paqAEnviar) '\ote{log(k)}'
 			end if
-			borrar(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
+			
+			Borrar(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
 				Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it).id) '\ote{log(k)}'
-			EliminarSiguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it) '\ote{1}'
+			EliminarSiguiente(Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar).it) 
+				'\ote{1}'
+			EliminarSiguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar) '\ote{1}'
+
 			dcn.vectorCompusDCNet[i].paqueteAEnviar $\leftarrow$ NULL '\ote{1}'
+
 		end if
 		i++ '\ote{1}'
 	end while '\ote{n * (L + log(k))}'	
