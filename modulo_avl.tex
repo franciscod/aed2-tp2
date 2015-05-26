@@ -258,3 +258,31 @@
 	res $\leftarrow$ NULL		 '\ote{1}'
 '\ofi{O(1)}'
 \end{lstlisting}
+
+
+\begin{lstlisting}[mathescape]
+'\alg{Inorder}{\In{n}{puntero(nodoAvl)}}{lista(tupla(clave, significado))}'
+	c:puntero(nodoAvl) $\leftarrow$ n
+	p:pila(puntero(nodoAvl)) $\leftarrow$ Vacia()
+	done:bool $\leftarrow$ false
+	res $\leftarrow$ Vacia()
+
+	while (!done) do
+		if (c != NULL) then
+			Apilar(p, c)
+			c $\leftarrow$ (c$\rightarrow$hijos[0])
+		else
+			if !EsVacia?(p) then
+				AgregarAtras(res, << Tope(p)->clave, Tope(p)->data >>)
+				c $\leftarrow$ Tope(p)$\rightarrow$hijos[1]
+			else
+				done $\leftarrow$ true
+			end if
+		end if
+	end while
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{• = •}{\In{n1}{puntero(nodoAvl)}, \In{n2}{puntero(nodoAvl)}}{bool}'
+	res $\leftarrow$ Inorder(n1) = Inorder(n2)
+\end{lstlisting}
