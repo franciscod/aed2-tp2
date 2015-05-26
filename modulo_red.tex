@@ -376,7 +376,7 @@
     camMins:conj(lista(compu)) $\leftarrow$ Vacio() '\ote{1}'
     itCamMins:itConj(conj(lista(compu))) $\leftarrow$ CrearIt(camMins) '\ote{1}'
     pendientes:pila(nodoRed) $\leftarrow$ Vacia() '\ote{1}'
-    ApilarConj(pendientes, Conexas(desde.conexiones))  '\ote{n}'
+    ApilarConj(pendientes, NodosVecinos(desde.conexiones))  '\ote{n}'
     visitados:conj(nodoRed) $\leftarrow$ Vacio() '\ote{1}'
     cam:lista(compu) $\leftarrow$ Vacia() '\ote{1}'
     AgregarAdelante(cam, *(desde.pc)) '\ote{1}'
@@ -396,7 +396,7 @@
         Comienzo(cam) '\ote{1}'
       end if '\ote{n}'
       Desapilar(pendientes) '\ote{1}'
-      nv:conj(nodoRed) $\leftarrow$ NoVisitadas(Tope(pendientes), visitados)  '\ote{n$^2$}'
+      nv:conj(nodoRed) $\leftarrow$ VecinasNoVisitadas(Tope(pendientes), visitados)  '\ote{n$^2$}'
       if(Vacia?(nv)) '\ote{(1}'
         Comienzo(cam)  '\ote{1}'
       else
@@ -408,9 +408,9 @@
 
 
 \begin{lstlisting}[mathescape]
-  '\alg{NoVisitadas}{\In{nr}{nodoRed}, \In{visitados}{conj(nodoRed)}}{conj(nodoRed)}'
+  '\alg{VecinasNoVisitadas}{\In{nr}{nodoRed}, \In{visitados}{conj(nodoRed)}}{conj(nodoRed)}'
     res $\leftarrow$  Vacio() '\ote{1}'
-    itVecinos:itConj(nodoRed) $\leftarrow$ CrearIt(Conexas(nr.conexiones)) '\ote{n}'
+    itVecinos:itConj(nodoRed) $\leftarrow$ CrearIt(NodosVecinos(nr.conexiones)) '\ote{n}'
     while HaySiguiente?(itVecinos) do  '\ote{1}'                                                   
       if($\neg$Pertenece?(visitados,Siguiente(itVecinos))) then '\ote{n}'
         AgregarRapido(res, Siguiente(itVecinos))  '\ote{1}'
@@ -421,7 +421,7 @@
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-  '\alg{Conexas}{\In{conex}{dicc(interfaz,puntero(nodoRed))}}{conj(nodoRed)}'
+  '\alg{NodosVecinos}{\In{conex}{dicc(interfaz,puntero(nodoRed))}}{conj(nodoRed)}'
     res $\leftarrow$ Vacio()  '\ote{1}'
     itVecinos :itDicc(interfaz, puntero(nodoRed))) $\leftarrow$ CrearIt(conex) '\ote{1}'
     while HaySiguiente?(itVecinos) do '\ote{1}'                                                    
