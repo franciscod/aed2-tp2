@@ -99,8 +99,9 @@
 	
     res.topologia $\leftarrow$ Copiar(topo) '\ote{Fijarse en Copiar de Red}'
     res.vectorCompusDCNet $\leftarrow$ Vacia() '\ote{1}'
-    res.diccCompusDCNet $\leftarrow$ CREARDICCTRIE() '\ote{1}'
+    res.diccCompusDCNet $\leftarrow$ CrearDicc() '\ote{1}'
     res.laQueMasEnvio $\leftarrow$ NULL '\ote{1}'
+    res.conjPaquetesDCNet $\leftarrow$ Vacio() '\ote{1}'
 
     itConj(compu): it $\leftarrow$ CrearIt(Computadoras(topo)) '\ote{1}'
 
@@ -109,10 +110,10 @@
     end if
 
     while HaySiguiente?(it) do '\ote{1}'
-    	compuDCNet: compudcnet $\leftarrow$ <puntero(Siguiente(it)), $\emptyset$, CREARDICCAVL(), 
+    	compuDCNet: compudcnet $\leftarrow$ <puntero(Siguiente(it)), Vacio(), CrearDicc(), 
     							   Vacia(), NULL, 0> '\ote{1}'
     	AgregarAtras(res.vectorCompusDCNet, compudcnet) '\ote{n}'
-    	definir(res.diccCompusDCNet, Siguiente(it).ip, puntero(compudcnet)) 
+    	Definir(res.diccCompusDCNet, Siguiente(it).ip, puntero(compudcnet)) 
     		'\ote{L}'
     	Avanzar(it) '\ote{1}'
     end while '\ote{n * (n + L)}'
@@ -125,17 +126,18 @@
 	
 	puntero(compuDCNet): compudcnet $\leftarrow$ 
 		Significado(dcn.diccCompusDCNet, p.origen.ip) '\ote{L}'	
-	itConj(paquete): itpaquete $\leftarrow$ AgregarRapido(compudcnet$\rightarrow$conjPaquetes, p) 
-		'\ote{copy(compu)}'
+	itConj(paquete): itPaq $\leftarrow$ AgregarRapido(compudcnet$\rightarrow$conjPaquetes, p) '\ote{1}'
 	lista(compu): recorr $\leftarrow$ AgregarAtras(Vacia(), p.origen) '\ote{1}'
-	paqueteDCNet: paquetedcnet $\leftarrow$ <itpaquete, recorr> '\ote{1}'
-	definir(compudcnet$\rightarrow$diccPaquetesDCNet, paquetedcnet) '\ote{log(k)}'
-	encolar(compudcnet$\rightarrow$colaPaquetesDCNet, puntero(paquetedcnet)) '\ote{log(k)}'
+	paqueteDCNet: paqDCNet $\leftarrow$ <itPaq, recorr> '\ote{1}'
+
+	itConj(paqueteDCNet): itPaqDCNet $\leftarrow$ 
+		AgregarRapido(dcn.conjPaquetesDCNet, paqDCNet) '\ote{1}'
+	Definir(compudcnet$\rightarrow$diccPaquetesDCNet, itPaqDCNet) '\ote{log(k)}'
+	Encolar(compudcnet$\rightarrow$colaPaquetesDCNet, itPaqDCNet) '\ote{log(k)}'
 
 '\ofi{O(log(k) + L)}'
 \end{lstlisting}
 
-% hacer puntero paqueteAEnviar o agregar un booleano para poder saber si hay un paquete a enviar o no. Ahora esta implementado como puntero
 \begin{lstlisting}[mathescape]
 '\alg{iAvanzarSegundo}{\Inout{dcn}{dcnet}}{}'
 
@@ -143,7 +145,7 @@
 	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
 		if($\neg$EsVacia?(dcn.vectorCompusDCNet[i].colaPaquetesDCNet)) then
 			dcn.vectorCompusDCNet[i].paqueteAEnviar $\leftarrow$ 
-				desencolar(dcn.vectorCompusDCNet[i].colaPaquetesDCNet) '\ote{log(k)}'
+				Desencolar(dcn.vectorCompusDCNet[i].colaPaquetesDCNet) '\ote{log(k)}'
 		end if
 		i++ '\ote{1}'
 	end while '\ote{n * log(k)}'
@@ -163,7 +165,7 @@
 			if(pAEnviar.destino $\neq$ siguientecompu) then '\ote{1}'
 
 				compuDCNet: siguientecompudcnet $\leftarrow$ 
-					*(obtener(dcn.diccCompusDCNet, siguientecompu.ip)) '\ote{L}'
+					*(Obtener(dcn.diccCompusDCNet, siguientecompu.ip)) '\ote{L}'
 				
 				itConj(paquete): itpaquete $\leftarrow$ 
 					AgregarRapido(siguientecompudcnet.conjPaquetes, pAEnviar) 
@@ -176,8 +178,8 @@
 				AgregarAtras(paqAEnviar.recorrido, 
 					siguientecompu) '\ote{copy(compu)}'
 
-				encolar(siguientecompudcnet.colaPaquetesDCNet, *paqAEnviar) '\ote{log(k)}'
-				definir(siguientecompudcnet.diccPaquetesDCNet, pAEnviar.id,
+				Encolar(siguientecompudcnet.colaPaquetesDCNet, *paqAEnviar) '\ote{log(k)}'
+				Definir(siguientecompudcnet.diccPaquetesDCNet, pAEnviar.id,
 					paqAEnviar) '\ote{log(k)}'
 			end if
 			borrar(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
@@ -204,8 +206,8 @@
 	
 	nat: i $\leftarrow$ 0 '\ote{1}'
 	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
-		if def?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
-			res $\leftarrow$ obtener(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, 
+		if Definido?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
+			res $\leftarrow$ Obtener(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, 
 				p.id)$\rightarrow$recorrido '\ote{log(k)}'
 		end if
 		i++ '\ote{1}'
@@ -217,7 +219,7 @@
 \begin{lstlisting}[mathescape]
 '\alg{CantidadEnviados}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}'
 	
-	res $\leftarrow$ obtener(dcn.diccCompusDCNet, c.ip)$\rightarrow$enviados '\ote{L}'
+	res $\leftarrow$ Obtener(dcn.diccCompusDCNet, c.ip)$\rightarrow$enviados '\ote{L}'
 
 '\ofi{O(L)}'
 \end{lstlisting}
@@ -225,7 +227,7 @@
 \begin{lstlisting}[mathescape]
 '\alg{EnEspera}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}'
 	
-	res $\leftarrow$ obtener(dcn.diccCompusDCNet, c.ip)$\rightarrow$conjPaquetes '\ote{L}'
+	res $\leftarrow$ Obtener(dcn.diccCompusDCNet, c.ip)$\rightarrow$conjPaquetes '\ote{L}'
 
 '\ofi{O(L)}'
 \end{lstlisting}
@@ -236,7 +238,7 @@
 	res $\leftarrow$ false
 	nat: i $\leftarrow$ 0 '\ote{1}'
 	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
-		if def?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
+		if Definido?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
 			res $\leftarrow$ true '\ote{1}'
 		end if
 		i++ '\ote{1}'
