@@ -1,0 +1,79 @@
+\section{Módulo dicc$_{avl}$($\alpha$)}
+
+\subsection{Interfaz}
+
+\textbf{se explica con}: \tadNombre{Diccionario(nat, $\alpha$)}.
+
+\textbf{géneros}: \TipoVariable{dicc$_{avl}$($\alpha$)}.
+
+\subsubsection{Operaciones básicas de dicc$_{avl}$($\alpha$)}
+
+	\InterfazFuncion{CrearDicc}{}{dicc$_{avl}$($\alpha$)}
+	[true]
+	{$res$ $\igobs$ vacío}%
+	[$O(1)$]
+	[Crea un diccionario vacío]
+	[]
+
+	~
+
+	\InterfazFuncion{Definido?}{\In{c}{nat}, \In{d}{dicc$_{avl}$($\alpha$)})}{bool}
+	[true]
+	{$res$ $\igobs$ def?($c$, $d$)}
+	[$O(log(\#claves(d)))$]
+	[Devuelve \TipoVariable{true} si y sólo si la clave fue previamente definida en el diccionario]
+	[]
+
+	~
+
+	\InterfazFuncion{Definir}{\In{c}{nat}, \In{s}{$\alpha$}, \Inout{d}{dicc$_{avl}$($\alpha$)}}{}
+	[$d$ $\igobs$ $d_0$]
+	{$d$ $\igobs$ definir($c$, $s$, $d_0$)}
+	[$O(log(\#claves(d)) + copy(s))$]
+	[Define la clave $c$ con el significado $s$ en $d$]
+	[]
+
+	~
+
+	\InterfazFuncion{Obtener}{\In{c}{string}, \Inout{d}{dicc$_{avl}$($\alpha$)}}{$\alpha$}
+	[def?($c$, $d$)]
+	{alias($res$ $\igobs$ obtener($c$, $d$))}
+	[$O(log(\#claves(d)))$]
+	[Devuelve el significado correspondiente a la clave en el diccionario]
+	[$res$ es modificable si y sólo si $d$ es modificable]
+
+	~
+
+	\InterfazFuncion{Mínimo}{\Inout{d}{dicc$_{avl}$($\alpha$)}}{$\alpha$}
+	[\#claves($d$) > 0]
+	{alias($res$ $\igobs$ obtener(claveMínima($d$), $d$))}
+	[$O(log(\#claves(d)))$]
+	[Devuelve el significado correspondiente a la clave de mínimo valor en el diccionario]
+	[$res$ es modificable si y sólo si $d$ es modificable]
+
+\subsubsection{Operaciones auxiliares del TAD}
+	\tadOperacion{claveMínima}{dicc(nat, $\alpha$)/d}{nat}{$\#$claves(d) > 0}
+	\tadOperacion{darClaveMínima}{dicc(nat, $\alpha$)/d,conj(nat)/c}{nat}{($\#$claves(d) > 0) $\land$ (c $\subseteq$ claves($d$))}
+
+	\tadAxioma{claveMínima($d$)}{darClaveMínima($d$, claves($d$))}
+
+	\tadAxioma{darClaveMínima($d$, $c$)}{
+		\IF $\emptyset$?(sinUno($c$)) THEN
+			dameUno($c$)
+		ELSE {
+			min(dameUno($c$), darClaveMínima($d$, sinUno($c$)))
+			}
+		FI
+	}
+
+\subsection{Representación}
+
+	\subsubsection{Representación de dicc$_{avl}$($\alpha$)}
+
+	\begin{Estructura}{dicc$_{avl}$($\alpha$)}[estr]
+		\- \- \- \- donde \TipoVariable{estr} es \TipoVariable{puntero(nodoAvl)}
+
+		\- \- \- \- donde \TipoVariable{nodoAvl} es
+			\TipoVariable{tupla}($data$: \TipoVariable{$\alpha$}, $balance$:
+			\TipoVariable{int}, $nodos$: \TipoVariable{arreglo[2] de puntero(nodoAvl)})
+	\end{Estructura}
