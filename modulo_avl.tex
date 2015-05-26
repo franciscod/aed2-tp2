@@ -165,4 +165,69 @@
 
 	}
 
-\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Algoritmos}
+
+\lstset{style=alg,columns=fixed,basewidth=.5em}
+
+\begin{lstlisting}[mathescape]
+'\alg{iVacío}{}{puntero(nodoAvl)}'
+	res $\leftarrow$ NULL		 '\ote{1}'
+'\ofi{O(1)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{iDefinir}{\Inout{p}{puntero(nodoAvl)}, \Inout{clave}{nat}, \Inout{significado}{alpha}}{}'
+	padre: puntero(nodoAvl) $\leftarrow$ p '\ote{1}'
+	nuevo: nodoAvl $\leftarrow$ {clave: clave, data: significado, altura: 0, hijos: [NULL, NULL]} '\ote{copy(significado)}'
+	bool: buscarMas $\leftarrow$ true '\ote{1}'
+	dir: int
+
+	while (buscarMas) do '\ote{1}'
+		if (padre.clave = clave) then '\ote{1}'
+			padre.data $\leftarrow$ significado '\ote{copy(significado)}'
+			buscarMas $\leftarrow$ false '\ote{1}'
+		else
+			if (padre.clave > clave) then '\ote{1}'
+				dir $\leftarrow$ 0 '\ote{1}'
+			else
+				dir $\leftarrow$ 1 '\ote{1}'
+			end if
+
+		    if (padre.hijos[dir] = NULL) then '\ote{1}'
+				padre.hijos[dir] $\leftarrow$ &nuevo '\ote{1}'
+				balancear(p)
+				buscarMas $\leftarrow$ false '\ote{1}'
+			else
+				padre $\leftarrow$ padre.hijos[dir] '\ote{1}'
+			end if
+
+		end if
+	end while '\ote{p.altura}'
+'\ofi{O(p.altura + copy(significado))}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{iBorrar}{}{puntero(nodoAvl)}'
+	res $\leftarrow$ NULL		 '\ote{1}'
+'\ofi{O(1)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{iDefinido?}{}{puntero(nodoAvl)}'
+	res $\leftarrow$ NULL		 '\ote{1}'
+'\ofi{O(1)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{iObtener}{}{puntero(nodoAvl)}'
+	res $\leftarrow$ NULL		 '\ote{1}'
+'\ofi{O(1)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{iClaves}{}{puntero(nodoAvl)}'
+	res $\leftarrow$ NULL		 '\ote{1}'
+'\ofi{O(1)}'
+\end{lstlisting}
