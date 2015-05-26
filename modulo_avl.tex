@@ -92,14 +92,14 @@
 	\subsubsection{Invariante de Representación}
 	  \begin{enumerate}
 		\item{Se mantiene el invariante de árbol binario de búsqueda para las claves de los nodos.}
-		\item{Cada nodo tiene en su $altura$ el máximo de la altura de sus hijos + 1 (las hojas tienen altura 0).}
+		\item{Cada nodo tiene $balance$ $\in$ \{-1, 0, 1 \} donde $balance$ es 1 si tiene un hijo a la derecha, 0 si no tiene hijos o tiene dos hijos y -1 si tiene un hijo a la izquierda}
 		\item{Todas las claves son distintas.}
 	  \end{enumerate}
 
 	\tadAlinearFunciones{Rep}{estr}
 	\tadAlinearAxiomas{Rep(e)}
 
-	\Rep[estr][e]{ esABB($e$) $\land$ alturaBien($e$) $\land$ clavesDistintas($e$, vacío)}
+	\Rep[estr][e]{ esABB($e$) $\land$ balanciadoBien($e$) $\land$ clavesDistintas($e$, vacío)}
 
 
 		\tadAlinearFunciones{alturaBienwachooooo}{puntero(nodoAvl), conj(nat)}
@@ -109,7 +109,7 @@
 
 		\tadOperacion{esABB}{puntero(nodoAvl)}{bool}{}
 		\tadOperacion{alturaBien}{puntero(nodoAvl)}{bool}{}
-		\tadOperacion{clavesDistintas}{puntero(nodoAvl), conj(nat)}{bool}{}
+		\tadOperacion{balanciadoBien}{puntero(nodoAvl), conj(nat)}{bool}{}
 
 		~
 
@@ -119,21 +119,25 @@
 				(( ult($n$.hijos) $\neq$ NULL) $\impluego$ ($n$.clave $<$ ult($n$.hijos) $\land$  esABB(ult($n$.hijos)))))
 		}
 
-		\tadAxioma{alturaBien($n$)}{
+		\tadAxioma{balanciadoBien($n$)}{
 
-			($n$ $\neq$ NULL) $\impluego$ ($n$.altura = max( \\
-			\IF (prim($n$.hijos) $\neq$ NULL) THEN
-				prim($n$.hijos).altura + 1
-			ELSE
-				0
-			FI, \\
-			\IF (ult($n$.hijos) $\neq$ NULL) THEN
-				ult($n$.hijos).altura + 1
-			ELSE
-				0
-			FI) $\land$
-
-			alturaBien(prim($n$.hijos)) $\land$ alturaBien(ult($n$.hijos)))
+			($n$ $\neq$ NULL) $\impluego$ (\\
+			 \IF ((prim($n$.hijos) $\neq$ NULL) $\land$ (ult($n$.hijos) $\neq$ NULL)) THEN
+			 	$n$.balance = 0
+			 ELSE{
+			 	\IF (prim($n$.hijos) $\neq$ NULL) THEN
+			 		$n$.balance = 1
+			 	ELSE{
+			 		\IF (prim($n$.hijos) $\neq$ NULL) THEN
+			 			$n$.balance = -1
+			 		ELSE
+			 			$n$.balance = 0
+			 		FI	
+			 	} FI
+			c
+			} FI
+			) $\land$
+			balanciadoBien(prim($n$.hijos)) $\land$ balanciadoBien(ult($n$.hijos)))
 		}
 
 		\tadAxioma{clavesDistintas($n$, $cs$)}{
