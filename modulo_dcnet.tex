@@ -209,8 +209,8 @@
 	nat: i $\leftarrow$ 0 '\ote{1}'
 	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
 		if Definido?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
-			res $\leftarrow$ Obtener(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, 
-				p.id)$\rightarrow$recorrido '\ote{log(k)}'
+			res $\leftarrow$ Siguiente(Obtener(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, 
+				p.id)).recorrido '\ote{log(k)}'
 		end if
 		i++ '\ote{1}'
 	end while '\ote{n * log(k)}'
