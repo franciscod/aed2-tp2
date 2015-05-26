@@ -6,14 +6,90 @@
 
 \textbf{géneros}: \TipoVariable{dcnet}.
 
-\subsubsection{Operaciones básicas de mapa}
+\subsubsection{Operaciones básicas de DCNet}
 
-\InterfazFuncion{Crear}{}{dcnet}
+\InterfazFuncion{IniciarDCNet}{\In{r}{red}}{dcnet}
 [true]
-{$res$ $\igobs$ vacio()}
-[$O(1)$]
-[crea un mapa nuevo]
+{$res$ $\igobs$ iniciarDCNet($red$)}
+[$O(n * (n + L))$ donde n es es la cantidad de computadoras y L es la longitud de nombre de computadora mas larga]
+[crea una DCNet nueva tomando una red]
 []
+
+~
+
+\InterfazFuncion{CrearPaquete}{\Inout{dcn}{dcnet}, \In{p}{paquete}}{}
+[\\ \- $\qquad$ $dcn$ $\igobs$ $dcn_0$ $\land$
+\\ \- $\qquad$$\neg$( ($\exists$ $p'$:paquete)(	paqueteEnTransito($dcn$, $p'$) $\land$ id($p$) = id($p'$) $\land$ origen($p$) $\in$ computadoras(red($dcn$)) $\yluego$
+\\ \- $\qquad$ \- $\qquad$ destino($p$) $\in$ computadoras(red($dcn$)) $\yluego$ hayCamino?(red($dcn$), origen($p$), destino($p$)))) \\]
+{$dcn$ $\igobs$ crearPaquete($dcn_0$)}
+[$O(L + log(k))$ donde L es la longitud de nombre de computadora mas larga y k es la longitud de la cola de paquetes mas larga]
+[crea un nuevo paquete]
+[]
+
+~
+
+\InterfazFuncion{AvanzarSegundo}{\Inout{dcn}{dcnet}}{}
+[$dcn$ $\igobs$ $dcn_0$]
+{$dcn$ $\igobs$ avanzarSegundo($dcn_0$)}
+[$O(n * (L + log(k)))$ donde n es es la cantidad de computadoras, L es la longitud de nombre de computadora mas larga y k es la longitud de la cola de paquetes mas larga]
+[envia los paquetes con mayor prioridad a la siguiente compu]
+[]
+
+~
+
+\InterfazFuncion{Red}{\In{dcn}{dcnet}}{red}
+[true]
+{alias($res$ $\igobs$ red($dcn$))}
+[$O(1)$]
+[devuelve la red de una DCNet]
+[res es una referencia no modificable]
+
+~
+
+\InterfazFuncion{CaminoRecorrido}{\In{dcn}{dcnet}, \In{p}{paquete}}{secu(compu)}
+[paqueteEnTransito?($dcn$, $p$)]
+{alias($res$ $\igobs$ caminoRecorrido($dcn$, $p$))}
+[$O(n * log(k))$ donde n es es la cantidad de computadoras y k es la longitud de la cola de paquetes mas larga]
+[devuelve el camino recorrido por un paquete]
+[res es una referencia no modificable]
+
+~
+
+\InterfazFuncion{CantidadEnviados}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}
+[c $\in$ computadoras(red($dcn$))]
+{$res$ $\igobs$ cantidadEnviados($dcn$, $c$)}
+[$O(L)$ donde L es la longitud de nombre de computadora mas larga]
+[devuelve la cantidad de paquetes enviados por una compu]
+[]
+
+~
+
+\InterfazFuncion{EnEspera}{\In{dcn}{dcnet}, \In{c}{compu}}{conj(paquete)}
+[c $\in$ computadoras(red($dcn$))]
+{alias($res$ $\igobs$ enEspera($dcn$, $c$))}
+[$O(L)$ donde L es la longitud de nombre de computadora mas larga]
+[devuelve el conjunto de paquetes encolados en una compu]
+[res es una referencia no modificable]
+
+~
+
+\InterfazFuncion{PaqueteEnTransito}{\In{dcn}{dcnet}, \In{p}{paquete}}{bool}
+[true]
+{$res$ $\igobs$ paqueteEnTransito($dcn$, $p$)}
+[$O(n * log(k))$ donde n es es la cantidad de computadoras y k es la longitud de la cola de paquetes mas larga]
+[indica si el paquete está en transito]
+[]
+
+~
+
+\InterfazFuncion{LaQueMasEnvio}{\In{dcn}{dcnet}}{compu}
+[true]
+{alias($res$ $\igobs$ laQueMasEnvio($dcn$))}
+[$O(1)$]
+[devuelve la compu que mas paquetes envió]
+[res es una referencia no modificable]
+
+~
 
 \subsection{Representación}
 
@@ -24,6 +100,7 @@
 		\tupItem{topología}{red}%
 		\tupItem{\\ vectorCompusDCNet}{vector(compuDCNet)}%
 		\tupItem{\\ diccCompusDCNet}{dicc$_{trie}$(puntero(compuDCNet))}%
+		\tupItem{\\ conjPaquetesDCNet}{conj(paqueteDCNet)}%
 		\tupItem{\\ laQueMásEnvió}{puntero(compuDCNet)}%
 	\end{Tupla}
 
@@ -32,9 +109,9 @@
 	\begin{Tupla}[compuDCNet]
 		\tupItem{pc}{puntero(compu)}%
 		\tupItem{\\ conjPaquetes}{conj(paquete)}%
-		\tupItem{\\ diccPaquetesDCNet}{dicc$_{avl}$(nat, paqueteDCNet)}%
-		\tupItem{\\ colaPaquetesDCNet}{colaPrioridad(nat, puntero(paqueteDCNet))}%
-		\tupItem{\\ paqueteAEnviar}{paqueteDCNet}%
+		\tupItem{\\ diccPaquetesDCNet}{dicc$_{avl}$(nat, itConj(paqueteDCNet))}%
+		\tupItem{\\ colaPaquetesDCNet}{colaPrioridad(nat, itConj(paqueteDCNet))}%
+		\tupItem{\\ paqueteAEnviar}{itConj(paqueteDCNet)}%
 		\tupItem{enviados}{nat}%
 	\end{Tupla}
 
