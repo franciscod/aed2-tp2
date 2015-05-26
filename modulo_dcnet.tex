@@ -159,7 +159,7 @@
 			itConj(lista(compu)): itercaminos $\leftarrow$ 
 				CrearIt(CaminosMinimos(dcn.topologia, 
 				*(dcn.vectorCompusDCNet[i].pc), pAEnviar.destino)) '\ote{1}'
-			compu: siguientecompu $\leftarrow$ Primero(Siguiente(itercaminos)) '\ote{1}'
+			compu: siguientecompu $\leftarrow$ Siguiente(itercaminos)[1] '\ote{1}'
 
 			if(pAEnviar.destino $\neq$ siguientecompu) then '\ote{1}'
 
