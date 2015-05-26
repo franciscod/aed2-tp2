@@ -282,7 +282,6 @@
 }
 
 
-
   \subsubsection{Función de Abstracción}
 
   \tadAlinearFunciones{Abs}{Estr/e}
@@ -394,6 +393,9 @@
   while $\neg$EsVacia?(frameRecorrido) do  '\ote{1}'
     iRecorrido $\leftarrow$ Tope(frameRecorrido)
     iCandidatos $\leftarrow$ Tope(frameCandidatos)
+
+    Desapilar(frameRecorrido)
+    Desapilar(frameCandidatos)
 
     pCandidatos $\leftarrow$ Primero(iCandidatos)
 
