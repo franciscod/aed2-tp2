@@ -110,8 +110,8 @@
     end if
 
     while HaySiguiente?(it) do '\ote{1}'
-    	compuDCNet: compudcnet $\leftarrow$ 
-    		<puntero(Siguiente(it)), Vacio(), CrearDicc(), Vacia(), NULL, 0> '\ote{1}'
+    	compuDCNet: compudcnet $\leftarrow$ <puntero(Siguiente(it)), Vacio(), CrearDicc(),
+    		Vacia(), CrearIt(Vacio()), 0> '\ote{1}'
     	AgregarAtras(res.vectorCompusDCNet, compudcnet) '\ote{n}'
     	Definir(res.diccCompusDCNet, Siguiente(it).ip, puntero(compudcnet)) '\ote{L}'
     	Avanzar(it) '\ote{1}'
@@ -151,7 +151,7 @@
 
 	i $\leftarrow$ 0 '\ote{1}'
 	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
-		if(dcn.vectorCompusDCNet[i].paqueteAEnviar $\neq$ NULL) then '\ote{1}'
+		if(HaySiguiente?(dcn.vectorCompusDCNet[i].paqueteAEnviar)) then '\ote{1}'
 			dcn.vectorCompusDCNet[i].enviados++ '\ote{1}'
 
 			paquete: pAEnviar $\leftarrow$ 
@@ -186,7 +186,7 @@
 				'\ote{1}'
 			EliminarSiguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar) '\ote{1}'
 
-			dcn.vectorCompusDCNet[i].paqueteAEnviar $\leftarrow$ NULL '\ote{1}'
+			dcn.vectorCompusDCNet[i].paqueteAEnviar $\leftarrow$ CrearIt(Vacio()) '\ote{1}'
 
 		end if
 		i++ '\ote{1}'
