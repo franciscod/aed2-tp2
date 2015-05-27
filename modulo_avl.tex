@@ -94,8 +94,8 @@
 		\item{Se mantiene el invariante de árbol binario de búsqueda para las claves de los nodos.}
 		\item{Cada nodo tiene $balance$ $\in$ \{-1, 0, 1 \} donde $balance$ es:$\newline$
 			* 0 si el arbol esta balanciado $\newline$
-			* 1 si existe un nodo en el ultimo nivel de balanceo tal que tenga un hijo a la izq$\newline$
-			* -1 si existe un nodo en el ultimo nivel de balanceo tal que tenga un hijo a la der}
+			* 1 si existe un nodo en el ultimo nivel de balance tal que tenga un hijo a la izq$\newline$
+			* -1 si existe un nodo en el ultimo nivel de balance tal que tenga un hijo a la der}
 		\item{estr esta balaciado entero o  hasta (altura(estr) -1)  esta balaciado }	
 		\item{Todas las claves son distintas.}
 
@@ -113,8 +113,8 @@
 		~
 
 		\tadOperacion{esABB}{puntero(nodoAvl)}{bool}{}
-		\tadOperacion{alturaBien}{puntero(nodoAvl)}{bool}{}
-		\tadOperacion{balanciadoBien}{puntero(nodoAvl), conj(nat)}{bool}{}
+		\tadOperacion{balanciadoBien}{puntero(nodoAvl)}{bool}{}
+		\tadOperacion{clavesDistintas(}{puntero(nodoAvl), conj(nat)}{bool}{}
 
 		~
 
