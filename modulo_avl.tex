@@ -259,9 +259,27 @@
 '\ofi{O(1)}'
 \end{lstlisting}
 
+\begin{lstlisting}[mathescape]
+'\alg{Mínimo}{\In{dicc_{avl}(\alpha)}{d}}{$\alpha$}'
+
+	actual:puntero(nodoAvl) $\leftarrow$ d
+	hijoMenor:puntero(nodoAvl)
+	done:bool $\leftarrow$ false
+
+	while (!done) do
+		hijoMenor $\leftarrow$ (actual$\rightarrow$hijos[0])
+
+		if (hijoMenor != NULL) then
+			actual $\leftarrow$ hijoMenor
+		else
+			res $\leftarrow$ (actual$\rightarrow$data)
+			done $\leftarrow$ true
+		end if
+	end while
+\end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-'\alg{Inorder}{\In{n}{puntero(nodoAvl)}}{lista(tupla(clave, significado))}'
+'\alg{Inorder}{\In{dicc_{avl}(\alpha)}{n}}{lista(tupla(clave, significado))}'
 	c:puntero(nodoAvl) $\leftarrow$ n
 	p:pila(puntero(nodoAvl)) $\leftarrow$ Vacia()
 	done:bool $\leftarrow$ false
@@ -283,6 +301,6 @@
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-'\alg{• = •}{\In{n1}{puntero(nodoAvl)}, \In{n2}{puntero(nodoAvl)}}{bool}'
-	res $\leftarrow$ Inorder(n1) = Inorder(n2)
+'\alg{• = •}{\In{dicc_{avl}(\alpha)}{d1}, \In{dicc_{avl}(\alpha)}{d2}}{bool}'
+	res $\leftarrow$ Inorder(d1) = Inorder(d2)
 \end{lstlisting}
