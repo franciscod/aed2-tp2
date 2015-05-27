@@ -94,10 +94,9 @@
 	  \begin{enumerate}
 		\item{Se mantiene el invariante de árbol binario de búsqueda para las claves de los nodos.}
 		\item{Cada nodo tiene $balance$ $\in$ \{-1, 0, 1 \} donde $balance$ es:$\newline$
-			* 0 si el arbol esta balanciado $\newline$
+			* 0 si el arbol esta balanceado $\newline$
 			* 1 si existe un nodo en el ultimo nivel de balance tal que tenga un hijo a la izq$\newline$
 			* -1 si existe un nodo en el ultimo nivel de balance tal que tenga un hijo a la der}
-		\item{estr esta balaciado entero o podado (quitar le las hojas del ultimo nivel)  esta balaciado }	
 		\item{Todas las claves son distintas.}
 
 	  \end{enumerate}
@@ -105,7 +104,7 @@
 	\tadAlinearFunciones{Rep}{estr}
 	\tadAlinearAxiomas{Rep(e)}
 
-	\Rep[estr][e]{ esABB($e$) $\land$ balanciadoBien($e$) $\land$ clavesDistintas($e$, vacío)}
+	\Rep[estr][e]{ esABB($e$) $\land$ balanceadoBien($e$) $\land$ clavesDistintas($e$, vacío)}
 
 
 		\tadAlinearFunciones{alturaBienwachooooo}{puntero(nodoAvl), conj(nat)}
@@ -115,9 +114,8 @@
 
 		\tadOperacion{esABB}{puntero(nodoAvl)}{bool}{}
 		\tadOperacion{balanceadoBien}{puntero(nodoAvl)}{bool}{}
-		\tadOperacion{clavesDistinta}{puntero(nodoAvl), conj(nat)}{bool}{}
+		\tadOperacion{clavesDistintas}{puntero(nodoAvl), conj(nat)}{bool}{}
 		\tadOperacion{balanceado}{puntero(nodoAvl)}{bool}{}
-		\tadOperacion{podar}{puntero(nodoAvl)}{bool}{puntero(nodoAvl)}
 		~
 
 		\tadAxioma{esABB($n$)}{
@@ -126,8 +124,8 @@
 				((ult($n$$\rightarrow$hijos) $\neq$ NULL) $\impluego$ ($n$$\rightarrow$clave $<$ ult($n$$\rightarrow$hijos) $\land$  esABB(ult($n$$\rightarrow$hijos)))))
 		}
 
-		\tadAxioma{balanciadoBien($n$)}{
-			(balanceado($n$) $\lor$ balanceado(podar($n$)) $\yluego$
+		\tadAxioma{balanceadoBien($n$)}{
+			(balanceado($n$) $\yluego$
 			($n$ $\neq$ NULL) $\impluego$ (\\
 			 \IF ((prim($n$$\rightarrow$hijos) $\neq$ NULL) $\land$ (ult($n$$\rightarrow$hijos) $\neq$ NULL)) THEN
 			 	balanceadoBien(prim($n$$\rightarrow$hijos)) $\land$ balanceadoBien(ult($n$$\rightarrow$hijos)))
@@ -139,10 +137,10 @@
 			 			$n$$\rightarrow$balance = -1
 			 		ELSE
 			 			$n$$\rightarrow$balance = 0
-			 		FI	
+			 		FI
 			 	} FI
 			} FI
-			
+
 		}
 
 		\tadAxioma{clavesDistintas($n$, $cs$)}{
@@ -165,11 +163,10 @@
 					 			false
 					 		ELSE
 					 			true
-					 		FI	
+					 		FI
 					 	} FI
 					 } FI )
 		}
-		\tadAxioma{podar($n$)}{ Quito el las hojas del el ultimo nivel }
 
 
 	\subsubsection{Función de Abstracción}
@@ -182,6 +179,14 @@
 
 	\tadAlinearFunciones{auxAbs}{puntero(nodoAvl), dicc(nat;\ $\alpha$)}
 	\tadAlinearAxiomas{auxAbs($n$, $d$)}
+
+	\tadAxioma{auxAbs($n$, $d$)}{
+		\IF $n$ = NULL THEN
+			$d$
+		ELSE definir($n$.clave, $n$.data, auxAbs(prim($n$.hijos), auxAbs(ult($n$.hijos), $d$)))
+		FI
+
+	}
 
 \subsection{Algoritmos}
 
@@ -283,8 +288,8 @@ end if
 
 	(root $\rightarrow$ hijos[$\neg$dir]) $\leftarrow$ (nodo $\rightarrow$ hijos[dir]) '\ote{1}'
 	(nodo $\rightarrow$ hijos[dir]) $\leftarrow$ root '\ote{1}'
-	
-	res $\leftarrow$ nodo '\ote{1}'	
+
+	res $\leftarrow$ nodo '\ote{1}'
 '\ofi{O(1)}'
 \end{lstlisting}
 
@@ -300,7 +305,7 @@ end if
 	(root $\rightarrow$ hijos[$\neg$dir]) $\leftarrow$ (nodo $\rightarrow$ hijos[dir]) '\ote{1}'
 	(nodo $\rightarrow$ hijos[dir]) $\leftarrow$ root '\ote{1}'
 
-	res $\leftarrow$ nodo '\ote{1}'	
+	res $\leftarrow$ nodo '\ote{1}'
 '\ofi{O(1)}'
 \end{lstlisting}
 
@@ -332,7 +337,7 @@ end if
 		it: puntero(nodoAvl) $\leftarrow$ tree '\ote{1}'
 		up: pila(puntero(nodoAvl)) '\ote{1}'
 		upd: pila(int) '\ote{1}'
-		
+
 		break: bool $\leftarrow$ false '\ote{1}'
 		while(break = false) '\ote{1}'
 			if (it $\rightarrow$ clave = c) then '\ote{1}'
@@ -345,7 +350,7 @@ end if
 				Apilar(upd, 0) '\ote{1}'
 			end if
 			Apilar(up, it) '\ote{1}'
-			
+
 			it $\leftarrow$ (it $\rightarrow$ hijos[Tope(upd)]) '\ote{1}'
 		do '\ote{log(k)}'
 
@@ -355,7 +360,7 @@ end if
 			else
 				dir: int $\leftarrow$ 0 '\ote{1}'
 			end if
-			
+
 			if(Tamano(up) > 1) then '\ote{1}'
 				(Tope(up) $\rightarrow$ hijos[Tope(upd)]) $\leftarrow$ (it $\rightarrow$ hijos[dir]) '\ote{1}'
 			else
@@ -363,16 +368,16 @@ end if
 			end if
 		else
 			heredero: puntero(nodoAvl) $\leftarrow$ (it $\rightarrow$ hijos[1]) '\ote{1}'
-			
+
 			Tope(upd) $\leftarrow$ 1 '\ote{1}'
 			Tope(up) $\leftarrow$ it '\ote{1}'
-			
+
 			while(heredero $\rightarrow$ hijos[0] != null) '\ote{1}'
 				Apilar(upd, 0) '\ote{1}'
 				Apilar(up, heredero) '\ote{1}'
 				heredero $\leftarrow$ (heredero $\rightarrow$ hijos[0]) '\ote{1}'
 			do '\ote{log(k)}'
-		
+
 			(it $\rightarrow$ clave) $\leftarrow$ (heredero $\rightarrow$ clave) '\ote{1}'
 
 			Desapilar(up) '\ote{1}'
@@ -384,7 +389,7 @@ end if
 				(Tope(up) $\rightarrow$ hijos[0]) $\leftarrow$ (heredero $\rightarrow$ hijos[1]) '\ote{1}'
 			end if
 		end if
-	
+
 		break $\leftarrow$ false '\ote{1}'
 		while((break = false) $\land$ (Tamano(up) $\geq$ 0)) '\ote{1}'
 			if(Tope(upd) != 0) then '\ote{1}'
@@ -416,13 +421,13 @@ end if
 \begin{lstlisting}[mathescape]
 '\alg{removerBalanceo}{\Inout{puntero(nodoAvl)}{root}, \In{int}{dir}, \Inout{puntero(bool)}{done}}{}'
 	nodo: puntero(nodoAvl) $\leftarrow$ (root $\rightarrow$ hijos[$\neg$dir]) '\ote{1}'
-	
+
 	if(dir = 0) then '\ote{1}'
 		bal $\leftarrow$ -1 '\ote{1}'
 	else
 		bal $\leftarrow$ 1 '\ote{1}'
 	end if
-	
+
 	if(nodo $\rightarrow$ balance = -bal) then '\ote{1}'
 		(root $\rightarrow$ balance) $\leftarrow$ 0 '\ote{1}'
 		(nodo $\rightarrow$ balance) $\leftarrow$ 0 '\ote{1}'
