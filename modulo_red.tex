@@ -347,8 +347,8 @@
     nr1:nodoRed $\leftarrow$ Significado(r.dns, c1.ip) '\ote{L}'
     DefinirRapido(nr0.conexiones, i0, nr1)'\ote{1}'
     DefinirRapido(nr1.conexiones, i1, nr0) '\ote{1}'
-    CrearTodosLosCaminos(r) '\ote{n!*(n$^4$)}'
-  '\ofi{O(n!*(n^4))}'
+    CrearTodosLosCaminos(r) '\ote{n! * (n$^3$ *(n + L))}'
+  '\ofi{O(n! * (n^3 *(n + L)))}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
@@ -360,15 +360,16 @@
     itCompuB:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
     while HaySiguiente?(itCompuB) do  '\ote{1}'
 
-      caminimos:conj(lista(compu)) $\leftarrow$ Minimos(Caminos(nr, Siguiente(itCompuB).ip)
-      Definir(nr.caminos, Siguiente(itCompuB).ip, caminimos)
+      caminimos:conj(lista(compu)) $\leftarrow$ Minimos(Caminos
+        (nr, Siguiente(itCompuB).ip) '\ote{ n! * n*(n + L)}'
+      Definir(nr.caminos, Siguiente(itCompuB).ip, caminimos)  '\ote{L}'
 
-      Avanzar(itCompuB)
-    end while
+      Avanzar(itCompuB) '\ote{1}'
+    end while '\ote{n! * (n$^2$ *(n + L))}'
 
-    Avanzar(itCompuA)
-  end while
-'\ofi{O(n!*(n^4))}'
+    Avanzar(itCompuA) '\ote{1}'
+  end while '\ote{n! * (n$^3$ *(n + L))}'
+'\ofi{O(n! * (n^3 *(n + L)))}'
 \end{lstlisting}
 
 \pagebreak
@@ -380,69 +381,71 @@
   frameRecorrido:pila(lista(compu)) $\leftarrow$ Vacia() '\ote{1}'
   frameCandidatos:pila(lista(nodoRed)) $\leftarrow$ Vacia() '\ote{1}'
 
-  iCandidatos:lista(nodoRed) $\leftarrow$ listaNodosVecinos(c1)
-  iRecorrido:lista(compu) $\leftarrow$ Vacia()
-  AgregarAdelante(iRecorrido, *(c1.pc))
+  iCandidatos:lista(nodoRed) $\leftarrow$ listaNodosVecinos(c1) '\ote{n}'
+  iRecorrido:lista(compu) $\leftarrow$ Vacia()  '\ote{1}'
+  AgregarAdelante(iRecorrido, *(c1.pc)) '\ote{1}'
 
-  Apilar(frameRecorrido, iRecorrido)
-  Apilar(frameCandidatos, iCandidatos)
+  Apilar(frameRecorrido, iRecorrido) '\ote{1}'
+  Apilar(frameCandidatos, iCandidatos) '\ote{1}'
 
-  pCandidatos:compu
-  fCandidatos:lista(nodoRed)
+  pCandidatos:compu '\ote{1}'
+  fCandidatos:lista(nodoRed) '\ote{1}'
 
   while $\neg$EsVacia?(frameRecorrido) do  '\ote{1}'
-    iRecorrido $\leftarrow$ Tope(frameRecorrido)
-    iCandidatos $\leftarrow$ Tope(frameCandidatos)
+    iRecorrido $\leftarrow$ Tope(frameRecorrido) '\ote{1}'
+    iCandidatos $\leftarrow$ Tope(frameCandidatos)  '\ote{1}'
 
-    Desapilar(frameRecorrido)
-    Desapilar(frameCandidatos)
+    Desapilar(frameRecorrido) '\ote{1}'
+    Desapilar(frameCandidatos)  '\ote{1}'
 
-    pCandidatos $\leftarrow$ Primero(iCandidatos)
+    pCandidatos $\leftarrow$ Primero(iCandidatos) '\ote{1}'
 
-    if $\neg$EsVacio?(iCandidatos) then
-      Fin(iCandidatos)
-      fCandidatos $\leftarrow$ iCandidatos
+    if $\neg$EsVacio?(iCandidatos) then   '\ote{1}'
+      Fin(iCandidatos)  '\ote{1}'
+      fCandidatos $\leftarrow$ iCandidatos  '\ote{n}'
 
-      if ult(iRecorrido).pc$\rightarrow$ip = ipDestino then
-        AgregarRapido(res, iRecorrido)
+      if ult(iRecorrido).pc$\rightarrow$ip = ipDestino then   '\ote{L}'
+        AgregarRapido(res, iRecorrido)  '\ote{n}'
       else
-        Apilar(frameRecorrido, iRecorrido)
-        Apilar(frameCandidatos, fCandidatos)
+        Apilar(frameRecorrido, iRecorrido)  '\ote{1}'
+        Apilar(frameCandidatos, fCandidatos)  '\ote{1}'
 
-        if $\neg$nodoEnLista(pCandidatos, recorrido) then
-          iRecorrido $\leftarrow$ Copiar(iRecorrido)
-          AgregarAtras(iRecorrido, *(pCandidatos))
-          Apilar(frameRecorrido, iRecorrido)
-          Apilar(frameCandidatos, listaNodosVecinos(pCandidatos))
-        fi
-      fi
+        if $\neg$nodoEnLista(pCandidatos, iRecorrido) then '\ote{n*(n + L)}'
+          iRecorrido $\leftarrow$ Copiar(iRecorrido)  '\ote{n}'
+          AgregarAtras(iRecorrido, *(pCandidatos)) '\ote{n}'
+          Apilar(frameRecorrido, iRecorrido)  '\ote{1}'
+          Apilar(frameCandidatos, listaNodosVecinos(pCandidatos)) '\ote{n}'
+        fi '\ote{n*(n + L)}'
+      fi '\ote{n*(n + L)}'
 
-    fi
+    fi '\ote{n*(n + L)}'
 
-  end while
-
+  end while '\ote{n! * n*(n + L)}'
+'\ofi{O(n! * n*(n + L))}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
 '\alg{Minimos}{\In{caminos}{conj(lista(compu))}}{conj(lista(compu))}'
-  res $\leftarrow$ Vacio()
-  longMinima:int
-  itCaminos:itConj(lista(compu)) $\leftarrow$ CrearIt(caminos)
-  if HaySiguiente?(itCaminos) then
-    longMinima $\leftarrow$ Longitud(Siguiente(itCaminos))
-    Avanzar(itCaminos)
-    while HaySiguiente?(itCaminos)
+  res $\leftarrow$ Vacio() '\ote{1}'
+  longMinima:int '\ote{1}'
+  itCaminos:itConj(lista(compu)) $\leftarrow$ CrearIt(caminos) '\ote{1}'
+  if HaySiguiente?(itCaminos) then  '\ote{1}'
+    longMinima $\leftarrow$ Longitud(Siguiente(itCaminos)) '\ote{1}'
+    Avanzar(itCaminos)  '\ote{1}'
+    while HaySiguiente?(itCaminos)  '\ote{1}'
       if Longitud(Siguiente(itCaminos)) < longMinima then
-        longMinima $\leftarrow$ Longitud(Siguiente(itCaminos))
-      Avanzar(itCaminos)
-    end while
-    itCaminos $\leftarrow$ CrearIt(caminos)
-    while HaySiguiente?(itCaminos)
-      if Longitud(Siguiente(itCaminos)) = longMinima then
-        AgregarRapido(res, Siguiente(itCaminos))
-      Avanzar(itCaminos)
-    end while
-  end if
+        longMinima $\leftarrow$ Longitud(Siguiente(itCaminos)) '\ote{1}'
+      Avanzar(itCaminos)  '\ote{1}'
+    end while '\ote{n}'
+    itCaminos $\leftarrow$ CrearIt(caminos) '\ote{1}'
+    while HaySiguiente?(itCaminos)  '\ote{1}'
+      if Longitud(Siguiente(itCaminos)) = longMinima then '\ote{1}'
+        AgregarRapido(res, Siguiente(itCaminos))  '\ote{1}'
+      Avanzar(itCaminos)  '\ote{1}'
+    end while '\ote{n}'
+  end if '\ote{1}'
+'\ofi{O(n)}'
+
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
@@ -453,7 +456,7 @@
     AgregarAdelante(res, *SiguienteSignificado(itVecinos)) '\ote{1}'
     Avanzar(itVecinos) '\ote{1}'
   end while '\ote{n}'
-
+'\ofi{O(n)}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
@@ -461,12 +464,12 @@
   res $\leftarrow$ false  '\ote{1}'
   itNodos: itLista(lista(nodoRed)) $\leftarrow$ CrearIt(ns) '\ote{1}'
   while HaySiguiente?(itNodos) do '\ote{1}'
-    if Siguiente(itNodos) = n then
-      res $\leftarrow$ true
-    end if
+    if Siguiente(itNodos) = n then '\ote{n + L}'
+      res $\leftarrow$ true   '\ote{1}'
+    end if  '\ote{1}'
     Avanzar(itNodos) '\ote{1}'
-  end while '\ote{n}'
-
+  end while '\ote{n*(n + L)}'
+'\ofi{O(n*(n + L))}'
 \end{lstlisting}
 
 
@@ -563,5 +566,5 @@
 \begin{lstlisting}[mathescape]
 '\alg{• = •}{\In{r_0}{red}, \In{r_1}{red}}{bool}'
     res $\leftarrow$ (r0.compus = r1.compus) $\land$ (r0.dns = r1.dns) '\ote{n + L$^2$}'
-  '\ofi{O(n +L^2)}'
+  '\ofi{O(n + L(L + n))}'
 \end{lstlisting}
