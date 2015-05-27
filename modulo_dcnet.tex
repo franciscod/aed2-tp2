@@ -97,7 +97,7 @@
 \begin{lstlisting}[mathescape]
 '\alg{iIniciarDCNet}{\In{topo}{red}}{estr}'
 	
-    res.topologia $\leftarrow$ Copiar(topo) '\ote{Fijarse en Copiar de Red}'
+    res.topologia $\leftarrow$ Copiar(topo) '\ote{n! * $n^6$}'
     res.vectorCompusDCNet $\leftarrow$ Vacia() '\ote{1}'
     res.diccCompusDCNet $\leftarrow$ CrearDicc() '\ote{1}'
     res.laQueMasEnvio $\leftarrow$ NULL '\ote{1}'
@@ -261,3 +261,77 @@
 
 '\ofi{O(1)}'
 \end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{$\puntito$ $=_i$ $\puntito$}{\In{dcn_1}{dcnet}, \In{dcn_2}{dcnet}}{bool}'
+	
+	bool: boolTopo $\leftarrow$ $dcn_1$.topologia = $dcn_2$.topologia '\ote{n + $L^2$}'
+	bool: boolVec $\leftarrow$ $dcn_1$.vectorCompusDCNet $=_{vec}$ $dcn_2$.vectorCompusDCNet '\ote{?}' 
+	bool: boolConj $\leftarrow$ $dcn_1$.conjPaquetesDCNet = $dcn_2$.conjPaquetesDCNet
+	bool: boolMasEnvio $\leftarrow$ $dcn_1$$\rightarrow$ $={paqdcn}$ $dcn_2$$\rightarrow$
+
+	res $\leftarrow$ boolTopo $\land$ boolVec $\land$ boolTrie $\land$ boolConj $\land$ boolMasEnvio
+
+'\ofi{O(?)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{$\puntito$ $=_{compudcn}$ $\puntito$}{\In{c_1}{compuDCNet}, \In{c_2}{compuDCNet}}{bool}'
+	
+	bool: boolPC $\leftarrow$ *($c_1$.pc) = *($c_2$.pc)
+	bool: boolConj $\leftarrow$ $c_1$.conjPaquetes = $c_1$.conjPaquetes
+	bool: boolAVL $\leftarrow$ true
+	bool: boolCola $\leftarrow$ true
+	bool: boolPaq $\leftarrow$ Siguiente($c_1$.paqueteAEnviar) $=_{paqdcn}$ Siguiente($c_2$.paqueteAEnviar)
+	bool: boolEnviados $\leftarrow$ $c_1$.enviados = $c_2$.enviados
+
+	if boolConj then
+		itConj: $itconj_1$ $\leftarrow$ CrearIt($c_1$.conjPaquetes)
+		while HaySiguiente?($itconj_1$) do
+			if Definido?($c_2$.diccPaquetesDCNet, Siguiente($itconj_1$)).id then
+				if $\neg$(Siguiente(Obtener($c_1$.diccPaquetesDCNet, Siguiente($itconj_1$).id))
+					$=_{paqdcn}$ 
+					Siguiente(Obtener($c_1$.diccPaquetesDCNet, Siguiente($itconj_1$).id)))then
+					boolAVL $\leftarrow$ false
+				end if
+			else
+				boolAVL $\leftarrow$ false
+			end if
+			Avanzar($itconj_1$)
+		end while
+	end if
+
+	if EsVacia($c_1$.colaPrioridad) then
+		if $\neg$EsVacia($c_2$.colaPrioridad) then
+			boolCola $\leftarrow$ false
+		end if
+	else
+		if EsVacia($c_1$.colaPrioridad) then
+			boolCola $\leftarrow$ false
+		else
+			if $\neg$(Siguiente(Proximo($c_1$.colaPrioridad)) $=_{paqdcn}$ 
+				Siguiente(Proximo($c_2$.colaPrioridad))) then
+				boolCola $\leftarrow$ false
+			end if
+		end if
+	end if
+
+	res $\leftarrow$ boolPC $\land$ boolConj $\land$ boolAVL $\land$ boolCola $\land$ boolPaq $\land$ boolEnviados
+
+'\ofi{O(?)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{$\puntito$ $=_{paqdcn}$ $\puntito$}{\In{p_1}{paqueteDCNet}, \In{p_2}{paqueteDCNet},}{bool}'
+	
+	bool: boolPaq $\leftarrow$ Siguiente($p_1$.it) = Siguiente($p_2$.it)
+	bool: boolRecorrido $\leftarrow$ $p_1$.recorrido = $p_2$.recorrido
+
+	res $\leftarrow$ boolPaq $\land$ boolRecorrido
+
+'\ofi{O(?)}'
+\end{lstlisting}
+
+% compararDosCompuDCNet = O(1)
+% 						#conj1 * #conj2
+% 						k * (n)
