@@ -113,45 +113,63 @@
 		~
 
 		\tadOperacion{esABB}{puntero(nodoAvl)}{bool}{}
-		\tadOperacion{balanciadoBien}{puntero(nodoAvl)}{bool}{}
-		\tadOperacion{clavesDistintas(}{puntero(nodoAvl), conj(nat)}{bool}{}
-
+		\tadOperacion{balanceadoBien}{puntero(nodoAvl)}{bool}{}
+		\tadOperacion{clavesDistinta}{puntero(nodoAvl), conj(nat)}{bool}{}
+		\tadOperacion{balanceado}{puntero(nodoAvl)}{bool}{}
+		\tadOperacion{podar}{puntero(nodoAvl)}{bool}{puntero(nodoAvl)}
 		~
 
 		\tadAxioma{esABB($n$)}{
 			($n$ $\neq$ NULL) $\impluego$ ( \\
-				((prim($n$.hijos) $\neq$ NULL) $\impluego$ ($n$.clave $>$ prim($n$.hijos) $\land$ esABB(prim($n$.hijos)))) $\land$ \\
-				(( ult($n$.hijos) $\neq$ NULL) $\impluego$ ($n$.clave $<$ ult($n$.hijos) $\land$  esABB(ult($n$.hijos)))))
+				((prim($n$$\rightarrow$hijos) $\neq$ NULL) $\impluego$ ($n$$\rightarrow$clave $>$ prim($n$.hijos) $\land$ esABB(prim($n$$\rightarrow$hijos)))) $\land$ \\
+				((ult($n$$\rightarrow$hijos) $\neq$ NULL) $\impluego$ ($n$$\rightarrow$clave $<$ ult($n$$\rightarrow$hijos) $\land$  esABB(ult($n$$\rightarrow$hijos)))))
 		}
 
 		\tadAxioma{balanciadoBien($n$)}{
 			(balanceado($n$) $\lor$ balanceado(podar($n$)) $\yluego$
 			($n$ $\neq$ NULL) $\impluego$ (\\
-			 \IF ((prim($n$.hijos) $\neq$ NULL) $\land$ (ult($n$.hijos) $\neq$ NULL)) THEN
-			 	balanciadoBien(prim($n$.hijos)) $\land$ balanciadoBien(ult($n$.hijos)))
+			 \IF ((prim($n$$\rightarrow$hijos) $\neq$ NULL) $\land$ (ult($n$$\rightarrow$hijos) $\neq$ NULL)) THEN
+			 	balanceadoBien(prim($n$$\rightarrow$hijos)) $\land$ balanceadoBien(ult($n$$\rightarrow$hijos)))
 			 ELSE{
 			 	\IF (prim($n$.hijos) $\neq$ NULL) THEN
-			 		$n$.balance = 1
+			 		$n$$\rightarrow$balance = 1
 			 	ELSE{
 			 		\IF (prim($n$.hijos) $\neq$ NULL) THEN
-			 			$n$.balance = -1
+			 			$n$$\rightarrow$balance = -1
 			 		ELSE
-			 			$n$.balance = 0
+			 			$n$$\rightarrow$balance = 0
 			 		FI	
 			 	} FI
-			c
 			} FI
-			) $\land$
 			
 		}
 
 		\tadAxioma{clavesDistintas($n$, $cs$)}{
 		($n$ $\neq$ NULL) $\impluego$ \\
-				\- $n$.clave $\notin$ $cs$ $\land$ \\
-				clavesDistintas(prim($n$.hijos), Ag($n$.clave, $cs$)) $\land$ \\
-				clavesDistintas(ult($n$.hijos), Ag($n$.clave, $cs$))
+				\- $n$$\rightarrow$clave $\notin$ $cs$ $\land$ \\
+				clavesDistintas(prim($n$$\rightarrow$hijos), Ag($n$$\rightarrow$clave, $cs$)) $\land$ \\
+				clavesDistintas(ult($n$$\rightarrow$hijos), Ag($n$$\rightarrow$clave, $cs$))
 
 		}
+
+		\tadAxioma{balanceado($n$)}{
+		($n$ $\neq$ NULL) $\impluego$ \\
+					 (\IF ((prim($n$$\rightarrow$hijos) $\neq$ NULL) $\land$ (ult($n$$\rightarrow$hijos) $\neq$ NULL)) THEN
+					 	balanceado(prim($n$$\rightarrow$hijos)) $\land$ balanceado(ult($n$$\rightarrow$hijos)))
+					 ELSE{
+					 	\IF (prim($n$.hijos) $\neq$ NULL) THEN
+					 		false
+					 	ELSE{
+					 		\IF (prim($n$.hijos) $\neq$ NULL) THEN
+					 			false
+					 		ELSE
+					 			true
+					 		FI	
+					 	} FI
+					 } FI )
+		}
+		\tadAxioma{podar($n$)}{ Quito el las hojas del el ultimo nivel }
+
 
 	\subsubsection{Función de Abstracción}
 	  \tadAlinearFunciones{Abs}{Estr/e}
