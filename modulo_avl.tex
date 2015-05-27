@@ -96,7 +96,7 @@
 			* 0 si el arbol esta balanciado $\newline$
 			* 1 si existe un nodo en el ultimo nivel de balance tal que tenga un hijo a la izq$\newline$
 			* -1 si existe un nodo en el ultimo nivel de balance tal que tenga un hijo a la der}
-		\item{estr esta balaciado entero o  hasta (altura(estr) -1)  esta balaciado }	
+		\item{estr esta balaciado entero o podado (quitar le las hojas del ultimo nivel)  esta balaciado }	
 		\item{Todas las claves son distintas.}
 
 	  \end{enumerate}
@@ -125,7 +125,7 @@
 		}
 
 		\tadAxioma{balanciadoBien($n$)}{
-			(balanceado($n$) $\lor$ balanceado(hastaAltura($n$,altura($n$)-1))) $\yluego$
+			(balanceado($n$) $\lor$ balanceado(podar($n$)) $\yluego$
 			($n$ $\neq$ NULL) $\impluego$ (\\
 			 \IF ((prim($n$.hijos) $\neq$ NULL) $\land$ (ult($n$.hijos) $\neq$ NULL)) THEN
 			 	balanciadoBien(prim($n$.hijos)) $\land$ balanciadoBien(ult($n$.hijos)))
