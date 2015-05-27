@@ -44,6 +44,24 @@
 
 	~
 
+	\InterfazFuncion{Borrar}{\In{c}{string}, \Inout{d}{dicc$_{avl}$($\alpha$)}}{}
+	[def?($c$, $d$)]
+	{$res$ $\igobs$ borrar($c$, $d$))}
+	[$O(log(\#claves(d)))$]
+	[Borra el elemento con la clave dada]
+	[]
+
+	~
+
+	\InterfazFuncion{$\#$Claves}{\In{d}{dicc$_{avl}$($\alpha$)}}{nat}
+	[true]
+	{res $\igobs$ $\#$claves($d$)}
+	[$O(1)$]
+	[Devuelve la cantidad de claves en el diccionario]
+	[]
+	
+	~
+
 	\InterfazFuncion{Mínimo}{\Inout{d}{dicc$_{avl}$($\alpha$)}}{$\alpha$}
 	[\#claves($d$) > 0]
 	{alias($res$ $\igobs$ obtener(claveMínima($d$), $d$))}
@@ -191,7 +209,7 @@
 \subsection{Algoritmos}
 
 \begin{lstlisting}[mathescape]
-'\alg{insertar}{\Inout{dicc_{avl}(\alpha)}{tree}, \In{nat}{c}, \In{\alpha}{s}}{}'
+'\alg{iDefinir}{\Inout{dicc_{avl}(\alpha)}{tree}, \In{nat}{c}, \In{\alpha}{s}}{}'
 	if (tree = NULL) then '\ote{1}'
 		tree $\leftarrow$ crearNodo(c, s) '\ote{copy(s)}'
 	else
@@ -332,7 +350,7 @@ end if
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-'\alg{remover}{\Inout{dicc_{avl}(\alpha)}{tree}, \In{nat}{c}}{}'
+'\alg{iBorrar}{\Inout{dicc_{avl}(\alpha)}{tree}, \In{nat}{c}}{}'
 	if(tree != NULL) then '\ote{1}'
 		it: puntero(nodoAvl) $\leftarrow$ tree '\ote{1}'
 		up: pila(puntero(nodoAvl)) '\ote{1}'
