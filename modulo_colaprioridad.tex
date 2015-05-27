@@ -100,6 +100,14 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 	[Agrega al elemento $\alpha$ con prioridad $p$ a la cola]
 	[Se agrega el elemento por copia]
 
+	~
+
+	\InterfazFuncion{• = •}{\In{c}{colaMinPrior($\alpha$)}, \In{c'}{colaMinPrior($\alpha$)}}{bool}
+	[true]
+	{$res$ $\igobs$ ($c$ $\igobs$ $c'$)}
+	[O(n$^2$)]
+	[Indica si $c$ es igual $c'$]
+
 \subsection{Representación}
 
 	\subsubsection{Representación de colaMinPrior}
@@ -183,4 +191,11 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 
 	'\ofi{O(log(tamano(c)) + O(copy(\alpha))}'
 	\end{lstlisting}
+
+	\begin{lstlisting}[mathescape]
+	'\alg{• = •}{\In{c_0}{colaMinPrior($\alpha$)}, \In{c_1}{colaMinPrior($\alpha$)}}{bool}'
+		res $\leftarrow$ c0 = c1
+	'\ofi{O(n^2)}'
+	\end{lstlisting}
+
 
