@@ -323,7 +323,7 @@
 \pagebreak
 
 \subsubsection{Funci\'on de Abstracci\'on}
-  
+
 \Abs[estr]{dcnet}[e]{dcn}{
 red($dcn$) = $e$.topología $\land$ \\
 ($\forall cdn$: compuDCNet)(está?($cdn$, $e$.vectorCompusDCNet) $\impluego$ \\
@@ -337,3 +337,248 @@ red($dcn$) = $e$.topología $\land$ \\
 }
 
 
+\subsection{Algoritmos}
+
+\lstset{style=alg}
+
+\begin{lstlisting}[mathescape]
+'\alg{iIniciarDCNet}{\In{topo}{red}}{estr}'
+
+    res.topologia $\leftarrow$ Copiar(topo) '\ote{n! * $n^6$}'
+    res.vectorCompusDCNet $\leftarrow$ Vacia() '\ote{1}'
+    res.diccCompusDCNet $\leftarrow$ CrearDicc() '\ote{1}'
+    res.laQueMasEnvio $\leftarrow$ NULL '\ote{1}'
+    res.conjPaquetesDCNet $\leftarrow$ Vacio() '\ote{1}'
+
+    itConj(compu): it $\leftarrow$ CrearIt(Computadoras(topo)) '\ote{1}'
+
+    if(HaySiguiente?(it)) then '\ote{1}'
+    	res.laQueMasEnvio $\leftarrow$ puntero(Siguiente(it)) '\ote{1}'
+    end if
+
+    while HaySiguiente?(it) do '\ote{1}'
+    	compuDCNet: compudcnet $\leftarrow$ <puntero(Siguiente(it)), Vacio(), CrearDicc(),
+    		Vacia(), CrearIt(Vacio()), 0> '\ote{1}'
+    	AgregarAtras(res.vectorCompusDCNet, compudcnet) '\ote{n}'
+    	Definir(res.diccCompusDCNet, Siguiente(it).ip, puntero(compudcnet)) '\ote{L}'
+    	Avanzar(it) '\ote{1}'
+    end while '\ote{n * (n + L)}'
+
+'\ofi{O(n * (n + L))}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{iCrearPaquete}{\Inout{dcn}{dcnet}, \In{p}{paquete}}{}'
+
+	puntero(compuDCNet): compudcnet $\leftarrow$
+		Significado(dcn.diccCompusDCNet, p.origen.ip) '\ote{L}'
+	itConj(paquete): itPaq $\leftarrow$ AgregarRapido(compudcnet$\rightarrow$conjPaquetes, p) '\ote{1}'
+	lista(compu): recorr $\leftarrow$ AgregarAtras(Vacia(), p.origen) '\ote{1}'
+	paqueteDCNet: paqDCNet $\leftarrow$ <itPaq, recorr> '\ote{1}'
+
+	itConj(paqueteDCNet): itPaqDCNet $\leftarrow$
+		AgregarRapido(dcn.conjPaquetesDCNet, paqDCNet) '\ote{1}'
+	Definir(compudcnet$\rightarrow$diccPaquetesDCNet, itPaqDCNet) '\ote{log(k)}'
+	Encolar(compudcnet$\rightarrow$colaPaquetesDCNet, itPaqDCNet) '\ote{log(k)}'
+
+'\ofi{O(log(k) + L)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{iAvanzarSegundo}{\Inout{dcn}{dcnet}}{}'
+
+	nat: maxEnviados $\leftarrow$ 0
+	nat: i $\leftarrow$ 0 '\ote{1}'
+	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
+		if($\neg$EsVacia?(dcn.vectorCompusDCNet[i].colaPaquetesDCNet)) then
+			dcn.vectorCompusDCNet[i].paqueteAEnviar $\leftarrow$
+				Desencolar(dcn.vectorCompusDCNet[i].colaPaquetesDCNet) '\ote{log(k)}'
+		end if
+		i++ '\ote{1}'
+	end while '\ote{n * log(k)}'
+
+	i $\leftarrow$ 0 '\ote{1}'
+	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
+		if(HaySiguiente?(dcn.vectorCompusDCNet[i].paqueteAEnviar)) then '\ote{1}'
+
+			dcn.vectorCompusDCNet[i].enviados++ '\ote{1}'
+			if(dcn.vectorCompusDCNet[i].enviados > maxEnviados) then '\ote{1}'
+				dcn.laQueMasEnvio $\leftarrow$ puntero(dcn.vectorCompusDCNet[i]) '\ote{1}'
+			end if
+
+			paquete: pAEnviar $\leftarrow$
+				Siguiente(Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar).it) '\ote{1}'
+			itConj(lista(compu)): itercaminos $\leftarrow$
+				CrearIt(CaminosMinimos(dcn.topologia,
+				*(dcn.vectorCompusDCNet[i].pc), pAEnviar.destino)) '\ote{1}'
+			compu: siguientecompu $\leftarrow$ Siguiente(itercaminos)[1] '\ote{1}'
+
+			if(pAEnviar.destino $\neq$ siguientecompu) then '\ote{1}'
+
+				compuDCNet: siguientecompudcnet $\leftarrow$
+					*(Obtener(dcn.diccCompusDCNet, siguientecompu.ip)) '\ote{L}'
+
+				itConj(paquete): itpaquete $\leftarrow$
+					AgregarRapido(siguientecompudcnet.conjPaquetes, pAEnviar) '\ote{1}'
+
+				itConj(paqueteDCNet): paqAEnviar $\leftarrow$
+					Obtener(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
+					pAEnviar.id) '\ote{log(k)}'
+
+				AgregarAtras(Siguiente(paqAEnviar).recorrido, siguientecompu) '\ote{1}'
+
+				Encolar(siguientecompudcnet.colaPaquetesDCNet, paqAEnviar) '\ote{log(k)}'
+				Definir(siguientecompudcnet.diccPaquetesDCNet, pAEnviar.id,
+					paqAEnviar) '\ote{log(k)}'
+			end if
+
+			Borrar(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
+				Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar$\rightarrow$it).id) '\ote{log(k)}'
+			EliminarSiguiente(Siguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar).it)
+				'\ote{1}'
+			EliminarSiguiente(dcn.vectorCompusDCNet[i].paqueteAEnviar) '\ote{1}'
+
+			dcn.vectorCompusDCNet[i].paqueteAEnviar $\leftarrow$ CrearIt(Vacio()) '\ote{1}'
+
+		end if
+		i++ '\ote{1}'
+	end while '\ote{n * (L + log(k))}'
+
+'\ofi{O(n * (L + log(k)))}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{Red}{\In{dcn}{dcnet}}{red}'
+
+	res $\leftarrow$ dcn.topologia '\ote{1}'
+
+'\ofi{O(1)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{CaminoRecorrido}{\In{dcn}{dcnet}, \In{p}{paquete}}{lista(compu)}'
+
+	nat: i $\leftarrow$ 0 '\ote{1}'
+	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
+		if Definido?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
+			res $\leftarrow$ Siguiente(Obtener(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
+				p.id)).recorrido '\ote{log(k)}'
+		end if
+		i++ '\ote{1}'
+	end while '\ote{n * log(k)}'
+
+'\ofi{O(n * log(k))}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{CantidadEnviados}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}'
+
+	res $\leftarrow$ Obtener(dcn.diccCompusDCNet, c.ip)$\rightarrow$enviados '\ote{L}'
+
+'\ofi{O(L)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{EnEspera}{\In{dcn}{dcnet}, \In{c}{compu}}{nat}'
+
+	res $\leftarrow$ Obtener(dcn.diccCompusDCNet, c.ip)$\rightarrow$conjPaquetes '\ote{L}'
+
+'\ofi{O(L)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{PaqueteEnTransito}{\In{dcn}{dcnet}, \In{p}{paquete}}{bool}'
+
+	res $\leftarrow$ false
+	nat: i $\leftarrow$ 0 '\ote{1}'
+	while i < Longitud(dcn.vectorCompusDCNet) do '\ote{1}'
+		if Definido?(dcn.vectorCompusDCNet[i].diccPaquetesDCNet, p.id) then '\ote{log(k)}'
+			res $\leftarrow$ true '\ote{1}'
+		end if
+		i++ '\ote{1}'
+	end while '\ote{n * log(k)}'
+
+'\ofi{O(n * log(k))}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{LaQueMasEnvio}{\In{dcn}{dcnet}}{compu}'
+
+	res $\leftarrow$ *(dcn.laQueMasEnvio$\rightarrow$pc) '\ote{1}'
+
+'\ofi{O(1)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{$\puntito$ $=_i$ $\puntito$}{\In{dcn_1}{dcnet}, \In{dcn_2}{dcnet}}{bool}'
+
+	bool: boolTopo $\leftarrow$ $dcn_1$.topologia = $dcn_2$.topologia '\ote{n + $L^2$}'
+	bool: boolVec $\leftarrow$ $dcn_1$.vectorCompusDCNet $=_{vec}$ $dcn_2$.vectorCompusDCNet '\ote{?}'
+	bool: boolConj $\leftarrow$ $dcn_1$.conjPaquetesDCNet = $dcn_2$.conjPaquetesDCNet
+	bool: boolMasEnvio $\leftarrow$ $dcn_1$$\rightarrow$ $={paqdcn}$ $dcn_2$$\rightarrow$
+
+	res $\leftarrow$ boolTopo $\land$ boolVec $\land$ boolTrie $\land$ boolConj $\land$ boolMasEnvio
+
+'\ofi{O(?)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{$\puntito$ $=_{compudcn}$ $\puntito$}{\In{c_1}{compuDCNet}, \In{c_2}{compuDCNet}}{bool}'
+
+	bool: boolPC $\leftarrow$ *($c_1$.pc) = *($c_2$.pc)
+	bool: boolConj $\leftarrow$ $c_1$.conjPaquetes = $c_1$.conjPaquetes
+	bool: boolAVL $\leftarrow$ true
+	bool: boolCola $\leftarrow$ true
+	bool: boolPaq $\leftarrow$ Siguiente($c_1$.paqueteAEnviar) $=_{paqdcn}$ Siguiente($c_2$.paqueteAEnviar)
+	bool: boolEnviados $\leftarrow$ $c_1$.enviados = $c_2$.enviados
+
+	if boolConj then
+		itConj: $itconj_1$ $\leftarrow$ CrearIt($c_1$.conjPaquetes)
+		while HaySiguiente?($itconj_1$) do
+			if Definido?($c_2$.diccPaquetesDCNet, Siguiente($itconj_1$)).id then
+				if $\neg$(Siguiente(Obtener($c_1$.diccPaquetesDCNet, Siguiente($itconj_1$).id))
+					$=_{paqdcn}$
+					Siguiente(Obtener($c_1$.diccPaquetesDCNet, Siguiente($itconj_1$).id)))then
+					boolAVL $\leftarrow$ false
+				end if
+			else
+				boolAVL $\leftarrow$ false
+			end if
+			Avanzar($itconj_1$)
+		end while
+	end if
+
+	if EsVacia($c_1$.colaPrioridad) then
+		if $\neg$EsVacia($c_2$.colaPrioridad) then
+			boolCola $\leftarrow$ false
+		end if
+	else
+		if EsVacia($c_1$.colaPrioridad) then
+			boolCola $\leftarrow$ false
+		else
+			if $\neg$(Siguiente(Proximo($c_1$.colaPrioridad)) $=_{paqdcn}$
+				Siguiente(Proximo($c_2$.colaPrioridad))) then
+				boolCola $\leftarrow$ false
+			end if
+		end if
+	end if
+
+	res $\leftarrow$ boolPC $\land$ boolConj $\land$ boolAVL $\land$ boolCola $\land$ boolPaq $\land$ boolEnviados
+
+'\ofi{O(?)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{$\puntito$ $=_{paqdcn}$ $\puntito$}{\In{p_1}{paqueteDCNet}, \In{p_2}{paqueteDCNet},}{bool}'
+
+	bool: boolPaq $\leftarrow$ Siguiente($p_1$.it) = Siguiente($p_2$.it)
+	bool: boolRecorrido $\leftarrow$ $p_1$.recorrido = $p_2$.recorrido
+
+	res $\leftarrow$ boolPaq $\land$ boolRecorrido
+
+'\ofi{O(?)}'
+\end{lstlisting}
+
+% compararDosCompuDCNet = O(1)
+% 						#conj1 * #conj2
+% 						k * (n)
