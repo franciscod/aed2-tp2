@@ -88,6 +88,7 @@
 	\end{Estructura}
 
 
+\lstset{style=alg,columns=fixed,basewidth=.5em}
 
 	\subsubsection{Invariante de Representación}
 	  \begin{enumerate}
@@ -182,98 +183,263 @@
 	\tadAlinearFunciones{auxAbs}{puntero(nodoAvl), dicc(nat;\ $\alpha$)}
 	\tadAlinearAxiomas{auxAbs($n$, $d$)}
 
-	\tadOperacion{auxAbs}{puntero(nodoAvl), dicc(nat;\ $ \alpha$)}{dicc(nat, $\alpha$)}{}
-
-	\tadAxioma{auxAbs($n$, $d$)}{
-		\IF $n$ = NULL THEN
-			$d$
-		ELSE definir($n$.clave, $n$.data, auxAbs(prim($n$.hijos), auxAbs(ult($n$.hijos), $d$)))
-		FI
-
-	}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \subsection{Algoritmos}
 
-\lstset{style=alg,columns=fixed,basewidth=.5em}
+\begin{lstlisting}[mathescape]
+'\alg{insertar}{\Inout{dicc_{avl}(\alpha)}{tree}, \In{nat}{c}, \In{\alpha}{s}}{}'
+	if (tree = NULL) then '\ote{1}'
+		tree $\leftarrow$ crearNodo(c, s) '\ote{copy(s)}'
+	else
+		it: puntero(nodoAvl) $\leftarrow$ tree '\ote{1}'
+		up: pila(puntero(nodoAvl)) '\ote{1}'
+		upd: pila(int) '\ote{1}'
+
+		break: bool $\leftarrow$ false '\ote{1}'
+		while(break = false) '\ote{1}'
+			if (it $\rightarrow$ clave < c)	then '\ote{1}'
+			Apilar(upd, 1) '\ote{1}'
+			else
+			Apilar(upd, 0) '\ote{1}'
+			end if
+			Apilar(up, it) '\ote{1}'
+
+			if (it $\rightarrow$ hijos[Tope(upd)] = NULL) '\ote{1}'
+				break $\leftarrow$ true '\ote{1}'
+			end if
+
+			it $\leftarrow$ (it $\rightarrow$ hijos[Tope(upd)]) '\ote{1}'
+		do
+
+		(it $\rightarrow$ hijos[Tope(upd)]) $\leftarrow$ crearNodo(c, s) '\ote{1}'
+
+		break $\leftarrow$ false '\ote{1}'
+		while((Tamano(up) > 0) $\land$ (break = false)) '\ote{1}'
+			if(Tope(upd) = 0) then '\ote{1}'
+				(Tope(up) $\rightarrow$ balance) $\leftarrow$ (Tope(up)	$\rightarrow$ balance) - 1 '\ote{1}'
+			else
+				(Tope(up) $\rightarrow$ balance) $\leftarrow$ (Tope(up)	$\rightarrow$ balance) + 1 '\ote{1}'
+			end if
+
+			if(Tope(up) $\rightarrow$ balance = 0) then '\ote{1}'
+				break $\leftarrow$ true '\ote{1}'
+			else
+				if(abs(Tope(up) $\rightarrow$ balance) > 1) then '\ote{1}'
+					Tope(up) $\leftarrow$ insertarBalance(Tope(up), Tope(upd)) '\ote{1}'
+
+					if(Tamano(up) > 1) then '\ote{1}'
+						upTope: puntero(nodoAvl) $\leftarrow$ Tope(up) '\ote{1}'
+						Desapilar(up) '\ote{1}'
+						Desapilar(upd) '\ote{1}'
+						(Tope(up) $\rightarrow$ hijos[Tope(upd)]) $\leftarrow$ upTope '\ote{1}'
+					else
+						tree $\leftarrow$ Tope(up) '\ote{1}'
+					end if
+
+					break $\leftarrow$ true '\ote{1}'
+				end if
+			end if
+			Desapilar(up) '\ote{1}'
+			Desapilar(upd) '\ote{1}'
+		do '\ote{log(k)}'
+end if
+'\ofi{O(log(k)) + O(copy(s))}'
+\end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-'\alg{iInsertar}{\Inout{puntero(nodoAvl)}{tree}, \In{nat}{c}, \In{\alpha}{s}}{}'
-    if (tree->root == NULL) then
-    {
-        tree->root = make_node(data);
+'\alg{crearNodo}{\In{nat}{c}, \In{\alpha}{s}}{puntero(nodoAvl)}'
+	hijos: arreglo_estatico[1] de puntero(nodoAvl) '\ote{1}'
+	hijos[0] $\leftarrow$ NULL '\ote{1}'
+	hijos[1] $\leftarrow$ NULL '\ote{1}'
+	res $\leftarrow$ puntero(<c, copy(s), 0, hijos>) '\ote{copy(s)}'
+	'\ofi{O(copy(s))}'
+\end{lstlisting}
 
-        if (tree->root == NULL)
-        {
-            return 0;
-        }
-    }
- 
+\begin{lstlisting}[mathescape]
+'\alg{insertarBalance}{\Inout{puntero(nodoAvl)}{root}, \In{int}{dir}}{puntero(nodoAvl)}'
+	nodo: puntero(nodoAvl) $\leftarrow$ (root $\rightarrow$ hijos[dir]) '\ote{1}'
+
+	if(dir = 0) then '\ote{1}'
+		bal: int $\leftarrow$ -1 '\ote{1}'
+	else
+		bal: int $\leftarrow$ 1 '\ote{1}'
+	end if
+
+	if(nodo $\rightarrow$ balance = bal) then '\ote{1}'
+		(root $\rightarrow$ balance) $\leftarrow$ 0 '\ote{1}'
+		(nodo $\rightarrow$ balance) $\leftarrow$ 0 '\ote{1}'
+		root $\leftarrow$ rotacionSimple(root, $\neg$dir) '\ote{1}'
+	else
+		ajustarBalance(root, dir, bal) '\ote{1}'
+		root $\leftarrow$ rotacionDoble(root, $\neg$dir) '\ote{1}'
+	end if
+
+	res $\leftarrow$ root '\ote{1}'
 '\ofi{O(1)}'
 \end{lstlisting}
 
-
-\lstset{style=alg,columns=fixed,basewidth=.5em}
-
 \begin{lstlisting}[mathescape]
-'\alg{iVacío}{}{puntero(nodoAvl)}'
-	res $\leftarrow$ NULL		 '\ote{1}'
+'\alg{rotacionSimple}{\Inout{puntero(nodoAvl)}{root}, \In{int}{dir}}{puntero(nodoAvl)}'
+	nodo: puntero(nodoAvl) $\leftarrow$ (root $\rightarrow$ hijos[$\neg$dir]) '\ote{1}'
+
+	(root $\rightarrow$ hijos[$\neg$dir]) $\leftarrow$ (nodo $\rightarrow$ hijos[dir]) '\ote{1}'
+	(nodo $\rightarrow$ hijos[dir]) $\leftarrow$ root '\ote{1}'
+	
+	res $\leftarrow$ nodo '\ote{1}'	
 '\ofi{O(1)}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-'\alg{iDefinir}{\Inout{p}{puntero(nodoAvl)}, \Inout{clave}{nat}, \Inout{significado}{alpha}}{}'
-	padre: puntero(nodoAvl) $\leftarrow$ p '\ote{1}'
-	nuevo: nodoAvl $\leftarrow$ {clave: clave, data: significado, altura: 0, hijos: [NULL, NULL]} '\ote{copy(significado)}'
-	bool: buscarMas $\leftarrow$ true '\ote{1}'
-	dir: int
+'\alg{rotacionDoble}{\Inout{puntero(nodoAvl)}{root}, \In{int}{dir}}{puntero(nodoAvl)}'
+	nodo: puntero(nodoAvl) $\leftarrow$ ((root $\rightarrow$ hijos[$\neg$dir]) $\rightarrow$ hijos[dir]) '\ote{1}'
 
-	while (buscarMas) do '\ote{1}'
-		if (padre.clave = clave) then '\ote{1}'
-			padre.data $\leftarrow$ significado '\ote{copy(significado)}'
-			buscarMas $\leftarrow$ false '\ote{1}'
+	((root $\rightarrow$ hijos[$\neg$dir]) $\rightarrow$ hijos[dir]) $\leftarrow$ (nodo $\rightarrow$ hijos[$\neg$dir]) '\ote{1}'
+	(nodo $\rightarrow$ hijos[$\neg$dir]) $\leftarrow$ (root $\rightarrow$ hijos[$\neg$dir]) '\ote{1}'
+	(root $\rightarrow$ hijos[$\neg$dir]) $\leftarrow$ nodo '\ote{1}'
+
+	nodo $\leftarrow$ (root $\rightarrow$ hijos[$\neg$dir]) '\ote{1}'
+	(root $\rightarrow$ hijos[$\neg$dir]) $\leftarrow$ (nodo $\rightarrow$ hijos[dir]) '\ote{1}'
+	(nodo $\rightarrow$ hijos[dir]) $\leftarrow$ root '\ote{1}'
+
+	res $\leftarrow$ nodo '\ote{1}'	
+'\ofi{O(1)}'
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape]
+'\alg{ajustarBalance}{\Inout{puntero(nodoAvl)}{root}, \In{int}{dir}, \In{int}{bal}}{puntero(nodoAvl)}'
+	nodo: puntero(nodoAvl) $\leftarrow$ (root $\rightarrow$ hijos[dir]) '\ote{1}'
+	nodoHijo: puntero(nodoAvl) $\leftarrow$ (nodoUno $\rightarrow$ hijos[$\neg$dir]) '\ote{1}'
+
+	if(nodoHijo $\rightarrow$ balance = 0) then '\ote{1}'
+		(root $\rightarrow$ balance) $\leftarrow$ 0 '\ote{1}'
+		(nodo $\rightarrow$ balance) $\leftarrow$ 0 '\ote{1}'
+	else
+		if(nodoHijo $\rightarrow$ balance = bal) then '\ote{1}'
+			(root $\rightarrow$ balance) $\leftarrow$ -bal '\ote{1}'
+			(nodo $\rightarrow$ balance) $\leftarrow$ 0 '\ote{1}'
 		else
-			if (padre.clave > clave) then '\ote{1}'
-				dir $\leftarrow$ 0 '\ote{1}'
-			else
-				dir $\leftarrow$ 1 '\ote{1}'
-			end if
-
-		    if (padre.hijos[dir] = NULL) then '\ote{1}'
-				padre.hijos[dir] $\leftarrow$ &nuevo '\ote{1}'
-				balancear(p)
-				buscarMas $\leftarrow$ false '\ote{1}'
-			else
-				padre $\leftarrow$ padre.hijos[dir] '\ote{1}'
-			end if
-
+			(root $\rightarrow$ balance) $\leftarrow$ 0 '\ote{1}'
+			(nodo $\rightarrow$ balance) $\leftarrow$ bal '\ote{1}'
 		end if
-	end while '\ote{p.altura}'
-'\ofi{O(p.altura + copy(significado))}'
-\end{lstlisting}
+	end if
 
-\begin{lstlisting}[mathescape]
-'\alg{iBorrar}{}{puntero(nodoAvl)}'
-	res $\leftarrow$ NULL		 '\ote{1}'
+	(nodoHijo $\rightarrow$ balance)$\leftarrow$ 0 '\ote{1}'
 '\ofi{O(1)}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-'\alg{iDefinido?}{}{puntero(nodoAvl)}'
-	res $\leftarrow$ NULL		 '\ote{1}'
-'\ofi{O(1)}'
+'\alg{remover}{\Inout{dicc_{avl}(\alpha)}{tree}, \In{nat}{c}}{}'
+	if(tree != NULL) then '\ote{1}'
+		it: puntero(nodoAvl) $\leftarrow$ tree '\ote{1}'
+		up: pila(puntero(nodoAvl)) '\ote{1}'
+		upd: pila(int) '\ote{1}'
+		
+		break: bool $\leftarrow$ false '\ote{1}'
+		while(break = false) '\ote{1}'
+			if (it $\rightarrow$ clave = c) then '\ote{1}'
+				break $\leftarrow$ true '\ote{1}'
+			end if
+
+			if (it $\rightarrow$ clave < c) then '\ote{1}'
+				Apilar(upd, 1) '\ote{1}'
+			else
+				Apilar(upd, 0) '\ote{1}'
+			end if
+			Apilar(up, it) '\ote{1}'
+			
+			it $\leftarrow$ (it $\rightarrow$ hijos[Tope(upd)]) '\ote{1}'
+		do '\ote{log(k)}'
+
+		if((it $\rightarrow$ hijos[0] = NULL) $\lor$ (it $\rightarrow$ hijos[0] = NULL)) then '\ote{1}'
+			if(it $\rightarrow$ hijos[0] = NULL) then '\ote{1}'
+				dir: int $\leftarrow$ 1 '\ote{1}'
+			else
+				dir: int $\leftarrow$ 0 '\ote{1}'
+			end if
+			
+			if(Tamano(up) > 1) then '\ote{1}'
+				(Tope(up) $\rightarrow$ hijos[Tope(upd)]) $\leftarrow$ (it $\rightarrow$ hijos[dir]) '\ote{1}'
+			else
+				tree $\leftarrow$ (it $\rightarrow$ hijos[dir]) '\ote{1}'
+			end if
+		else
+			heredero: puntero(nodoAvl) $\leftarrow$ (it $\rightarrow$ hijos[1]) '\ote{1}'
+			
+			Tope(upd) $\leftarrow$ 1 '\ote{1}'
+			Tope(up) $\leftarrow$ it '\ote{1}'
+			
+			while(heredero $\rightarrow$ hijos[0] != null) '\ote{1}'
+				Apilar(upd, 0) '\ote{1}'
+				Apilar(up, heredero) '\ote{1}'
+				heredero $\leftarrow$ (heredero $\rightarrow$ hijos[0]) '\ote{1}'
+			do '\ote{log(k)}'
+		
+			(it $\rightarrow$ clave) $\leftarrow$ (heredero $\rightarrow$ clave) '\ote{1}'
+
+			Desapilar(up) '\ote{1}'
+			Desapilar(upd) '\ote{1}'
+
+			if(Tope(up) = it) then '\ote{1}'
+				(Tope(up) $\rightarrow$ hijos[1]) $\leftarrow$ (heredero $\rightarrow$ hijos[1]) '\ote{1}'
+			else
+				(Tope(up) $\rightarrow$ hijos[0]) $\leftarrow$ (heredero $\rightarrow$ hijos[1]) '\ote{1}'
+			end if
+		end if
+	
+		break $\leftarrow$ false '\ote{1}'
+		while((break = false) $\land$ (Tamano(up) $\geq$ 0)) '\ote{1}'
+			if(Tope(upd) != 0) then '\ote{1}'
+				(Tope(up) $\rightarrow$ balance) $\leftarrow$ (Tope(up) $\rightarrow$ balance) - 1 '\ote{1}'
+			else
+				(Tope(up) $\rightarrow$ balance) $\leftarrow$ (Tope(up) $\rightarrow$ balance) + 1 '\ote{1}'
+			end if
+
+			if(abs(Tope(up) $\rightarrow$ balance) = 1) then '\ote{1}'
+				break $\leftarrow$ true '\ote{1}'
+			else
+				if(abs(Tope(up) $\rightarrow$ balance) > 1) then '\ote{1}'
+					Tope(up) $\leftarrow$ removerBalanceo(Tope(up), Tope(upd), \&break) '\ote{1}'
+					if(Tamano(up) > 1) then '\ote{1}'
+						upTope: puntero(nodoAvl) $\leftarrow$ Tope(up) '\ote{1}'
+						Desapilar(up) '\ote{1}'
+						Desapilar(upd) '\ote{1}'
+						(Tope(up) $\rightarrow$ hijos[Tope(upd)]) $\leftarrow$ upTope '\ote{1}'
+					else
+						tree $\leftarrow$ Tope(up) '\ote{1}'
+					end if
+				end if
+			end if
+		do '\ote{log(k)}'
+	end if
+	'\ofi{O(log(k))}'
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-'\alg{iObtener}{}{puntero(nodoAvl)}'
-	res $\leftarrow$ NULL		 '\ote{1}'
-'\ofi{O(1)}'
-\end{lstlisting}
+'\alg{removerBalanceo}{\Inout{puntero(nodoAvl)}{root}, \In{int}{dir}, \Inout{puntero(bool)}{done}}{}'
+	nodo: puntero(nodoAvl) $\leftarrow$ (root $\rightarrow$ hijos[$\neg$dir]) '\ote{1}'
+	
+	if(dir = 0) then '\ote{1}'
+		bal $\leftarrow$ -1 '\ote{1}'
+	else
+		bal $\leftarrow$ 1 '\ote{1}'
+	end if
+	
+	if(nodo $\rightarrow$ balance = -bal) then '\ote{1}'
+		(root $\rightarrow$ balance) $\leftarrow$ 0 '\ote{1}'
+		(nodo $\rightarrow$ balance) $\leftarrow$ 0 '\ote{1}'
+		root $\leftarrow$ rotacionSimple(root, dir) '\ote{1}'
+	else
+		if((nodo $\rightarrow$ balance) = bal) then '\ote{1}'
+			ajustarBalance(root, $\neg$dir, -bal) '\ote{1}'
+			root $\leftarrow$ rotacionDoble(root, dir) '\ote{1}'
+		else
+			(root $\rightarrow$ balance) $\leftarrow$ -bal '\ote{1}'
+			(nodo $\rightarrow$ balance) $\leftarrow$ bal '\ote{1}'
+			root $\leftarrow$ rotacionSimple(root, dir) '\ote{1}'
+			*done $\leftarrow$ true '\ote{1}'
+		end if
+	end if
 
-\begin{lstlisting}[mathescape]
-'\alg{iClaves}{}{puntero(nodoAvl)}'
-	res $\leftarrow$ NULL		 '\ote{1}'
+	res $\leftarrow$ root '\ote{1}'
 '\ofi{O(1)}'
 \end{lstlisting}
 
