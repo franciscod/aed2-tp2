@@ -121,14 +121,14 @@
 
       \begin{Tupla}[estr]
         \tupItem{compus}{conj(compu)}
-        \tupItem{\\dns}{dicc$_{Trie}$(nodoRed)}
+        \tupItem{\\dns}{diccString(nodoRed)}
       \end{Tupla}
 
       ~
 
       \begin{Tupla}[nodoRed]
         \tupItem{pc}{puntero(compu)}
-        \tupItem{\\caminos}{dicc$_{Trie}$(conj(lista(compu)))}
+        \tupItem{\\caminos}{diccString(conj(lista(compu)))}
         \tupItem{\\conexiones}{dicc$_{Lineal}$(nat, puntero(nodoRed))}
       \end{Tupla}
 
