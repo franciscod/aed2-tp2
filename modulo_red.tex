@@ -542,22 +542,8 @@
 \begin{lstlisting}[mathescape]
 '\alg{Copiar}{\In{r}{red}}{red}'
     res:red $\leftarrow$ iIniciarRed '\ote{1}'
-    itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
-     while HaySiguiente?(itCompus) do '\ote{1}'
-      iAgregarComputadora(res,Siguiente(itCompus))  '\ote{n*L}'
-      Avanzar(itCompus)  '\ote{1}'
-    end while  '\ote{L*(n$^2$)}'
-    itCompus CrearIt(r.compus) '\ote{1}'
-    while HaySiguiente?(itCompus) do '\ote{1}'
-      nr:nodoRed $\leftarrow$ Significado(r.dns, Siguiente(itCompus).ip) '\ote{L}'
-      itVecinos :itDicc(interfaz, puntero(nodoRed))) $\leftarrow$ CrearIt(conex) '\ote{1}'
-      while HaySiguiente?(itVecinos) do '\ote{1}'
-        iConectar(res, Siguiente(itCompus), *SiguienteSignificado
-          (itVecinos)) '\ote{n!*(n$^4$)}'
-      end while '\ote{n!*(n$^5$)}'
-      Avanzar(itCompus)  '\ote{1}'
-    end while  '\ote{n!*(n$^6$)}'
-
+    res.compus $\leftarrow$ Copiar(r.compus) '\ote{n}'
+    res.dns $\leftarrow$ Copiar(r.dns) '\ote{n$^4$}'
   '\ofi{O(n!*(n^6))}'
 \end{lstlisting}
 
