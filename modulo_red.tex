@@ -542,24 +542,16 @@
 \begin{lstlisting}[mathescape]
 '\alg{Copiar}{\In{r}{red}}{red}'
     res:red $\leftarrow$ iIniciarRed '\ote{1}'
-    itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
-     while HaySiguiente?(itCompus) do '\ote{1}'
-      iAgregarComputadora(res,Siguiente(itCompus))  '\ote{n*L}'
-      Avanzar(itCompus)  '\ote{1}'
-    end while  '\ote{L*(n$^2$)}'
-    itCompus CrearIt(r.compus) '\ote{1}'
-    while HaySiguiente?(itCompus) do '\ote{1}'
-      nr:nodoRed $\leftarrow$ Significado(r.dns, Siguiente(itCompus).ip) '\ote{L}'
-      itVecinos :itDicc(interfaz, puntero(nodoRed))) $\leftarrow$ CrearIt(conex) '\ote{1}'
-      while HaySiguiente?(itVecinos) do '\ote{1}'
-        iConectar(res, Siguiente(itCompus), *SiguienteSignificado
-          (itVecinos)) '\ote{n!*(n$^4$)}'
-      end while '\ote{n!*(n$^5$)}'
-      Avanzar(itCompus)  '\ote{1}'
-    end while  '\ote{n!*(n$^6$)}'
-
-  '\ofi{O(n!*(n^6))}'
+    res.compus $\leftarrow$ Copiar(r.compus) '\ote{n}' 
+    res.dns $\leftarrow$ Copiar(r.dns) '\ote{n(L + Copiar(nodoRed))}'
+  '\ofi{O(n(L + n(L + n^2)))}'
 \end{lstlisting}
+O(Copiar(nodoRed)) = O(copy(pc) + Copiar(conexiones) + Copiar(caminos)) \newline
+O(copy(pc)) = O(1) \newline
+O(Copiar(conexiones)) = O(n)\newline
+O(Copiar(caminos)) = O(n(L + Copiar(conj(lista(compu))))) \newline
+O(Copiar(conj(lista(compu)))) = O(n$^2$) \newline
+O(Copiar(nodoRed)) = O(n(L + n$^2$)) \newline
 
 \begin{lstlisting}[mathescape]
 '\alg{• = •}{\In{r_0}{red}, \In{r_1}{red}}{bool}'
