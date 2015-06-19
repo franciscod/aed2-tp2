@@ -1,14 +1,14 @@
-\section{Módulo Diccionario AVL($\alpha$)}
+\section{Módulo Diccionario logarítmico($\alpha$)}
 
 \subsection{Interfaz}
 
 \textbf{se explica con}: \tadNombre{Diccionario(nat, $\alpha$)}.
 
-\textbf{géneros}: \TipoVariable{dicc$_{avl}$($\alpha$)}.
+\textbf{géneros}: \TipoVariable{diccLog($\alpha$)}.
 
-\subsubsection{Operaciones básicas de Diccionario AVL($\alpha$)}
+\subsubsection{Operaciones básicas de Diccionario logarítimico($\alpha$)}
 
-	\InterfazFuncion{CrearDicc}{}{dicc$_{avl}$($\alpha$)}
+	\InterfazFuncion{CrearDicc}{}{diccLog($\alpha$)}
 	[true]
 	{$res$ $\igobs$ vacío}%
 	[$O(1)$]
@@ -17,7 +17,7 @@
 
 	~
 
-	\InterfazFuncion{Definido?}{\In{c}{nat}, \In{d}{dicc$_{avl}$($\alpha$)})}{bool}
+	\InterfazFuncion{Definido?}{\In{d}{diccLog($\alpha$)}, \In{c}{nat}}{bool}
 	[true]
 	{$res$ $\igobs$ def?($c$, $d$)}
 	[$O(log(\#claves(d)))$]
@@ -26,7 +26,7 @@
 
 	~
 
-	\InterfazFuncion{Definir}{\In{c}{nat}, \In{s}{$\alpha$}, \Inout{d}{dicc$_{avl}$($\alpha$)}}{}
+	\InterfazFuncion{Definir}{\Inout{d}{diccLog($\alpha$)}, \In{c}{nat}, \In{s}{$\alpha$}}{}
 	[$d$ $\igobs$ $d_0$]
 	{$d$ $\igobs$ definir($c$, $s$, $d_0$)}
 	[$O(log(\#claves(d)) + copy(s))$]
@@ -35,7 +35,7 @@
 
 	~
 
-	\InterfazFuncion{Obtener}{\In{c}{string}, \Inout{d}{dicc$_{avl}$($\alpha$)}}{$\alpha$}
+	\InterfazFuncion{Obtener}{\Inout{d}{diccLog($\alpha$)}, \In{c}{string}}{$\alpha$}
 	[def?($c$, $d$)]
 	{alias($res$ $\igobs$ obtener($c$, $d$))}
 	[$O(log(\#claves(d)))$]
@@ -44,7 +44,7 @@
 
 	~
 
-	\InterfazFuncion{Borrar}{\In{c}{string}, \Inout{d}{dicc$_{avl}$($\alpha$)}}{}
+	\InterfazFuncion{Borrar}{\Inout{d}{diccLog($\alpha$)}, \In{c}{string}}{}
 	[def?($c$, $d$)]
 	{$res$ $\igobs$ borrar($c$, $d$))}
 	[$O(log(\#claves(d)))$]
@@ -53,17 +53,17 @@
 
 	~
 
-	\InterfazFuncion{$\#$Claves}{\In{d}{dicc$_{avl}$($\alpha$)}}{nat}
+	\InterfazFuncion{Vacío?}{\In{d}{diccLog($\alpha$)}}{bool}
 	[true]
-	{res $\igobs$ $\#$claves($d$)}
+	{res $\igobs$ $\emptyset$?(claves($d$))}
 	[$O(1)$]
-	[Devuelve la cantidad de claves en el diccionario]
+	[Devuelve \TipoVariable{true} si y sólo si el diccionario está vacío]
 	[]
-	
+
 	~
 
-	\InterfazFuncion{Mínimo}{\Inout{d}{dicc$_{avl}$($\alpha$)}}{$\alpha$}
-	[\#claves($d$) > 0]
+	\InterfazFuncion{Mínimo}{\Inout{d}{diccLog($\alpha$)}}{$\alpha$}
+	[$\neg\emptyset$?(claves($d$))]
 	{alias($res$ $\igobs$ obtener(claveMínima($d$), $d$))}
 	[$O(log(\#claves(d)))$]
 	[Devuelve el significado correspondiente a la clave de mínimo valor en el diccionario]
@@ -73,8 +73,8 @@
 
 \tadAlinearFunciones{darClaveMínima}{dicc(nat, $\alpha$)/d,conj(nat)/c}
 
-	\tadOperacion{claveMínima}{dicc(nat, $\alpha$)/d}{nat}{$\#$claves(d) > 0}
-	\tadOperacion{darClaveMínima}{dicc(nat, $\alpha$)/d,conj(nat)/c}{nat}{($\#$claves(d) > 0) $\land$ (c $\subseteq$ claves($d$))}
+	\tadOperacion{claveMínima}{dicc(nat, $\alpha$)/d}{nat}{$\neg\emptyset$?(claves($d$))}
+	\tadOperacion{darClaveMínima}{dicc(nat, $\alpha$)/d,conj(nat)/c}{nat}{$\neg\emptyset$?(claves($d$)) $\land$ (c $\subseteq$ claves($d$))}
 
 \tadAlinearAxiomas{darClaveMínima($d$, $c$)}
 
@@ -91,119 +91,132 @@
 
 \subsection{Representación}
 
-	\subsubsection{Representación de dicc$_{avl}$($\alpha$)}
+	\subsubsection{Representación de diccLog($\alpha$)}
 
-	\begin{Estructura}{dicc$_{avl}$($\alpha$)}[estr]
-		\- \- \- \- donde \TipoVariable{estr} es \TipoVariable{puntero(nodoAvl)}
+	\begin{Estructura}{diccLog($\alpha$)}[estr]
+		\begin{Tupla}[estr]
+			\tupItem{abAvl}{ab(nodoAvl)}%
+			\tupItem{mínimo}{puntero($\alpha$)}%
+		\end{Tupla}
 
-		\- \- \- \- donde \TipoVariable{nodoAvl} es
-			\TipoVariable{tupla}(
-				$clave$: \TipoVariable{nat},
-				$data$: \TipoVariable{$\alpha$},
-				$balance$: \TipoVariable{int},
-				$hijos$: \TipoVariable{arreglo[2] de puntero(nodoAvl)}
-			)
+		\begin{Tupla}[nodoAvl]
+			\tupItem{clave}{nat}%
+			\tupItem{data}{$\alpha$}%
+			\tupItem{balance}{int}%
+		\end{Tupla}
 	\end{Estructura}
-
 
 \lstset{style=alg,columns=fixed,basewidth=.5em}
 
 	\subsubsection{Invariante de Representación}
-	  \begin{enumerate}
+	\begin{enumerate}
 		\item{Se mantiene el invariante de árbol binario de búsqueda para las claves de los nodos.}
 		\item{Cada nodo tiene $balance$ $\in$ \{-1, 0, 1 \} donde $balance$ es:$\newline$
 			* 0 si el arbol esta balanceado $\newline$
-			* 1 si existe un nodo en el ultimo nivel de balance tal que tenga un hijo a la izq$\newline$
-			* -1 si existe un nodo en el ultimo nivel de balance tal que tenga un hijo a la der}
+			* 1 si la diferencia en altura entre el hijo derecho y el izquierdo
+		es de uno $\newline$
+			* -1 si la diferencia en altura entre el hijo izquierdo y el derecho
+		es de uno}
 		\item{Todas las claves son distintas.}
+		\item{El $mínimo$ apunta al elemento contenido en la clave de menor
+			valor, si el diccionario está vacío vale \TipoVariable{NULL}.}
 
-	  \end{enumerate}
+	\end{enumerate}
 
 	\tadAlinearFunciones{Rep}{estr}
 	\tadAlinearAxiomas{Rep(e)}
 
-	\Rep[estr][e]{ esABB($e$) $\land$ balanceadoBien($e$) $\land$ clavesDistintas($e$, vacío)}
-
+	\Rep[estr][e]{esABB($e$.abAvl) $\land$ balanceadoBien($e$.abAvl) $\land$
+		clavesÚnicas($e$.abAvl, vacío) $\yluego$ \\
+		$e$.mínimo = significadoClaveMínima($e$.abAvl)}
 
 		\tadAlinearFunciones{alturaBienwachooooo}{puntero(nodoAvl), conj(nat)}
-		\tadAlinearAxiomas{clavesDistintas($n$, $cs$)}
+		\tadAlinearAxiomas{significadoClaveMínima($a$)}
+
+		\tadOperacion{esABB}{ab(nodoAvl)}{bool}{}
+		\tadOperacion{balanceadoBien}{ab(nodoAvl)}{bool}{}
+		\tadOperacion{clavesEnÁrbol}{ab(nodoAvl)}{conj(nat)}{}
+		\tadOperacion{clavesÚnicas}{ab(nodoAvl)}{bool}{}
+		\tadOperacion{significadoClaveMínima}{ab(nodoAvl)}{puntero($\alpha$)}{}
+		\tadOperacion{darSignificado}{ab(nodoAvl)/a, nat/c}{$\alpha$}{c $\in$ clavesEnÁrbol($a$) $\land$ esABB($a$)}
 
 		~
 
-		\tadOperacion{esABB}{puntero(nodoAvl)}{bool}{}
-		\tadOperacion{balanceadoBien}{puntero(nodoAvl)}{bool}{}
-		\tadOperacion{clavesDistintas}{puntero(nodoAvl), conj(nat)}{bool}{}
-		\tadOperacion{balanceado}{puntero(nodoAvl)}{bool}{}
-		~
-
-		\tadAxioma{esABB($n$)}{
-			($n$ $\neq$ NULL) $\impluego$ ( \\
-				((prim($n$$\rightarrow$hijos) $\neq$ NULL) $\impluego$ ($n$$\rightarrow$clave $>$ prim($n$.hijos) $\land$ esABB(prim($n$$\rightarrow$hijos)))) $\land$ \\
-				((ult($n$$\rightarrow$hijos) $\neq$ NULL) $\impluego$ ($n$$\rightarrow$clave $<$ ult($n$$\rightarrow$hijos) $\land$  esABB(ult($n$$\rightarrow$hijos)))))
+		\tadAxioma{esABB($a$)}{
+			($\neg$nil?($a$)) $\impluego$ ( \\
+			\- ($\neg$nil?(izq($a$)) $\impluego$
+				(raíz($a$).clave $>$ raíz(izq($a$)).clave $\land$
+				esABB(izq($a$)))) $\land$ \\
+			\- ($\neg$nil?(der($a$)) $\impluego$
+				(raíz($a$).clave $<$ raíz(der($a$)).clave $\land$
+				esABB(der($a$)))) \\
+			)
 		}
 
-		\tadAxioma{balanceadoBien($n$)}{
-			(balanceado($n$) $\yluego$
-			($n$ $\neq$ NULL) $\impluego$ (\\
-			 \IF ((prim($n$$\rightarrow$hijos) $\neq$ NULL) $\land$ (ult($n$$\rightarrow$hijos) $\neq$ NULL)) THEN
-			 	balanceadoBien(prim($n$$\rightarrow$hijos)) $\land$ balanceadoBien(ult($n$$\rightarrow$hijos)))
-			 ELSE{
-			 	\IF (prim($n$.hijos) $\neq$ NULL) THEN
-			 		$n$$\rightarrow$balance = 1
-			 	ELSE{
-			 		\IF (prim($n$.hijos) $\neq$ NULL) THEN
-			 			$n$$\rightarrow$balance = -1
-			 		ELSE
-			 			$n$$\rightarrow$balance = 0
-			 		FI
-			 	} FI
+		~
+
+		\tadAxioma{balanceadoBien($a$)}{
+			\IF (nil?($a$)) THEN
+				true
+			ELSE{
+				(abs(altura(der($a$)) - altura(izq($a$))) $<$ 2) $\land$ \\
+				(raíz($a$)$\rightarrow$balance = altura(der($a$)) - altura(izq($a$))) $\land$ \\
+				balanceadoBien(izq($a$)) $\land$ balanceadoBien(der($a$))
 			} FI
-
 		}
 
-		\tadAxioma{clavesDistintas($n$, $cs$)}{
-		($n$ $\neq$ NULL) $\impluego$ \\
-				\- $n$$\rightarrow$clave $\notin$ $cs$ $\land$ \\
-				clavesDistintas(prim($n$$\rightarrow$hijos), Ag($n$$\rightarrow$clave, $cs$)) $\land$ \\
-				clavesDistintas(ult($n$$\rightarrow$hijos), Ag($n$$\rightarrow$clave, $cs$))
+		~
 
+		\tadAxioma{clavesEnÁrbol($a$)}{
+			\IF (nil?($a$)) THEN
+				$\emptyset$
+			ELSE{
+				Ag(raíz($a$).clave, (clavesEnÁrbol(izq($a$)) $\cup$
+					clavesEnÁrbol(der($a$))))
+			} FI
 		}
 
-		\tadAxioma{balanceado($n$)}{
-		($n$ $\neq$ NULL) $\impluego$ \\
-					 (\IF ((prim($n$$\rightarrow$hijos) $\neq$ NULL) $\land$ (ult($n$$\rightarrow$hijos) $\neq$ NULL)) THEN
-					 	balanceado(prim($n$$\rightarrow$hijos)) $\land$ balanceado(ult($n$$\rightarrow$hijos)))
-					 ELSE{
-					 	\IF (prim($n$.hijos) $\neq$ NULL) THEN
-					 		false
-					 	ELSE{
-					 		\IF (prim($n$.hijos) $\neq$ NULL) THEN
-					 			false
-					 		ELSE
-					 			true
-					 		FI
-					 	} FI
-					 } FI )
+		~
+
+		\tadAxioma{clavesÚnicas($a$)}{
+			tamaño($a$) = $\#$(clavesEnÁrbol($a$))
 		}
 
+		~
+
+		\tadAxioma{significadoClaveMínima($a$)}{
+			\IF (nil?($a$)) THEN
+				NULL
+			ELSE{
+				\IF (nil?(izq($a$))) THEN
+					puntero(raíz($a$).data)
+				ELSE{
+					significadoClaveMínima(izq($a$))
+				} FI
+			} FI
+		}
+
+		~
+
+		\tadAxioma{darSignificado($a$, $c$)}{
+			\IF (raíz($a$).clave = $c$) THEN
+				raíz($a$).data
+			ELSE{
+				\IF (raíz($a$).clave < $c$) THEN
+					darSignificado(izq($a$), $c$)
+				ELSE{
+					darSignificado(der($a$), $c$)
+				} FI
+			} FI
+		}
 
 	\subsubsection{Función de Abstracción}
-	  \tadAlinearFunciones{Abs}{Estr/e}
-	  \Abs[estr]{dicc(nat, $\alpha$)}[e]{d}{
-		auxAbs(e, vacío)
-	}
-
-	~
-
-	\tadAlinearFunciones{auxAbs}{puntero(nodoAvl), dicc(nat;\ $\alpha$)}
-	\tadAlinearAxiomas{auxAbs($n$, $d$)}
-
-	\tadAxioma{auxAbs($n$, $d$)}{
-		\IF $n$ = NULL THEN
-			$d$
-		ELSE definir($n$.clave, $n$.data, auxAbs(prim($n$.hijos), auxAbs(ult($n$.hijos), $d$)))
-		FI
-
+	\tadAlinearFunciones{Abs}{Estr/e}
+	\Abs[estr]{dicc(nat, $\alpha$)}[e]{d}{
+		($\forall n$: nat) ( \\
+		\- (def?($n$, $d$) $\Leftrightarrow$ $n$ $\in$ clavesEnÁrbol($e$.abAvl)) $\yluego$ \\
+		\- (def?($n$, $d$) $\impluego$ obtener($n$, $d$) = darSignificado($e$.abAvl, $n$)) \\
+		)
 	}
 
 \subsection{Algoritmos}
