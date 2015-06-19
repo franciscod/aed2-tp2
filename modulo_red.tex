@@ -542,16 +542,16 @@
 \begin{lstlisting}[mathescape]
 '\alg{Copiar}{\In{r}{red}}{red}'
     res:red $\leftarrow$ iIniciarRed '\ote{1}'
-    res.compus $\leftarrow$ Copiar(r.compus) '\ote{n}'
-    res.dns $\leftarrow$ Copiar(r.dns) '\ote{(n*L)*(Copiar(nodoRed))}'
-  '\ofi{O(n^4 * L^2)}'
+    res.compus $\leftarrow$ Copiar(r.compus) '\ote{n}' 
+    res.dns $\leftarrow$ Copiar(r.dns) '\ote{n(L + Copiar(nodoRed))}'
+  '\ofi{O(n(L + n(L + n^2)))}'
 \end{lstlisting}
 O(Copiar(nodoRed)) = O(copy(pc) + Copiar(conexiones) + Copiar(caminos)) \newline
 O(copy(pc)) = O(1) \newline
 O(Copiar(conexiones)) = O(n)\newline
-O(Copiar(caminos)) = O((n*L)*(Copiar(conj(lista(compu))))) \newline
+O(Copiar(caminos)) = O(n(L + Copiar(conj(lista(compu))))) \newline
 O(Copiar(conj(lista(compu)))) = O(n$^2$) \newline
-O(Copiar(nodoRed)) = O(n$^3$ * L) \newline
+O(Copiar(nodoRed)) = O(n(L + n$^2$)) \newline
 
 \begin{lstlisting}[mathescape]
 '\alg{• = •}{\In{r_0}{red}, \In{r_1}{red}}{bool}'
