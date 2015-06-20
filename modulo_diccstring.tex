@@ -1,4 +1,4 @@
-\section{Módulo Diccionario Trie($\alpha$)}
+\section{Módulo Diccionario String($\alpha$)}
 
 \subsection{Interfaz}
 
@@ -18,16 +18,16 @@ Se representa mediante un árbol n-ario con invariante de trie
 
 ~
 
-\InterfazFuncion{Definido?}{\In{c}{string}, \In{d}{diccString$(\alpha)$})}{bool}
+\InterfazFuncion{Definido?}{\In{d}{diccString$(\alpha)$}, \In{c}{string})}{bool}
 [true]
-{$res$ $\igobs$ def?($c$, $d$)}
+{$res$ $\igobs$ def?($d$, $c$)}
 [$O(L)$]
 [Devuelve true si la clave está definida en el diccionario y false en caso contrario.]
 []
 
 ~
 
-\InterfazFuncion{Definir}{\In{c}{string}, \In{s}{$\alpha$}, \Inout{d}{diccString$(\alpha)$}}{}
+\InterfazFuncion{Definir}{\In{d}{diccString$(\alpha)$}, \In{c}{string}, \In{s}{$\alpha$}}{}
 [$ d \igobs d_0 $]
 {$ d \igobs$ definir($c$, $s$, $d_0$)}
 [$O(L)$ ]
@@ -36,7 +36,7 @@ Se representa mediante un árbol n-ario con invariante de trie
 
 ~
 
-\InterfazFuncion{Obtener}{\In{c}{string}, \In{d}{diccString($\alpha$)}}{$\alpha$}
+\InterfazFuncion{Obtener}{\In{d}{diccString$(\alpha)$}, \In{c}{string}}{$\alpha$}
 [def?($c$, $d$)]
 {alias($res$ $\igobs$ obtener($c$, $d$))}
 [$O(L)$]
