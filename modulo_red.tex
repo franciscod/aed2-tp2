@@ -311,21 +311,17 @@
 
 \begin{lstlisting}[mathescape]
 '\alg{iAgregarComputadora}{\Inout{r}{red}, \In{c}{compu}}{}'
-    AgregoCompuNuevaAlResto(r.dns,c)  '\ote{n*L}'
-    AgregarRapido(r.compus, c) '\ote{1}'
-    Definir(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{L}'
-    InicializarConjCaminos(r,c) '\ote{n*L}'
-  '\ofi{O(n*L)}'
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape]
-'\alg{AgregoCompuNuevaAlResto}{\Inout{r}{red}, \In{c}{compu}}{}'
     itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus)   '\ote{1}'
     while HaySiguiente?(itCompus) do '\ote{1}'
-      nr:nodoRed $\leftarrow$ Significado(r.dns,Siguiente(itCompus).ip) '\ote{L}'
+      nr:nodoRed $\leftarrow$ Significado(r.dns, Siguiente(itCompus).ip) '\ote{L}'
       Definir(nr.caminos, c.ip, Vacio()) '\ote{L}'
       Avanzar(itCompus) '\ote{1}'
     end while  '\ote{n*L}'
+
+    AgregarRapido(r.compus, c) '\ote{1}'
+
+    Definir(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{L}'
+    InicializarConjCaminos(r, c) '\ote{n*L}'
   '\ofi{O(n*L)}'
 \end{lstlisting}
 
