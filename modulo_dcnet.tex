@@ -118,7 +118,7 @@
 	\begin{Tupla}[compuDCNet]
 		\tupItem{pc}{puntero(compu)}%
 		\tupItem{\\ conjPaquetes}{conj(paquete)}%
-		\tupItem{\\ diccPaquetesDCNet}{dicc$_{avl}$(nat, itConj(paqueteDCNet))}%
+		\tupItem{\\ diccPaquetesDCNet}{dicc$_{log}$(itConj(paqueteDCNet))}%
 		\tupItem{\\ colaPaquetesDCNet}{colaPrioridad(nat, itConj(paqueteDCNet))}%
 		\tupItem{\\ paqueteAEnviar}{itConj(paqueteDCNet)}%
 		\tupItem{enviados}{nat}%
@@ -387,7 +387,7 @@ red($dcn$) = $e$.topología $\land$ \\
 
 	itConj(paqueteDCNet): itPaqDCNet $\leftarrow$
 		AgregarRapido(dcn.conjPaquetesDCNet, paqDCNet) '\ote{1}'
-	Definir(compudcnet$\rightarrow$diccPaquetesDCNet, itPaqDCNet) '\ote{log(k)}'
+	Definir(compudcnet$\rightarrow$diccPaquetesDCNet, p.id, itPaqDCNet) '\ote{log(k)}'
 	Encolar(compudcnet$\rightarrow$colaPaquetesDCNet, itPaqDCNet) '\ote{log(k)}'
 
 '\ofi{O(log(k) + L)}'
