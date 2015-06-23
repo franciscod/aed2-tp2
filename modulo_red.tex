@@ -31,7 +31,7 @@
    $\land$ ($\neg$conectadas?($r$, $c$, $c'$)) $\land$ ($\neg$usaInterfaz?($r$, $c$, $i$) $\land$ $\neg$usaInterfaz?($r$, $c'$, $i'$))]
   {$r$ $\igobs$ conectar($r_0$, $c$, $i$, $c'$, $i'$))}
   [$O(n!*(n^4))$]
-  [Conecta dos computadoras]
+  [Conecta dos computadoras y recalcula los caminos mínimos de la red.]
 
   ~
 
@@ -40,8 +40,8 @@
   [true]
   {alias($res$ \igobs computadoras($r$))}
   [$O(1)$]
-  [Devuelve las computadoras de la red]|
-  [Devuelve una referancia no modificable]
+  [Devuelve el conjunto de computadoras de la red.]
+  [El conjunto se da por referencia, y es modificable si y solo si la red es modificable.]
 
   ~
 
@@ -311,21 +311,17 @@
 
 \begin{lstlisting}[mathescape]
 '\alg{iAgregarComputadora}{\Inout{r}{red}, \In{c}{compu}}{}'
-    AgregoCompuNuevaAlResto(r.dns,c)  '\ote{n*L}'
-    AgregarRapido(r.compus, c) '\ote{1}'
-    Definir(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{L}'
-    InicializarConjCaminos(r,c) '\ote{n*L}'
-  '\ofi{O(n*L)}'
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape]
-'\alg{AgregoCompuNuevaAlResto}{\Inout{r}{red}, \In{c}{compu}}{}'
     itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus)   '\ote{1}'
     while HaySiguiente?(itCompus) do '\ote{1}'
-      nr:nodoRed $\leftarrow$ Significado(r.dns,Siguiente(itCompus).ip) '\ote{L}'
+      nr:nodoRed $\leftarrow$ Significado(r.dns, Siguiente(itCompus).ip) '\ote{L}'
       Definir(nr.caminos, c.ip, Vacio()) '\ote{L}'
       Avanzar(itCompus) '\ote{1}'
     end while  '\ote{n*L}'
+
+    AgregarRapido(r.compus, c) '\ote{1}'
+
+    Definir(r.dns, compu.ip, Tupla<&c,Vacio(),Vacio()>) '\ote{L}'
+    InicializarConjCaminos(r, c) '\ote{n*L}'
   '\ofi{O(n*L)}'
 \end{lstlisting}
 
@@ -542,24 +538,16 @@
 \begin{lstlisting}[mathescape]
 '\alg{Copiar}{\In{r}{red}}{red}'
     res:red $\leftarrow$ iIniciarRed '\ote{1}'
-    itCompus:itConj(compu) $\leftarrow$ CrearIt(r.compus) '\ote{1}'
-     while HaySiguiente?(itCompus) do '\ote{1}'
-      iAgregarComputadora(res,Siguiente(itCompus))  '\ote{n*L}'
-      Avanzar(itCompus)  '\ote{1}'
-    end while  '\ote{L*(n$^2$)}'
-    itCompus CrearIt(r.compus) '\ote{1}'
-    while HaySiguiente?(itCompus) do '\ote{1}'
-      nr:nodoRed $\leftarrow$ Significado(r.dns, Siguiente(itCompus).ip) '\ote{L}'
-      itVecinos :itDicc(interfaz, puntero(nodoRed))) $\leftarrow$ CrearIt(conex) '\ote{1}'
-      while HaySiguiente?(itVecinos) do '\ote{1}'
-        iConectar(res, Siguiente(itCompus), *SiguienteSignificado
-          (itVecinos)) '\ote{n!*(n$^4$)}'
-      end while '\ote{n!*(n$^5$)}'
-      Avanzar(itCompus)  '\ote{1}'
-    end while  '\ote{n!*(n$^6$)}'
-
-  '\ofi{O(n!*(n^6))}'
+    res.compus $\leftarrow$ Copiar(r.compus) '\ote{n}'
+    res.dns $\leftarrow$ Copiar(r.dns) '\ote{n(L + Copiar(nodoRed))}'
+  '\ofi{O(n(L + n(L + n^2)))}'
 \end{lstlisting}
+O(Copiar(nodoRed)) = O(copy(pc) + Copiar(conexiones) + Copiar(caminos)) \newline
+O(copy(pc)) = O(1) \newline
+O(Copiar(conexiones)) = O(n)\newline
+O(Copiar(caminos)) = O(n(L + Copiar(conj(lista(compu))))) \newline
+O(Copiar(conj(lista(compu)))) = O(n$^2$) \newline
+O(Copiar(nodoRed)) = O(n(L + n$^2$)) \newline
 
 \begin{lstlisting}[mathescape]
 '\alg{• = •}{\In{r_0}{red}, \In{r_1}{red}}{bool}'
