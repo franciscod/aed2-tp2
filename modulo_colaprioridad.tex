@@ -84,9 +84,18 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 
 	~
 
+	\InterfazFuncion{Próximo}{\In{c}{colaMinPrior($\alpha$)}}{$\alpha$}
+	[$\neg$vacía?($c$)]
+	{alias($res$ $\igobs$ próximo($c$))}
+	[O(1)]
+	[Devuelve el próximo elemento a desencolar]
+	[$res$ es modificable si y sólo si $c$ es modificable]
+
+	~
+
 	\InterfazFuncion{Desencolar}{\Inout{c}{colaMinPrior($\alpha$)}}{$\alpha$}
 	[$\neg$vacía?($c$) $\land$ $c$ $\igobs$ $c_0$]
-	{$res$ $\igobs$ proximo($c_0$) $\land$ $c$ $\igobs$ desencolar($c_0$)}
+	{$res$ $\igobs$ próximo($c_0$) $\land$ $c$ $\igobs$ desencolar($c_0$)}
 	[O(log(tamaño(c)))]
 	[Quita el elemento más prioritario]
 	[Se devuelve el elemento por copia]
@@ -105,7 +114,7 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 	\InterfazFuncion{• = •}{\In{c}{colaMinPrior($\alpha$)}, \In{c'}{colaMinPrior($\alpha$)}}{bool}
 	[true]
 	{$res$ $\igobs$ ($c$ $\igobs$ $c'$)}
-	[O(n$^2$)]
+	[O(min(tamaño($c$), tamaño($c'$)))]
 	[Indica si $c$ es igual $c'$]
 
 \subsection{Representación}
@@ -113,7 +122,7 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 	\subsubsection{Representación de colaMinPrior}
 
 		\begin{Estructura}{colaMinPrior($\alpha$)}[estr]
-			\- \- \- \- donde \TipoVariable{estr} es \TipoVariable{dicc$_{avl}$(nat, nodoEncolados)}
+			\- \- \- \- donde \TipoVariable{estr} es \TipoVariable{diccLog(nodoEncolados)}
 
 			\- \- \- \- donde \TipoVariable{nodoEncolados} es
 			\TipoVariable{tupla}($encolados$: \TipoVariable{cola($\alpha$)},
@@ -131,6 +140,9 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 			cola vacía
 		\end{enumerate}
 
+	\tadAlinearFunciones{Rep}{estr}
+	\tadAlinearAxiomas{Rep(e)}
+
 	\Rep[estr][e]{
 		\\($\forall n:$ nat) def?($n$, $e$) $\impluego$
 		((obtener($n$, $e$).prioridad = $n$) $\land$
@@ -138,6 +150,8 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 	}\mbox{}
 
 	\subsubsection{Función de Abstracción}
+
+	\tadAlinearFunciones{Abs}{Estr/e}
 
 		\Abs[estr]{colaMinPrior}[e]{cmp}{
 			(vacía?($cmp$) $\Leftrightarrow$ (\#claves($e$) = 0)) $\land$ \\
@@ -152,7 +166,7 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 	\begin{lstlisting}[mathescape]
 	'\alg{iVacía}{}{colaMinPrior($\alpha$)}'
 
-	res $\leftarrow$ Vacio() '\ote{1}'
+	res $\leftarrow$ CrearDicc() '\ote{1}'
 
 	'\ofi{O(1)}'
 	\end{lstlisting}
@@ -160,7 +174,15 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 	\begin{lstlisting}[mathescape]
 	'\alg{iVacía?}{\In{c}{colaMinPrior($\alpha$)}}{bool}'
 
-	res $\leftarrow$ ($\#$Claves($c$) = 0) '\ote{1}'
+	res $\leftarrow$ Vacio?($c$) '\ote{1}'
+
+	'\ofi{O(1)}'
+	\end{lstlisting}
+
+	\begin{lstlisting}[mathescape]
+	'\alg{iPróximo}{\Inout{c}{colaMinPrior($\alpha$)}}{$\alpha$}'
+
+	res $\leftarrow$ Proximo(Minimo($c$).encolados) '\ote{1}'
 
 	'\ofi{O(1)}'
 	\end{lstlisting}
@@ -179,8 +201,8 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 
 	\begin{lstlisting}[mathescape]
 	'\alg{iEncolar}{\Inout{c}{colaMinPrior($\alpha$)}, \In{p}{nat}, \In{a}{$\alpha$}}{}'
-	if Definido?($p$) then '\ote{log(tamaño($c$))}'
-		Encolar(Significado($c$, $p$).encolados, $a$) '\ote{log(tamaño($c$)) + copy($\alpha$)}'
+	if Definido?($c$, $p$) then '\ote{log(tamaño($c$))}'
+		Encolar(Obtener($c$, $p$).encolados, $a$) '\ote{log(tamaño($c$)) + copy($\alpha$)}'
 	else
 		nodoEncolados $nuevoNodoEncolados$ '\ote{1}'
 		$nuevoNodoEncolados$.encolados $\leftarrow$ Vacia() '\ote{1}'
@@ -194,8 +216,8 @@ tal que el elemento que se ingrese con el menor $nat$ será el de mayor priorida
 
 	\begin{lstlisting}[mathescape]
 	'\alg{• = •}{\In{c_0}{colaMinPrior($\alpha$)}, \In{c_1}{colaMinPrior($\alpha$)}}{bool}'
-		res $\leftarrow$ c0 = c1
-	'\ofi{O(n^2)}'
+	res $\leftarrow$ $c_0$ = $c_1$ '\ote{min(tamano($c_0$), tamano($c_1$))}'
+	'\ofi{O(min(tamano(c_0), tamano(c_1)))}'
 	\end{lstlisting}
 
 
