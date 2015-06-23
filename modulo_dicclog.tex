@@ -35,7 +35,7 @@
 
 	~
 
-	\InterfazFuncion{Obtener}{\Inout{d}{diccLog($\alpha$)}, \In{c}{string}}{$\alpha$}
+	\InterfazFuncion{Obtener}{\Inout{d}{diccLog($\alpha$)}, \In{c}{nat}}{$\alpha$}
 	[def?($c$, $d$)]
 	{alias($res$ $\igobs$ obtener($c$, $d$))}
 	[$O(log(\#claves(d)))$]
@@ -44,7 +44,7 @@
 
 	~
 
-	\InterfazFuncion{Borrar}{\Inout{d}{diccLog($\alpha$)}, \In{c}{string}}{}
+	\InterfazFuncion{Borrar}{\Inout{d}{diccLog($\alpha$)}, \In{c}{nat}}{}
 	[def?($c$, $d$)]
 	{$res$ $\igobs$ borrar($c$, $d$))}
 	[$O(log(\#claves(d)))$]
