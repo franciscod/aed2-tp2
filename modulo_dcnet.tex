@@ -388,7 +388,7 @@ red($dcn$) = $e$.topología $\land$ \\
 	itConj(paqueteDCNet): itPaqDCNet $\leftarrow$
 		AgregarRapido(dcn.conjPaquetesDCNet, paqDCNet) '\ote{1}'
 	Definir(compudcnet$\rightarrow$diccPaquetesDCNet, p.id, itPaqDCNet) '\ote{log(k)}'
-	Encolar(compudcnet$\rightarrow$colaPaquetesDCNet, p.prioridad ,itPaqDCNet) '\ote{log(k)}'
+	Encolar(compudcnet$\rightarrow$colaPaquetesDCNet, p.prioridad, itPaqDCNet) '\ote{log(k)}'
 
 '\ofi{O(log(k) + L)}'
 \end{lstlisting}
@@ -436,10 +436,10 @@ red($dcn$) = $e$.topología $\land$ \\
 
 				AgregarAtras(Siguiente(paqAEnviar).recorrido, siguientecompu) '\ote{1}'
 
-				Encolar(siguientecompudcnet.colaPaquetesDCNet,pAEnviar.prioridad ,
-					paqAEnviar) '\ote{log(k)}'
-				Definir(siguientecompudcnet.diccPaquetesDCNet, pAEnviar.id,
-					paqAEnviar) '\ote{log(k)}'
+				Encolar(siguientecompudcnet.colaPaquetesDCNet,
+					pAEnviar.prioridad, paqAEnviar) '\ote{log(k)}'
+				Definir(siguientecompudcnet.diccPaquetesDCNet,
+					pAEnviar.id, paqAEnviar) '\ote{log(k)}'
 			end if
 
 			Borrar(dcn.vectorCompusDCNet[i].diccPaquetesDCNet,
