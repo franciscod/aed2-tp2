@@ -537,17 +537,36 @@
 
 \begin{lstlisting}[mathescape]
 '\alg{Copiar}{\In{r}{red}}{red}'
-    res:red $\leftarrow$ iIniciarRed '\ote{1}'
+    res $\leftarrow$ iIniciarRed '\ote{1}'
     res.compus $\leftarrow$ Copiar(r.compus) '\ote{n}'
-    res.dns $\leftarrow$ Copiar(r.dns) '\ote{n(L + Copiar(nodoRed))}'
-  '\ofi{O(n(L + n(L + n^2)))}'
+    itCompus:itConj(compu) $\leftarrow$ CrearIt(res.compus)   '\ote{1}'
+    while HaySiguiente?(itCompus) do '\ote{1}'
+      auxnr $\leftarrow$ Obtener(r.dns, Siguiente(itCompus).ip)
+      nr:nodoRed $\leftarrow$ <&Siguiente(itCompus) , Copiar (auxnr.caminos),
+       CopiarConexiones(res.dns, auxnr.conexiones, Siguiente(itCompus))> '\ote{1 + Copiar(caminos) + L}'
+      Definir(res.dns, Siguiente(itCompus).ip, nr '\ote{L}'
+      Avanzar(itCompus) '\ote{1}'
+    end while  '\ote{n$^2$(L + n$^2$)}'
+  '\ofi{O(n^2(L + n^2))}'
 \end{lstlisting}
-O(Copiar(nodoRed)) = O(copy(pc) + Copiar(conexiones) + Copiar(caminos)) \newline
-O(copy(pc)) = O(1) \newline
-O(Copiar(conexiones)) = O(n)\newline
 O(Copiar(caminos)) = O(n(L + Copiar(conj(lista(compu))))) \newline
 O(Copiar(conj(lista(compu)))) = O(n$^2$) \newline
-O(Copiar(nodoRed)) = O(n(L + n$^2$)) \newline
+O(Copiar(caminos)) = O(n(L + n$^2$)) \newline
+\begin{lstlisting}[mathescape]
+  '\alg{CopiarConexiones}{\Inout{dns}{diccString(nodoRed)}, \In{conexs}{diccLineal(nat, puntero(nodoRed))}, 
+    \In{interfaces}{conj(nat)} }{diccLineal (nat, puntero(nodoRed))}'
+    res $\leftarrow$ Vacio()  '\ote{1}'
+    itInterfs :itConj(nat) $\leftarrow$ CrearIt(interfaces)   '\ote{1}'
+    while HaySiguiente?(itInterfs) do '\ote{1}'
+      ip:string $\leftarrow$ Obtener(conexs,Siguiente(itInterfs)) '\ote{1}'
+      if(!Definido?(dns,ip)) THEN '\ote{L}'
+        Definir(dns,ip,<null,Vacia(),Vacio()>) '\ote{L}'
+      end if '\ote{L}'
+      Definir(res, Siguiente(itInterfs), &Obtener(dns,ip)) '\ote{L}'
+      Avanzar(itInterfs) '\ote{1}'
+    end while  '\ote{L}'
+  '\ofi{O(L)}'
+\end{lstlisting}
 
 \begin{lstlisting}[mathescape]
 '\alg{• = •}{\In{r_0}{red}, \In{r_1}{red}}{bool}'
