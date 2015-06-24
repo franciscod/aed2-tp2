@@ -525,7 +525,7 @@ red($dcn$) = $e$.topología $\land$ \\
 	bool: boolTopo $\leftarrow$ $dcn_1$.topologia = $dcn_2$.topologia '\ote{n + $L^2$}'
 	bool: boolVec $\leftarrow$ $dcn_1$.vectorCompusDCNet = $dcn_2$.vectorCompusDCNet '\ote{n * k * (k + n)}'
 	bool: boolConj $\leftarrow$ $dcn_1$.conjPaquetesDCNet = $dcn_2$.conjPaquetesDCNet '\ote{$k^3$ * (k + n)}'
-	bool: boolMasEnvio $\leftarrow$ $dcn_1$$\rightarrow$ $={paqdcn}$ $dcn_2$$\rightarrow$ '\ote{1}'
+	bool: boolMasEnvio $\leftarrow$ *($dcn_1$.laQueMasEnvio) = *($dcn_2$.laQueMasEnvio) '\ote{1}'
 
 	res $\leftarrow$ boolTopo $\land$ boolVec $\land$ boolTrie $\land$ boolConj $\land$ boolMasEnvio '\ote{1}'
 
