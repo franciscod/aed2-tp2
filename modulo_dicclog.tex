@@ -254,7 +254,7 @@
 
 			Apilar(upd, (Raiz(it).clave < c)) '\ote{1}'
 			Apilar(up, puntero(it)) '\ote{1}'
-		do '\ote{log($\#$claves(d))}'
+		end while '\ote{log($\#$claves(d))}'
 
 		subArbol(it, Tope(upd)) $\leftarrow$ crearArbol(c, s) '\ote{copy(s)}'
 		if(c < Raiz(*d.minimo).clave) then '\ote{1}'
@@ -290,7 +290,7 @@
 					Desapilar(upd) '\ote{1}'
 				end if
 			end if
-		do '\ote{log($\#$claves(d))}'
+		end while '\ote{log($\#$claves(d))}'
 end if
 '\ofi{O(log($\#$claves(d))) + O(copy(s))}'
 \end{lstlisting}
@@ -402,7 +402,7 @@ end if
 		padreDir $\leftarrow$ Tope(upd) '\ote{1}'
 
 		it $\leftarrow$ subArbol(it, Tope(upd)) '\ote{1}'
-	do '\ote{log($\#$claves(d))}'
+	end while '\ote{log($\#$claves(d))}'
 
 	if(Raiz(it).clave = Raiz(*d.minimo).clave) then '\ote{1}'
 		if(Nil?(padre)) then '\ote{1}'
