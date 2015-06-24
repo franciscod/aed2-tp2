@@ -543,8 +543,8 @@
     while HaySiguiente?(itCompus) do '\ote{1}'
       auxnr $\leftarrow$ Obtener(r.dns, Siguiente(itCompus).ip)
       nr:nodoRed $\leftarrow$ <&Siguiente(itCompus) , Copiar (auxnr.caminos),
-       CopiarConexiones(res.dns, auxnr.conexiones, Siguiente(itCompus))> '\ote{1 + Copiar(caminos) + L}'
-      Definir(res.dns, Siguiente(itCompus).ip, nr '\ote{L}'
+       CopiarConexiones(res.dns, auxnr.conexiones, Siguiente(itCompus).interfaces)> '\ote{1 + Copiar(caminos) + L}'
+      Definir(res.dns, Siguiente(itCompus).ip, nr ) '\ote{L}'
       Avanzar(itCompus) '\ote{1}'
     end while  '\ote{n$^2$(L + n$^2$)}'
   '\ofi{O(n^2(L + n^2))}'
