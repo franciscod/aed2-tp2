@@ -1,5 +1,5 @@
 tex:
-	pdflatex -halt-on-error tp2-algo2-grupo12.tex
+	pdflatex -halt-on-error rtp2-algo2-grupo12.tex
 
 watch:
 	# que este dos veces la linea de make tex es a proposito:
