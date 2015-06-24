@@ -235,6 +235,7 @@
 '\ofi{O(1)}'
 \end{lstlisting}
 
+\pagebreak
 \begin{lstlisting}[mathescape]
 '\alg{iDefinir}{\Inout{diccLog(\alpha)}{d}, \In{nat}{c}, \In{\alpha}{s}}{}'
 	if (Nil?(d.abAvl)) then '\ote{1}'
@@ -352,6 +353,9 @@ end if
 	subArbol(nieto, $\neg$dir) $\leftarrow$ subArbol(root, $\neg$dir) '\ote{1}'
 	subArbol(root, $\neg$dir) $\leftarrow$ nieto '\ote{1}'
 
+	// ... sigue
+
+
 	nieto $\leftarrow$ subArbol(root, $\neg$dir) '\ote{1}'
 	subArbol(root, $\neg$dir) $\leftarrow$ subArbol(nieto, dir) '\ote{1}'
 	subArbol(nieto, dir) $\leftarrow$ root '\ote{1}'
@@ -408,6 +412,8 @@ end if
 		end if
 	end if
 
+	// ... sigue
+
 	if(Nil?(Izq(it)) $\lor$ Nil?(Der(it))) then '\ote{1}'
 		dir: bool $\leftarrow$ Nil?(Izq(it)) '\ote{1}'
 
@@ -426,13 +432,11 @@ end if
 			Apilar(upd, false) '\ote{1}'
 			Apilar(up, puntero(heredero)) '\ote{1}'
 			heredero $\leftarrow$ Izq(heredero) '\ote{1}'
-		do '\ote{log($\#$claves(d))}'
+		end while '\ote{log($\#$claves(d))}'
 
 		subArbol(*Tope(up), Tope(up) = puntero(it)) $\leftarrow$ Der(heredero) '\ote{1}'
-
 		Izq(heredero) $\leftarrow$ Izq(it) '\ote{1}'
 		Der(heredero) $\leftarrow$ Der(it) '\ote{1}'
-
 		if($\neg$Nil?(padre)) then '\ote{1}'
 			subArbol(padre, padreDir) $\leftarrow$ heredero '\ote{1}'
 		end if
@@ -464,7 +468,7 @@ end if
 				Desapilar(upd) '\ote{1}'
 			end if
 		end if
-	do '\ote{log($\#$claves(d))}'
+	end while '\ote{log($\#$claves(d))}'
 	'\ofi{O(log($\#$claves(d)) + copy(data))}'
 \end{lstlisting}
 
@@ -517,6 +521,8 @@ end if
 	res $\leftarrow$ definido '\ote{1}'
 '\ofi{O(log($\#$claves(d)))}'
 \end{lstlisting}
+
+\pagebreak
 
 \begin{lstlisting}[mathescape]
 '\alg{iObtener}{\Inout{diccLog(\alpha)}{d}, \In{nat}{c}}{$\alpha$}'
