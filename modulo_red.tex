@@ -140,6 +140,7 @@
     	\end{Tupla}
 
     \end{Estructura}
+\pagebreak
 
 \subsubsection{Invariante de Representación}
   \begin{enumerate}
@@ -160,8 +161,6 @@
         mínimos desde la compu $pc$ hacia la compu cuya IP es clave.
 
   \end{enumerate}
-
-  \pagebreak
 
   \Rep[estr][e]{ (\\
     \\
@@ -281,6 +280,7 @@
 	longMenorSec(darRutas($nA$, $nB$, $\emptyset$, <>)))
 }
 
+\pagebreak
 
   \subsubsection{Función de Abstracción}
 
@@ -336,6 +336,8 @@
     end while '\ote{n*L}'
   '\ofi{O(n*L)}'
 \end{lstlisting}
+
+\pagebreak
 
 \begin{lstlisting}[mathescape]
 '\alg{iConectar}{\Inout{r}{red}, \In{c_0}{compu}, \In{c_1}{compu}, \In{i_0}{compu}, \In{i_1}{compu}}{}'
@@ -394,6 +396,9 @@
 
     pCandidatos $\leftarrow$ Primero(iCandidatos) '\ote{1}'
 
+    // ... sigue
+
+
     if $\neg$EsVacio?(iCandidatos) then   '\ote{1}'
       Fin(iCandidatos)  '\ote{1}'
       fCandidatos $\leftarrow$ iCandidatos  '\ote{n}'
@@ -411,7 +416,6 @@
           Apilar(frameCandidatos, listaNodosVecinos(pCandidatos)) '\ote{n}'
         fi '\ote{n*(n + L)}'
       fi '\ote{n*(n + L)}'
-
     fi '\ote{n*(n + L)}'
 
   end while '\ote{n! * n*(n + L)}'
@@ -452,6 +456,8 @@
   end while '\ote{n}'
 '\ofi{O(n)}'
 \end{lstlisting}
+
+\pagebreak
 
 \begin{lstlisting}[mathescape]
 '\alg{nodoEnLista}{\In{n}{nodoRed}, \In{ns}{lista(nodoRed)}}{bool}'
@@ -537,43 +543,38 @@
 
 \begin{lstlisting}[mathescape]
 '\alg{iCopiar}{\In{otraRed}{red}}{red}'
-
     res $\leftarrow$ iIniciarRed '\ote{1}'
-
     // copia el conjunto de tuplas
     res.compus $\leftarrow$ Copiar(otraRed.compus) '\ote{n}'
-
     // rearma los nodos (con conexiones en blanco) del diccionario dns
     itCompus:itConj(compu) $\leftarrow$ CrearIt(res.compus)   '\ote{1}'
     while HaySiguiente?(itCompus) do '\ote{1}'
 
-        c:compu $\leftarrow$ Siguiente(itCompus) '\ote{1}'
-        nodoAux:nodoRed $\leftarrow$ Obtener(otraRed.dns, c.ip) '\ote{L}'
-        copiaCaminos:diccString(conj(lista(compu))) $\leftarrow$ Copiar(nodoAux.caminos) '\ote{n}'
-        Definir(res.dns, c.ip, Tupla<&c, copiaCaminos, Vacio()>) '\ote{L}'
+      c:compu $\leftarrow$ Siguiente(itCompus) '\ote{1}'
+      nodoAux:nodoRed $\leftarrow$ Obtener(otraRed.dns, c.ip) '\ote{L}'
+      copiaCaminos:diccString(conj(lista(compu))) $\leftarrow$ Copiar(nodoAux.caminos) '\ote{n}'
+      Definir(res.dns, c.ip, Tupla<&c, copiaCaminos, Vacio()>) '\ote{L}'
 
-        Avanzar(itCompus) '\ote{1}'
+      Avanzar(itCompus) '\ote{1}'
     end while '\ote{n$^2$ + n*L}'
 
     // rearma las conexiones
     itCompus:itConj(compu) $\leftarrow$ CrearIt(res.compus)   '\ote{1}'
     while HaySiguiente?(itCompus) do '\ote{1}'
+      nodoMio:nodoRed $\leftarrow$ Obtener(res.dns, c.ip) '\ote{L}'
+      nodoOtra:nodoRed $\leftarrow$ Obtener(otraRed.dns, c.ip) '\ote{L}'
 
-        nodoMio:nodoRed $\leftarrow$ Obtener(res.dns, c.ip) '\ote{L}'
-        nodoOtra:nodoRed $\leftarrow$ Obtener(otraRed.dns, c.ip) '\ote{L}'
+      itInterfs:itConj(nat) $\leftarrow$ CrearIt(nodoMio.pc $\rightarrow$ interfaces)   '\ote{1}'
 
-          itInterfs:itConj(nat) $\leftarrow$ CrearIt(nodoMio.pc $\rightarrow$ interfaces)   '\ote{1}'
+      while HaySiguiente?(itInterfs) do '\ote{1}'
+        interf:nat $\leftarrow$ Siguiente(itInterfs) '\ote{1}'
+        ip:string $\leftarrow$ Obtener(nodoOtra.conexiones, interf) '\ote{n}'
+        Definir(nodoMio.conexiones, interf, &Obtener(res.dns, ip)) '\ote{L}'
 
-          while HaySiguiente?(itInterfs) do '\ote{1}'
+        Avanzar(itInterfs) '\ote{1}'
+      end while  '\ote{$n^2$ + n*L}'
 
-            interf:nat $\leftarrow$ Siguiente(itInterfs) '\ote{1}'
-            ip:string $\leftarrow$ Obtener(nodoOtra.conexiones, interf) '\ote{n}'
-            Definir(nodoMio.conexiones, interf, &Obtener(res.dns, ip)) '\ote{L}'
-
-            Avanzar(itInterfs) '\ote{1}'
-          end while  '\ote{$n^2$ + n*L}'
-
-        Avanzar(itCompus) '\ote{1}'
+      Avanzar(itCompus) '\ote{1}'
     end while '\ote{n$^3$ + n$^2$ * L}'
 
   '\ofi{O(n^3 + n^2 * L))}'
