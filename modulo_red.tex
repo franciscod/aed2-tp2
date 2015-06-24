@@ -536,18 +536,48 @@
 \end{lstlisting}
 
 \begin{lstlisting}[mathescape]
-'\alg{Copiar}{\In{r}{red}}{red}'
-    res:red $\leftarrow$ iIniciarRed '\ote{1}'
-    res.compus $\leftarrow$ Copiar(r.compus) '\ote{n}'
-    res.dns $\leftarrow$ Copiar(r.dns) '\ote{n(L + Copiar(nodoRed))}'
-  '\ofi{O(n(L + n(L + n^2)))}'
+'\alg{iCopiar}{\In{otraRed}{red}}{red}'
+
+    res $\leftarrow$ iIniciarRed '\ote{1}'
+
+    // copia el conjunto de tuplas
+    res.compus $\leftarrow$ Copiar(otraRed.compus) '\ote{n}'
+
+    // rearma los nodos (con conexiones en blanco) del diccionario dns
+    itCompus:itConj(compu) $\leftarrow$ CrearIt(res.compus)   '\ote{1}'
+    while HaySiguiente?(itCompus) do '\ote{1}'
+
+        c:compu $\leftarrow$ Siguiente(itCompus) '\ote{1}'
+        nodoAux:nodoRed $\leftarrow$ Obtener(otraRed.dns, c.ip) '\ote{L}'
+        copiaCaminos:diccString(conj(lista(compu))) $\leftarrow$ Copiar(nodoAux.caminos) '\ote{n}'
+        Definir(res.dns, c.ip, Tupla<&c, copiaCaminos, Vacio()>) '\ote{L}'
+
+        Avanzar(itCompus) '\ote{1}'
+    end while '\ote{n$^2$ + n*L}'
+
+    // rearma las conexiones
+    itCompus:itConj(compu) $\leftarrow$ CrearIt(res.compus)   '\ote{1}'
+    while HaySiguiente?(itCompus) do '\ote{1}'
+
+        nodoMio:nodoRed $\leftarrow$ Obtener(res.dns, c.ip) '\ote{L}'
+        nodoOtra:nodoRed $\leftarrow$ Obtener(otraRed.dns, c.ip) '\ote{L}'
+
+          itInterfs:itConj(nat) $\leftarrow$ CrearIt(nodoMio.pc $\rightarrow$ interfaces)   '\ote{1}'
+
+          while HaySiguiente?(itInterfs) do '\ote{1}'
+
+            interf:nat $\leftarrow$ Siguiente(itInterfs) '\ote{1}'
+            ip:string $\leftarrow$ Obtener(nodoOtra.conexiones, interf) '\ote{n}'
+            Definir(nodoMio.conexiones, interf, &Obtener(res.dns, ip)) '\ote{L}'
+
+            Avanzar(itInterfs) '\ote{1}'
+          end while  '\ote{$n^2$ + n*L}'
+
+        Avanzar(itCompus) '\ote{1}'
+    end while '\ote{n$^3$ + n$^2$ * L}'
+
+  '\ofi{O(n^3 + n^2 * L))}'
 \end{lstlisting}
-O(Copiar(nodoRed)) = O(copy(pc) + Copiar(conexiones) + Copiar(caminos)) \newline
-O(copy(pc)) = O(1) \newline
-O(Copiar(conexiones)) = O(n)\newline
-O(Copiar(caminos)) = O(n(L + Copiar(conj(lista(compu))))) \newline
-O(Copiar(conj(lista(compu)))) = O(n$^2$) \newline
-O(Copiar(nodoRed)) = O(n(L + n$^2$)) \newline
 
 \begin{lstlisting}[mathescape]
 '\alg{• = •}{\In{r_0}{red}, \In{r_1}{red}}{bool}'
